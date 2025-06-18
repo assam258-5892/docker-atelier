@@ -56,6 +56,8 @@ createSession(){
         tmux new-window -t "$1:$no" -n ubuntu "docker compose exec -ti $env -w /root ubuntu24-init /bin/bash --login"
         tmux split-window -t "$1:ubuntu" "docker compose exec -ti $env -w /root ubuntu22-init /bin/bash --login" && tmux select-layout -t "$1:ubuntu" even-horizontal
         let no++
+        tmux new-window -t "$1:$no" -n experdb "docker compose exec -ti -w /experdb experdb_mon /bin/bash --login"
+        let no++
         tmux new-window -t "$1:$no" -n logs "docker compose logs -f haproxy apache2 squid"
         tmux select-window -t "$1:logs"
         tmux select-window -t "$1:init"
