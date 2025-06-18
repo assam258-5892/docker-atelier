@@ -238,3 +238,8 @@ windows:
         command: docker compose exec -ti -w /root ubuntu24-init /bin/bash --login
       - service: ubuntu22-init
         command: docker compose exec -ti -w /root ubuntu22-init /bin/bash --login
+  - name: experdb
+    layout: even-horizontal
+    panes:
+      - service: experdb_mon
+        command: docker compose exec -ti -w /experdb experdb_mon /bin/bash --login
