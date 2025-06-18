@@ -1,0 +1,47 @@
+FROM rocky8-init
+
+# PostgreSQL 설치
+RUN dnf install -y postgresql16-server postgresql16-contrib postgresql16-plpython3 postgresql16-plperl postgresql16-devel
+RUN dnf install -y pg_hint_plan_16
+RUN dnf install -y pg_show_plans_16
+RUN ( git clone --depth 1 --branch 1.8 https://github.com/ossc-db/pg_store_plans.git && cd pg_store_plans && USE_PGXS=1 PATH=/usr/pgsql-16/bin:${PATH} make install && cd .. && rm -rf pg_store_plans )
+RUN ( git clone --depth 1 --branch v1.1.0 https://github.com/pgsentinel/pgsentinel.git && cd pgsentinel/src && PATH=/usr/pgsql-16/bin:${PATH} make install && cd ../.. && rm -rf pgsentinel )
+RUN ( git clone --depth 1 --branch 1.0.0 https://github.com/experdb/pg_ensure_queryid.git && cd pg_ensure_queryid && PATH=/usr/pgsql-16/bin:${PATH} make install && cd ../.. && rm -rf pg_ensure_queryid )
+
+# PostgreSQL 데이터베이스 초기화
+RUN echo -e '# Docker connections:\nhost    all             all             172.0.0.0/8             @authmethodhost@\nhost    replication     all             172.0.0.0/8             @authmethodhost@' >> /usr/pgsql-16/share/pg_hba.conf.sample
+RUN su -l postgres -c "/usr/pgsql-16/bin/initdb --pgdata=/var/lib/pgsql/16/data -A scram-sha-256 --auth-local=peer"
+COPY --chown=postgres:postgres --chmod=600 files/postgresql.auto.conf /var/lib/pgsql/16/data/postgresql.auto.conf
+COPY --chown=root:root --chmod=644 files/role.sql files/extension.sql /
+RUN su -l postgres -c "/usr/pgsql-16/bin/postgres --single -D /var/lib/pgsql/16/data" < /role.sql && rm -f /role.sql
+RUN su -l postgres -c "/usr/pgsql-16/bin/postgres --single -D /var/lib/pgsql/16/data experdb" < /extension.sql && rm -f /extension.sql
+RUN systemctl enable postgresql-16
+
+# 사용자 환경 설정
+RUN echo 'postgres	ALL=(ALL)	NOPASSWD: ALL' > /etc/sudoers.d/postgres
+RUN chmod 440 /etc/sudoers.d/postgres
+COPY --chown=postgres:postgres --chmod=644 rocky/files/pg16_profile /var/lib/pgsql/.bash_profile
+RUN echo -e "LANG=ko_KR.UTF-8\nLANGUAGE=ko:en\nLC_ALL=ko_KR.UTF-8\n\nalias remove='rm -f .*~ *~'" >> /var/lib/pgsql/.bashrc
+ADD files/ssh.tar.gz /var/lib/pgsql/.ssh
+RUN touch /var/lib/pgsql/.hushlogin && chown -R postgres:postgres /var/lib/pgsql/.hushlogin /var/lib/pgsql/.bashrc /var/lib/pgsql/.ssh && chmod 600 /var/lib/pgsql/.hushlogin /var/lib/pgsql/.bashrc && chmod 700 /var/lib/pgsql/.ssh
+RUN echo -e '\nPATH=/usr/pgsql-16/bin:${PATH}' >> /root/.bashrc
+COPY --chown=postgres:postgres --chmod=755 files/initialize.sh /var/lib/pgsql
+RUN su -l postgres -c "echo '@reboot /var/lib/pgsql/initialize.sh >/tmp/initialize.log 2>&1' | crontab"
+
+# Docker 환경 설정
+ENV PATH=/usr/pgsql-16/bin:${PATH}
+ENV PGDATA=/var/lib/pgsql/16/data PGHOST=localhost PGUSER=experdba PGPASSWORD=experdba PGDATABASE=experdb
+
+# Workspace 설정
+ENV GIT_CONFIG_GLOBAL=/var/lib/pgsql/workspace/.gitconfig
+RUN echo -e '\nexport GIT_CONFIG_GLOBAL=/var/lib/pgsql/workspace/.gitconfig' >> /var/lib/pgsql/.bashrc
+RUN echo -e "\nalias git-pull='"'for dir in `ls -d ~/workspace/*/.git`; do dir="`dirname $dir`"; ( cd "$dir"; git fetch origin; git fetch upstream; git pull ); done'"'" >> /var/lib/pgsql/.bashrc
+RUN echo -e "alias pg-configure='( cd ~/workspace/postgres; pg_config --configure | sed -e s/runstatedir/with-rundir/g | sed -e s/-O2/-O0/g | xargs ./configure )'" >> /var/lib/pgsql/.bashrc
+RUN echo -e '\nfunction rsync-workspace {\n    hostprefix="`hostname|cut -d - -f 1-2`"\n    hostsuffix="`hostname|cut -d - -f 3`"\n    if [ "$#" -eq 0 ]; then\n        case "$hostsuffix" in\n            active)\n                hostsuffix="standalone"\n                ;;\n            standby)\n                hostsuffix="standalone"\n                ;;\n            standalone)\n                hostsuffix="active"\n                ;;\n            *)\n                hostsuffix="unknown"\n                ;;\n        esac\n    else\n        hostsuffix="$1"\n    fi\n    echo "Synchronizing workspace from ${hostprefix}-${hostsuffix}:${HOME}/workspace to ${HOME}"\n    rsync -avh8 --delete "${hostprefix}-${hostsuffix}:${HOME}/workspace" "${HOME}"\n    return 0\n}' >> /var/lib/pgsql/.bashrc
+RUN mkdir /var/lib/pgsql/workspace && mkdir /var/lib/pgsql/workspace/postgres && mkdir /var/lib/pgsql/workspace/pg_store_plans && mkdir /var/lib/pgsql/workspace/pgsentinel
+COPY --chown=postgres:postgres --chmod=644 rocky/files/gitconfig /var/lib/pgsql/workspace/.gitconfig
+RUN ( cd /var/lib/pgsql/workspace/postgres && git init && git remote add origin https://github.com/assam258-5892/postgres.git && git remote add upstream https://github.com/postgres/postgres.git )
+RUN ( cd /var/lib/pgsql/workspace/pg_store_plans && git init && git remote add origin https://github.com/experdb/pg_store_plans.git && git remote add upstream https://github.com/ossc-db/pg_store_plans.git )
+RUN ( cd /var/lib/pgsql/workspace/pgsentinel && git init && git remote add origin https://github.com/experdb/pgsentinel.git && git remote add upstream https://github.com/pgsentinel/pgsentinel.git )
+RUN chown -R postgres:postgres /var/lib/pgsql/workspace
+VOLUME /var/lib/pgsql/workspace

@@ -1,0 +1,38 @@
+FROM rockylinux/rockylinux:9
+
+# 리파지토리 초기화
+ARG ATELIER_SQUID_PORT
+ENV http_proxy=http://host.docker.internal:${ATELIER_SQUID_PORT}
+RUN echo "proxy=http://host.docker.internal:${ATELIER_SQUID_PORT}" >> /etc/dnf/dnf.conf
+RUN sed -i -e 's/^mirrorlist=/#mirrorlist=/g' /etc/yum.repos.d/rocky*.repo
+RUN sed -i -e 's/^#baseurl=/baseurl=/g' /etc/yum.repos.d/rocky*.repo
+RUN dnf makecache -y
+
+# OS 환경 설정
+ENV LANG=en_US.UTF-8 LANGUAGE=en LC_ALL=en_US.UTF-8 TZ=Asia/Seoul
+RUN dnf install -y --allowerasing glibc-langpack-en glibc-langpack-ko curl wget bzip2 && cp /usr/share/zoneinfo/Asia/Seoul /etc/localtime && echo "Asia/Seoul" > /etc/timezone
+ENV LANG=ko_KR.UTF-8 LANGUAGE=ko:en LC_ALL=ko_KR.UTF-8
+
+# OS 패키지 설치
+RUN dnf install -y http://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm && crb enable
+RUN sed -i -e 's/^metalink=/#metalink=/g' /etc/yum.repos.d/epel.repo /etc/yum.repos.d/epel-testing.repo
+RUN sed -i -e 's/^#baseurl=https:\/\/download.example\//baseurl=http:\/\/ftp.kaist.ac.kr\//g' /etc/yum.repos.d/epel*.repo
+RUN dnf install -y http://download.postgresql.org/pub/repos/yum/reporpms/EL-9-`uname -m`/pgdg-redhat-repo-latest.noarch.rpm && dnf -qy module disable postgresql
+RUN sed -i -e 's/^baseurl=https:/baseurl=http:/g' /etc/yum.repos.d/pgdg-redhat-all.repo
+RUN dnf makecache -y
+RUN dnf install -y cronie openssh-server openssh-clients rsync sudo ncurses procps-ng findutils iproute iputils net-tools htop ncdu mlocate vim-enhanced
+RUN dnf install -y gcc gdb git make valgrind redhat-rpm-config
+RUN ( curl -fsSL http://www.jedsoft.org/releases/slang/slang-2.3.3.tar.bz2 | tar xj && cd slang-2.3.3 && ./configure && make && make install && cd .. && rm -rf slang-2.3.3 )
+RUN ( curl -fsSL http://www.jedsoft.org/releases/jed/jed-0.99-19.tar.gz | tar xz && cd jed-0.99-19 && if [ "`/bin/arch`" = "aarch64" ]; then ./configure --build=aarch64-unknown-linux-gnu; else ./configure; fi && make && make install && cd .. && rm -rf jed-0.99-19 )
+
+# PostgreSQL 개발 환경 설정
+RUN dnf install -y flex bison clang docbook-dtds docbook-style-xsl perl-core perl-IPC-Run
+RUN dnf install -y gettext-devel krb5-devel libicu-devel libuuid-devel libxslt-devel libzstd-devel llvm-devel lz4-devel openldap-devel openssl-devel pam-devel python3-devel readline-devel systemd-devel tcl-devel zlib-devel
+
+# 사용자 환경 설정
+RUN echo -e "\nLANG=ko_KR.UTF-8\nLANGUAGE=ko:en\nLC_ALL=ko_KR.UTF-8\n\nalias remove='rm -f .*~ *~'" >> /root/.bashrc
+ADD files/ssh.tar.gz /root/.ssh
+RUN touch /root/.hushlogin
+
+# Docker 환경 설정
+ENTRYPOINT ["/usr/sbin/init"]

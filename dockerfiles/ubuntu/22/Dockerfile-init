@@ -1,0 +1,33 @@
+FROM ubuntu:22.04
+
+# 리파지토리 초기화
+ARG ATELIER_SQUID_PORT DEBIAN_FRONTEND=noninteractive
+ENV http_proxy=http://host.docker.internal:${ATELIER_SQUID_PORT}
+RUN echo "Acquire::http::Proxy \"http://host.docker.internal:${ATELIER_SQUID_PORT}\";" > /etc/apt/apt.conf.d/90curtin-aptproxy && echo "Acquire::https::Proxy \"http://host.docker.internal:${ATELIER_SQUID_PORT}\";" >> /etc/apt/apt.conf.d/90curtin-aptproxy
+RUN apt update -y
+
+# OS 환경 설정
+ENV LANG=en_US.UTF-8 LANGUAGE=en LC_ALL=en_US.UTF-8 TZ=Asia/Seoul
+RUN apt install -y locales tzdata curl wget bzip2 gnupg && locale-gen en_US.UTF-8 && locale-gen ko_KR.UTF-8 && cp /usr/share/zoneinfo/Asia/Seoul /etc/localtime && echo "Asia/Seoul" > /etc/timezone
+ENV LANG=ko_KR.UTF-8 LANGUAGE=ko:en LC_ALL=ko_KR.UTF-8
+
+# OS 패키지 설치
+RUN echo 'deb http://apt.postgresql.org/pub/repos/apt jammy-pgdg main' > /etc/apt/sources.list.d/pgdg.list
+RUN curl -fsSL http://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg
+RUN apt update -y
+RUN apt install -y kmod init systemd cron openssh-server openssh-client rsync sudo findutils iproute2 iputils-ping net-tools htop ncdu plocate vim
+RUN apt install -y gcc gdb git make valgrind
+RUN ( curl -fsSL http://www.jedsoft.org/releases/slang/slang-2.3.3.tar.bz2 | tar xj && cd slang-2.3.3 && ./configure && make && make install && cd .. && rm -rf slang-2.3.3 )
+RUN ( curl -fsSL http://www.jedsoft.org/releases/jed/jed-0.99-19.tar.gz | tar xz && cd jed-0.99-19 && if [ "`/bin/arch`" = "aarch64" ]; then ./configure --build=aarch64-unknown-linux-gnu; else ./configure; fi && make && make install && cd .. && rm -rf jed-0.99-19 )
+
+# PostgreSQL 개발 환경 설정
+RUN apt-get install -y pkg-config flex bison ccache fop gettext libxml2-utils xsltproc docbook-xml docbook-xsl libipc-run-perl libtext-trim-perl
+RUN apt-get install -y libcairo2-dev libkrb5-dev libkrb5-dev libldap-dev liblz4-dev libpam-dev libperl-dev libreadline-dev libssl-dev libsystemd-dev libxml2-dev libxslt1-dev libzstd-dev python3-dev systemtap-sdt-dev tcl-dev zlib1g-dev
+
+# 사용자 환경 설정
+RUN echo "\nLANG=ko_KR.UTF-8\nLANGUAGE=ko:en\nLC_ALL=ko_KR.UTF-8\n\nalias remove='rm -f .*~ *~'" >> /root/.bashrc
+ADD files/ssh.tar.gz /root/.ssh
+RUN touch /root/.hushlogin
+
+# Docker 환경 설정
+ENTRYPOINT ["/usr/sbin/init"]
