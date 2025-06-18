@@ -32,6 +32,22 @@ function git-pull {
     done
 }
 
+function git-clean {
+    for dir in `ls -d ~/workspace/*/.git`; do
+        (
+            dir="`dirname $dir`" 
+            echo "Cleaning untracked files in $dir"
+            cd "$dir"
+            git clean -xdf
+            if [ $? -ne 0 ]; then
+                echo "Failed to clean untracked files in $dir. Please check the output for errors."
+            else
+                echo "Successfully cleaned untracked files in $dir."
+            fi
+        )
+    done
+}
+
 function rsync-workspace {
     (
         hostprefix="`hostname|cut -d - -f 1-2`"
@@ -107,12 +123,6 @@ function pg-clean {
             return 1
         fi
         echo "Clean completed successfully."
-        git clean -fdx
-        if [ $? -ne 0 ]; then
-            echo "Git clean failed. Please check the output for errors."
-            return 1
-        fi
-        echo "Git clean completed successfully."
     )
 }
 
