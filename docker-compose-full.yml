@@ -814,6 +814,44 @@ services:
       - squid-spool:/var/spool/squid
     ports:
       - "${ATELIER_SQUID_PORT}:3128"
+  experdb_mon:
+    image: inzent/experdbmon-timescale:2.0.0
+    container_name: experdb_mon
+    hostname: experdb_mon
+    domainname: atelier
+    tty: false
+    environment:
+      - LICENSE=
+      - MAC_ADDR=
+      - HOST_NAME=
+      - key=
+      - iv=
+      - IP_ADDR=
+      - DB_PORT=5432
+      - MON_PORT=8880
+      - GRAFANA_PORT=3000
+      - EXPERDB_ON_INSIGHT=false
+      - AGENT_COMM_PORT=9001
+      - GF_SECURITY_ADMIN_PASSWORD=experdb12#
+      - USE_ENCRYPT=N
+      - USE_PROXY=N
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.254.1
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - experdb-config:/experdb/persistent-config
+      - experdb-data:/var/lib/postgresql
+      - experdb-grafana:/var/lib/grafana
+    ports:
+      - 8086:8086
+      - 8088:8088
+      - 3000:3000
+      - 5432:5432
+      - 8880:9030
+      - 9001:9001
 networks:
   default:
     name: atelier
@@ -919,3 +957,6 @@ volumes:
   ubuntu24-pg17-active-vscode-server:
   ubuntu24-pg17-standby-vscode-server:
   ubuntu24-pg17-standalone-vscode-server:
+  experdb-config:
+  experdb-data:
+  experdb-grafana:
