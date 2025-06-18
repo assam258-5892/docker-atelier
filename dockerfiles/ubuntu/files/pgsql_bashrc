@@ -1,0 +1,158 @@
+LANG=ko_KR.UTF-8
+LANGUAGE=ko:en
+LC_ALL=ko_KR.UTF-8
+
+alias remove='rm -f .*~ *~'
+
+export GIT_CONFIG_GLOBAL=/var/lib/postgresql/workspace/.gitconfig
+
+function git-pull {
+    for dir in `ls -d ~/workspace/*/.git`; do
+        (
+            dir="`dirname $dir`" 
+            echo "Pulling updates in $dir"
+            cd "$dir"
+            for remote in `git remote`; do
+                echo "Fetching from remote: $remote"
+                git fetch "${remote}"
+            done
+            if [ "`git branch|grep \ main$|wc -l`" -eq 0 -a "`git branch -r|grep \ origin/main$|wc -l`" -gt 0 ]; then
+                echo "Creating and checking out main branch from origin/main"
+                git branch main origin/main
+                git checkout main
+            fi
+            if [ "`git branch|grep \ master$|wc -l`" -eq 0 -a "`git branch -r|grep \ origin/master$|wc -l`" -gt 0 ]; then
+                echo "Creating and checking out master branch from origin/master"
+                git branch master origin/master
+                git checkout master
+            fi
+            echo "Pulling latest changes"
+            git pull
+        )
+    done
+}
+
+function rsync-workspace {
+    (
+        hostprefix="`hostname|cut -d - -f 1-2`"
+        hostsuffix="`hostname|cut -d - -f 3`"
+        if [ "$#" -eq 0 ]; then
+            case "$hostsuffix" in
+                active)
+                    hostsuffix="standalone"
+                    ;;
+                standby)
+                    hostsuffix="standalone"
+                    ;;
+                standalone)
+                    hostsuffix="active"
+                    ;;
+                *)
+                    hostsuffix="unknown"
+                    ;;
+            esac
+        else
+            hostsuffix="$1"
+        fi
+        echo "Synchronizing workspace from ${hostprefix}-${hostsuffix}:${HOME}/workspace to ${HOME}"
+        rsync -avh8 --delete "${hostprefix}-${hostsuffix}:${HOME}/workspace" "${HOME}"
+    )
+}
+
+function pg-configure {
+    (
+        if [ ! -d ~/workspace/postgres ]; then
+            echo "PostgreSQL source directory not found. Please clone the repository first."
+            return 1
+        fi
+        cd ~/workspace/postgres
+        echo "Configuring PostgreSQL with custom settings..."
+        pg_config --configure | sed -e s/runstatedir/with-rundir/g | sed -e s/-O2/-O0/g | xargs ./configure
+        if [ $? -ne 0 ]; then
+            echo "Configuration failed. Please check the output for errors."
+            return 1
+        fi
+        echo "Configuration completed successfully."
+    )
+}
+
+function pg-make {
+    (
+        if [ ! -d ~/workspace/postgres ]; then
+            echo "PostgreSQL source directory not found. Please clone the repository first."
+            return 1
+        fi
+        cd ~/workspace/postgres
+        echo "Building PostgreSQL..."
+        make world $@
+        if [ $? -ne 0 ]; then
+            echo "Make failed. Please check the output for errors."
+            return 1
+        fi
+        echo "Make completed successfully."
+    )
+}
+
+function pg-clean {
+    (
+        if [ ! -d ~/workspace/postgres ]; then
+            echo "PostgreSQL source directory not found. Please clone the repository first."
+            return 1
+        fi
+        cd ~/workspace/postgres
+        echo "Cleaning PostgreSQL build files..."
+        make clean
+        if [ $? -ne 0 ]; then
+            echo "Clean failed. Please check the output for errors."
+            return 1
+        fi
+        echo "Clean completed successfully."
+        git clean -fdx
+        if [ $? -ne 0 ]; then
+            echo "Git clean failed. Please check the output for errors."
+            return 1
+        fi
+        echo "Git clean completed successfully."
+    )
+}
+
+function pg-check {
+    (
+        if [ ! -d ~/workspace/postgres ]; then
+            echo "PostgreSQL source directory not found. Please clone the repository first."
+            return 1
+        fi
+        cd ~/workspace/postgres
+        echo "Running checks on PostgreSQL..."
+        make check-world
+        if [ $? -ne 0 ]; then
+            echo "Check failed. Please check the output for errors."
+            return 1
+        fi
+        echo "Check completed successfully."
+    )
+}
+
+function pg-install {
+    (
+        if [ ! -d ~/workspace/postgres ]; then
+            echo "PostgreSQL source directory not found. Please clone the repository first."
+            return 1
+        fi
+        cd ~/workspace/postgres
+        echo "Installing PostgreSQL..."
+        sudo make install-world
+        if [ $? -ne 0 ]; then
+            echo "Install failed. Please check the output for errors."
+            return 1
+        fi
+        echo "PostgreSQL installation completed successfully."
+        echo "Setting ownership of PostgreSQL files to postgres user..."
+        sudo chown -R postgres:postgres ~/workspace/postgres
+        if [ $? -ne 0 ]; then
+            echo "Failed to set ownership. Please check the output for errors."
+            return 1
+        fi
+        echo "Ownership set successfully."
+    )
+}
