@@ -24,6 +24,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.14
     volumes:
+      - rocky8-pg14-active-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky8-pg14-active-workspace:/var/lib/pgsql/workspace
   rocky8-pg14-standby:
     image: rocky8-pg14
@@ -38,6 +39,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.44
     volumes:
+      - rocky8-pg14-standby-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky8-pg14-standby-workspace:/var/lib/pgsql/workspace
   rocky8-pg14-standalone:
     image: rocky8-pg14
@@ -52,6 +54,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.74
     volumes:
+      - rocky8-pg14-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky8-pg14-standalone-workspace:/var/lib/pgsql/workspace
   rocky8-pg15-active:
     image: rocky8-pg15
@@ -66,6 +69,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.15
     volumes:
+      - rocky8-pg15-active-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky8-pg15-active-workspace:/var/lib/pgsql/workspace
   rocky8-pg15-standby:
     image: rocky8-pg15
@@ -80,6 +84,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.45
     volumes:
+      - rocky8-pg15-standby-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky8-pg15-standby-workspace:/var/lib/pgsql/workspace
   rocky8-pg15-standalone:
     image: rocky8-pg15
@@ -94,6 +99,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.75
     volumes:
+      - rocky8-pg15-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky8-pg15-standalone-workspace:/var/lib/pgsql/workspace
   rocky8-pg16-active:
     image: rocky8-pg16
@@ -108,6 +114,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.16
     volumes:
+      - rocky8-pg16-active-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky8-pg16-active-workspace:/var/lib/pgsql/workspace
   rocky8-pg16-standby:
     image: rocky8-pg16
@@ -122,6 +129,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.46
     volumes:
+      - rocky8-pg16-standby-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky8-pg16-standby-workspace:/var/lib/pgsql/workspace
   rocky8-pg16-standalone:
     image: rocky8-pg16
@@ -136,6 +144,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.76
     volumes:
+      - rocky8-pg16-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky8-pg16-standalone-workspace:/var/lib/pgsql/workspace
   rocky8-pg17-active:
     image: rocky8-pg17
@@ -150,6 +159,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.17
     volumes:
+      - rocky8-pg17-active-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky8-pg17-active-workspace:/var/lib/pgsql/workspace
   rocky8-pg17-standby:
     image: rocky8-pg17
@@ -164,6 +174,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.47
     volumes:
+      - rocky8-pg17-standby-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky8-pg17-standby-workspace:/var/lib/pgsql/workspace
   rocky8-pg17-standalone:
     image: rocky8-pg17
@@ -178,6 +189,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.77
     volumes:
+      - rocky8-pg17-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky8-pg17-standalone-workspace:/var/lib/pgsql/workspace
   rocky9-init:
     image: rocky9-init
@@ -204,6 +216,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.14
     volumes:
+      - rocky9-pg14-active-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg14-active-workspace:/var/lib/pgsql/workspace
   rocky9-pg14-standby:
     image: rocky9-pg14
@@ -218,6 +231,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.44
     volumes:
+      - rocky9-pg14-standby-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg14-standby-workspace:/var/lib/pgsql/workspace
   rocky9-pg14-standalone:
     image: rocky9-pg14
@@ -232,6 +246,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.74
     volumes:
+      - rocky9-pg14-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg14-standalone-workspace:/var/lib/pgsql/workspace
   rocky9-pg15-active:
     image: rocky9-pg15
@@ -246,6 +261,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.15
     volumes:
+      - rocky9-pg15-active-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg15-active-workspace:/var/lib/pgsql/workspace
   rocky9-pg15-standby:
     image: rocky9-pg15
@@ -260,6 +276,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.45
     volumes:
+      - rocky9-pg15-standby-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg15-standby-workspace:/var/lib/pgsql/workspace
   rocky9-pg15-standalone:
     image: rocky9-pg15
@@ -274,6 +291,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.75
     volumes:
+      - rocky9-pg15-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg15-standalone-workspace:/var/lib/pgsql/workspace
   rocky9-pg16-active:
     image: rocky9-pg16
@@ -288,6 +306,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.16
     volumes:
+      - rocky9-pg16-active-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg16-active-workspace:/var/lib/pgsql/workspace
   rocky9-pg16-standby:
     image: rocky9-pg16
@@ -302,6 +321,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.46
     volumes:
+      - rocky9-pg16-standby-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg16-standby-workspace:/var/lib/pgsql/workspace
   rocky9-pg16-standalone:
     image: rocky9-pg16
@@ -316,6 +336,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.76
     volumes:
+      - rocky9-pg16-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg16-standalone-workspace:/var/lib/pgsql/workspace
   rocky9-pg17-active:
     image: rocky9-pg17
@@ -330,6 +351,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.17
     volumes:
+      - rocky9-pg17-active-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg17-active-workspace:/var/lib/pgsql/workspace
   rocky9-pg17-standby:
     image: rocky9-pg17
@@ -344,6 +366,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.47
     volumes:
+      - rocky9-pg17-standby-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg17-standby-workspace:/var/lib/pgsql/workspace
   rocky9-pg17-standalone:
     image: rocky9-pg17
@@ -358,6 +381,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.77
     volumes:
+      - rocky9-pg17-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg17-standalone-workspace:/var/lib/pgsql/workspace
   ubuntu22-init:
     image: ubuntu22-init
@@ -384,6 +408,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.14
     volumes:
+      - ubuntu22-pg14-active-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu22-pg14-active-workspace:/var/lib/postgresql/workspace
   ubuntu22-pg14-standby:
     image: ubuntu22-pg14
@@ -398,6 +423,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.44
     volumes:
+      - ubuntu22-pg14-standby-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu22-pg14-standby-workspace:/var/lib/postgresql/workspace
   ubuntu22-pg14-standalone:
     image: ubuntu22-pg14
@@ -412,6 +438,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.74
     volumes:
+      - ubuntu22-pg14-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu22-pg14-standalone-workspace:/var/lib/postgresql/workspace
   ubuntu22-pg15-active:
     image: ubuntu22-pg15
@@ -426,6 +453,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.15
     volumes:
+      - ubuntu22-pg15-active-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu22-pg15-active-workspace:/var/lib/postgresql/workspace
   ubuntu22-pg15-standby:
     image: ubuntu22-pg15
@@ -440,6 +468,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.45
     volumes:
+      - ubuntu22-pg15-standby-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu22-pg15-standby-workspace:/var/lib/postgresql/workspace
   ubuntu22-pg15-standalone:
     image: ubuntu22-pg15
@@ -454,6 +483,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.75
     volumes:
+      - ubuntu22-pg15-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu22-pg15-standalone-workspace:/var/lib/postgresql/workspace
   ubuntu22-pg16-active:
     image: ubuntu22-pg16
@@ -468,6 +498,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.16
     volumes:
+      - ubuntu22-pg16-active-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu22-pg16-active-workspace:/var/lib/postgresql/workspace
   ubuntu22-pg16-standby:
     image: ubuntu22-pg16
@@ -482,6 +513,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.46
     volumes:
+      - ubuntu22-pg16-standby-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu22-pg16-standby-workspace:/var/lib/postgresql/workspace
   ubuntu22-pg16-standalone:
     image: ubuntu22-pg16
@@ -496,6 +528,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.76
     volumes:
+      - ubuntu22-pg16-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu22-pg16-standalone-workspace:/var/lib/postgresql/workspace
   ubuntu22-pg17-active:
     image: ubuntu22-pg17
@@ -510,6 +543,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.17
     volumes:
+      - ubuntu22-pg17-active-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu22-pg17-active-workspace:/var/lib/postgresql/workspace
   ubuntu22-pg17-standby:
     image: ubuntu22-pg17
@@ -524,6 +558,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.47
     volumes:
+      - ubuntu22-pg17-standby-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu22-pg17-standby-workspace:/var/lib/postgresql/workspace
   ubuntu22-pg17-standalone:
     image: ubuntu22-pg17
@@ -538,6 +573,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.77
     volumes:
+      - ubuntu22-pg17-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu22-pg17-standalone-workspace:/var/lib/postgresql/workspace
   ubuntu24-init:
     image: ubuntu24-init
@@ -564,6 +600,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.14
     volumes:
+      - ubuntu24-pg14-active-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg14-active-workspace:/var/lib/postgresql/workspace
   ubuntu24-pg14-standby:
     image: ubuntu24-pg14
@@ -578,6 +615,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.44
     volumes:
+      - ubuntu24-pg14-standby-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg14-standby-workspace:/var/lib/postgresql/workspace
   ubuntu24-pg14-standalone:
     image: ubuntu24-pg14
@@ -592,6 +630,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.74
     volumes:
+      - ubuntu24-pg14-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg14-standalone-workspace:/var/lib/postgresql/workspace
   ubuntu24-pg15-active:
     image: ubuntu24-pg15
@@ -606,6 +645,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.15
     volumes:
+      - ubuntu24-pg15-active-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg15-active-workspace:/var/lib/postgresql/workspace
   ubuntu24-pg15-standby:
     image: ubuntu24-pg15
@@ -620,6 +660,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.45
     volumes:
+      - ubuntu24-pg15-standby-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg15-standby-workspace:/var/lib/postgresql/workspace
   ubuntu24-pg15-standalone:
     image: ubuntu24-pg15
@@ -634,6 +675,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.75
     volumes:
+      - ubuntu24-pg15-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg15-standalone-workspace:/var/lib/postgresql/workspace
   ubuntu24-pg16-active:
     image: ubuntu24-pg16
@@ -648,6 +690,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.16
     volumes:
+      - ubuntu24-pg16-active-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg16-active-workspace:/var/lib/postgresql/workspace
   ubuntu24-pg16-standby:
     image: ubuntu24-pg16
@@ -662,6 +705,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.46
     volumes:
+      - ubuntu24-pg16-standby-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg16-standby-workspace:/var/lib/postgresql/workspace
   ubuntu24-pg16-standalone:
     image: ubuntu24-pg16
@@ -676,6 +720,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.76
     volumes:
+      - ubuntu24-pg16-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg16-standalone-workspace:/var/lib/postgresql/workspace
   ubuntu24-pg17-active:
     image: ubuntu24-pg17
@@ -690,6 +735,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.17
     volumes:
+      - ubuntu24-pg17-active-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg17-active-workspace:/var/lib/postgresql/workspace
   ubuntu24-pg17-standby:
     image: ubuntu24-pg17
@@ -704,6 +750,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.47
     volumes:
+      - ubuntu24-pg17-standby-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg17-standby-workspace:/var/lib/postgresql/workspace
   ubuntu24-pg17-standalone:
     image: ubuntu24-pg17
@@ -718,6 +765,7 @@ services:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.77
     volumes:
+      - ubuntu24-pg17-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg17-standalone-workspace:/var/lib/postgresql/workspace
   haproxy:
     image: haproxy
@@ -823,3 +871,51 @@ volumes:
   ubuntu24-pg17-active-workspace:
   ubuntu24-pg17-standby-workspace:
   ubuntu24-pg17-standalone-workspace:
+  rocky8-pg14-active-vscode-server:
+  rocky8-pg14-standby-vscode-server:
+  rocky8-pg14-standalone-vscode-server:
+  rocky8-pg15-active-vscode-server:
+  rocky8-pg15-standby-vscode-server:
+  rocky8-pg15-standalone-vscode-server:
+  rocky8-pg16-active-vscode-server:
+  rocky8-pg16-standby-vscode-server:
+  rocky8-pg16-standalone-vscode-server:
+  rocky8-pg17-active-vscode-server:
+  rocky8-pg17-standby-vscode-server:
+  rocky8-pg17-standalone-vscode-server:
+  rocky9-pg14-active-vscode-server:
+  rocky9-pg14-standby-vscode-server:
+  rocky9-pg14-standalone-vscode-server:
+  rocky9-pg15-active-vscode-server:
+  rocky9-pg15-standby-vscode-server:
+  rocky9-pg15-standalone-vscode-server:
+  rocky9-pg16-active-vscode-server:
+  rocky9-pg16-standby-vscode-server:
+  rocky9-pg16-standalone-vscode-server:
+  rocky9-pg17-active-vscode-server:
+  rocky9-pg17-standby-vscode-server:
+  rocky9-pg17-standalone-vscode-server:
+  ubuntu22-pg14-active-vscode-server:
+  ubuntu22-pg14-standby-vscode-server:
+  ubuntu22-pg14-standalone-vscode-server:
+  ubuntu22-pg15-active-vscode-server:
+  ubuntu22-pg15-standby-vscode-server:
+  ubuntu22-pg15-standalone-vscode-server:
+  ubuntu22-pg16-active-vscode-server:
+  ubuntu22-pg16-standby-vscode-server:
+  ubuntu22-pg16-standalone-vscode-server:
+  ubuntu22-pg17-active-vscode-server:
+  ubuntu22-pg17-standby-vscode-server:
+  ubuntu22-pg17-standalone-vscode-server:
+  ubuntu24-pg14-active-vscode-server:
+  ubuntu24-pg14-standby-vscode-server:
+  ubuntu24-pg14-standalone-vscode-server:
+  ubuntu24-pg15-active-vscode-server:
+  ubuntu24-pg15-standby-vscode-server:
+  ubuntu24-pg15-standalone-vscode-server:
+  ubuntu24-pg16-active-vscode-server:
+  ubuntu24-pg16-standby-vscode-server:
+  ubuntu24-pg16-standalone-vscode-server:
+  ubuntu24-pg17-active-vscode-server:
+  ubuntu24-pg17-standby-vscode-server:
+  ubuntu24-pg17-standalone-vscode-server:
