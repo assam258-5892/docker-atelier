@@ -152,7 +152,7 @@ function pg-configure {
         fi
         cd ~/workspace/postgres
         echo "Configuring PostgreSQL with custom settings..."
-        pg_config --configure | sed -e s/runstatedir/with-rundir/g | sed -e s/-O2/-O0/g | xargs ./configure
+        pg_config --configure | sed -e s/runstatedir/with-rundir/g | sed -e s/-O2/-O0/g | sed -e s/\ -Wp,-D_FORTIFY_SOURCE=2//g | sed -e s/\ -D_FORTIFY_SOURCE=2//g | sed -e s/\ -D_FORTIFY_SOURCE=3//g | xargs ./configure
         if [ $? -ne 0 ]; then
             echo "Configuration failed. Please check the output for errors."
             return 1
