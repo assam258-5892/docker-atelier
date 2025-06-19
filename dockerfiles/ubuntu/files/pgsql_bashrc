@@ -2,6 +2,71 @@ LANG=ko_KR.UTF-8
 LANGUAGE=ko:en
 LC_ALL=ko_KR.UTF-8
 
+USER=`whoami`
+case "${USER}" in
+    root)
+        PS1="r@"
+        ;;
+    postgres)
+        PS1="p@"
+        ;;
+    *)
+        PS1="${USER}@"
+        ;;
+esac
+case "`hostname`" in
+    rocky8-*)
+        PS1="${PS1}r08-"
+        ;;
+    rocky9-*)
+        PS1="${PS1}r09-"
+        ;;
+    ubuntu22-*)
+        PS1="${PS1}u22-"
+        ;;
+    ubuntu24-*)
+        PS1="${PS1}u24-"
+        ;;
+    *)
+        PS1="${PS1}`hostname|cut -d - -f 1`-"
+        ;;
+esac
+case "`hostname`" in
+    *-pg14-*)
+        PS1="${PS1}p14-"
+        ;;
+    *-pg15-*)
+        PS1="${PS1}p15-"
+        ;;
+    *-pg16-*)
+        PS1="${PS1}p16-"
+        ;;
+    *-pg17-*)
+        PS1="${PS1}p17-"
+        ;;
+    *)
+        PS1="${PS1}`hostname|cut -d - -f 2`-"
+        ;;
+esac
+case "`hostname`" in
+    *-active)
+        PS1="${PS1}a"
+        ;;
+    *-standby)
+        PS1="${PS1}s"
+        ;;
+    *-standalone)
+        PS1="${PS1}#"
+        ;;
+    *)
+        PS1="${PS1}`hostname|cut -d - -f 3`"
+        ;;
+esac
+PS1="${PS1}:\w\$ "
+PS2='> '
+PS3='+ '
+export USER PS1 PS2 PS3
+
 alias remove='rm -f .*~ *~'
 
 export GIT_CONFIG_GLOBAL=/var/lib/postgresql/workspace/.gitconfig
