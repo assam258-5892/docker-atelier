@@ -14,7 +14,11 @@ function git-pull {
             cd "$dir"
             for remote in `git remote`; do
                 echo "Fetching from remote: $remote"
-                git fetch "${remote}"
+                git fetch "${remote}" --tags --prune
+                if [ $? -ne 0 ]; then
+                    echo "Failed to fetch from remote $remote. Please check the output for errors."
+                    continue
+                fi
             done
             if [ "`git branch|grep \ main$|wc -l`" -eq 0 -a "`git branch -r|grep \ origin/main$|wc -l`" -gt 0 ]; then
                 echo "Creating and checking out main branch from origin/main"
