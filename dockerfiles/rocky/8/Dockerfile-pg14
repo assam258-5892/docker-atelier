@@ -28,7 +28,7 @@ COPY --chown=postgres:postgres --chmod=755 files/initialize.sh /var/lib/pgsql
 RUN su -l postgres -c "echo '@reboot /var/lib/pgsql/initialize.sh >/tmp/initialize.log 2>&1' | crontab"
 
 # Docker 환경 설정
-ENV PATH=/usr/pgsql-14/bin:${PATH}
+ENV PATH=/var/lib/pgsql/.local/bin:/usr/pgsql-14/bin:${PATH}
 ENV PGDATA=/var/lib/pgsql/14/data PGHOST=localhost PGUSER=experdba PGPASSWORD=experdba PGDATABASE=experdb
 
 # Workspace 설정

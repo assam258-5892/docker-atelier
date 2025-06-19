@@ -1,5 +1,5 @@
 [ -f /etc/profile ] && source /etc/profile
-PATH=/usr/pgsql-`/usr/bin/psql --version|cut -d \  -f 3|cut -d . -f 1`/bin:${PATH}
+PATH=${HOME}/.local/bin:/usr/pgsql-`/usr/bin/psql --version|cut -d \  -f 3|cut -d . -f 1`/bin:${PATH}
 PGDATA=/var/lib/pgsql/`/usr/bin/psql --version|cut -d \  -f 3|cut -d . -f 1`/data
 PGHOST=localhost
 PGUSER=experdba

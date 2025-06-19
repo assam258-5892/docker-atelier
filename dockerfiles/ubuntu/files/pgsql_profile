@@ -1,5 +1,5 @@
 [ -f /etc/profile ] && source /etc/profile
-PATH=/usr/lib/postgresql/`/usr/bin/psql --version|cut -d \  -f 3|cut -d . -f 1`/bin:${PATH}
+PATH=${HOME}/.local/bin:/usr/lib/postgresql/`/usr/bin/psql --version|cut -d \  -f 3|cut -d . -f 1`/bin:${PATH}
 PGDATA=/var/lib/postgresql/`/usr/bin/psql --version|cut -d \  -f 3|cut -d . -f 1`/main
 PGHOST=localhost
 PGUSER=experdba
