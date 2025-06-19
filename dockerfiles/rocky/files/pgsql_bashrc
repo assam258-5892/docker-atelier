@@ -235,3 +235,69 @@ function pg-install {
         echo "Ownership set successfully."
     )
 }
+
+function pg-start {
+    echo "Starting PostgreSQL server..."
+    distro=$(echo "${HOSTNAME}" | cut -d - -f 1)
+    version=$(echo "${HOSTNAME}" | cut -d - -f 2 | cut -b 3-)
+    echo "Detected Distro: ${distro}, PostgreSQL Version: ${version}"
+    case "${distro}" in
+        ubuntu*)
+            echo "Starting PostgreSQL service..."
+            sudo systemctl start postgresql
+            ;;
+        rocky*)
+            echo "Starting PostgreSQL service..."
+            sudo systemctl start postgresql-${version}
+            ;;
+        *)
+            echo "Unrecognized distro ${distro}, cannot start PostgreSQL service."
+            exit 1
+            ;;
+    esac
+    echo "PostgreSQL server started successfully."
+}
+
+function pg-stop {
+    echo "Stopping PostgreSQL server..."
+    distro=$(echo "${HOSTNAME}" | cut -d - -f 1)
+    version=$(echo "${HOSTNAME}" | cut -d - -f 2 | cut -b 3-)
+    echo "Detected Distro: ${distro}, PostgreSQL Version: ${version}"
+    case "${distro}" in
+        ubuntu*)
+            echo "Stopping PostgreSQL service..."
+            sudo systemctl stop postgresql
+            ;;
+        rocky*)
+            echo "Stopping PostgreSQL service..."
+            sudo systemctl stop postgresql-${version}
+            ;;
+        *)
+            echo "Unrecognized distro ${distro}, cannot stop PostgreSQL service."
+            exit 1
+            ;;
+    esac
+    echo "PostgreSQL server stopped successfully."
+}
+
+function pg-status {
+    echo "Checking PostgreSQL server status..."
+    distro=$(echo "${HOSTNAME}" | cut -d - -f 1)
+    version=$(echo "${HOSTNAME}" | cut -d - -f 2 | cut -b 3-)
+    echo "Detected Distro: ${distro}, PostgreSQL Version: ${version}"
+    case "${distro}" in
+        ubuntu*)
+            echo "Checking PostgreSQL service status..."
+            sudo systemctl status postgresql
+            ;;
+        rocky*)
+            echo "Checking PostgreSQL service status..."
+            sudo systemctl status postgresql-${version}
+            ;;
+        *)
+            echo "Unrecognized distro ${distro}, cannot check PostgreSQL service status."
+            exit 1
+            ;;
+    esac
+    echo "PostgreSQL server status checked successfully."
+}
