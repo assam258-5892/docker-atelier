@@ -13,111 +13,39 @@ createSession(){
         tmux select-pane -t "$1:init.3"
         let no++
         tmux new-window -t "$1:$no" -n active "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky9-pg17-active /bin/bash --login"
-        tmux split-window -t "$1:active" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky9-pg16-active /bin/bash --login" && tmux select-layout -t "$1:active" tiled
-        tmux split-window -t "$1:active" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky9-pg15-active /bin/bash --login" && tmux select-layout -t "$1:active" tiled
-        tmux split-window -t "$1:active" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky9-pg14-active /bin/bash --login" && tmux select-layout -t "$1:active" tiled        
-        tmux split-window -t "$1:active" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg17-active /bin/bash --login" && tmux select-layout -t "$1:active" tiled
-        tmux split-window -t "$1:active" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg16-active /bin/bash --login" && tmux select-layout -t "$1:active" tiled
         tmux split-window -t "$1:active" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg15-active /bin/bash --login" && tmux select-layout -t "$1:active" tiled
-        tmux split-window -t "$1:active" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg14-active /bin/bash --login" && tmux select-layout -t "$1:active" tiled
-        tmux split-window -t "$1:active" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg17-active /bin/bash --login" && tmux select-layout -t "$1:active" tiled
         tmux split-window -t "$1:active" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg16-active /bin/bash --login" && tmux select-layout -t "$1:active" tiled
-        tmux split-window -t "$1:active" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg15-active /bin/bash --login" && tmux select-layout -t "$1:active" tiled
-        tmux split-window -t "$1:active" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg14-active /bin/bash --login" && tmux select-layout -t "$1:active" tiled
-        tmux split-window -t "$1:active" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg17-active /bin/bash --login" && tmux select-layout -t "$1:active" tiled
-        tmux split-window -t "$1:active" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg16-active /bin/bash --login" && tmux select-layout -t "$1:active" tiled
-        tmux split-window -t "$1:active" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg15-active /bin/bash --login" && tmux select-layout -t "$1:active" tiled
         tmux split-window -t "$1:active" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg14-active /bin/bash --login" && tmux select-layout -t "$1:active" tiled
         tmux select-pane -t "$1:active.0"
         let no++
         tmux new-window -t "$1:$no" -n standby "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky9-pg17-standby /bin/bash --login"
-        tmux split-window -t "$1:standby" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky9-pg16-standby /bin/bash --login" && tmux select-layout -t "$1:standby" tiled
-        tmux split-window -t "$1:standby" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky9-pg15-standby /bin/bash --login" && tmux select-layout -t "$1:standby" tiled
-        tmux split-window -t "$1:standby" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky9-pg14-standby /bin/bash --login" && tmux select-layout -t "$1:standby" tiled
-        tmux split-window -t "$1:standby" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg17-standby /bin/bash --login" && tmux select-layout -t "$1:standby" tiled
-        tmux split-window -t "$1:standby" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg16-standby /bin/bash --login" && tmux select-layout -t "$1:standby" tiled
         tmux split-window -t "$1:standby" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg15-standby /bin/bash --login" && tmux select-layout -t "$1:standby" tiled
-        tmux split-window -t "$1:standby" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg14-standby /bin/bash --login" && tmux select-layout -t "$1:standby" tiled
-        tmux split-window -t "$1:standby" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg17-standby /bin/bash --login" && tmux select-layout -t "$1:standby" tiled
         tmux split-window -t "$1:standby" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg16-standby /bin/bash --login" && tmux select-layout -t "$1:standby" tiled
-        tmux split-window -t "$1:standby" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg15-standby /bin/bash --login" && tmux select-layout -t "$1:standby" tiled
-        tmux split-window -t "$1:standby" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg14-standby /bin/bash --login" && tmux select-layout -t "$1:standby" tiled
-        tmux split-window -t "$1:standby" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg17-standby /bin/bash --login" && tmux select-layout -t "$1:standby" tiled
-        tmux split-window -t "$1:standby" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg16-standby /bin/bash --login" && tmux select-layout -t "$1:standby" tiled
-        tmux split-window -t "$1:standby" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg15-standby /bin/bash --login" && tmux select-layout -t "$1:standby" tiled
         tmux split-window -t "$1:standby" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg14-standby /bin/bash --login" && tmux select-layout -t "$1:standby" tiled
         tmux select-pane -t "$1:standby.0"
         let no++
         tmux new-window -t "$1:$no" -n standalone "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky9-pg17-standalone /bin/bash --login"
-        tmux split-window -t "$1:standalone" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky9-pg16-standalone /bin/bash --login" && tmux select-layout -t "$1:standalone" tiled
-        tmux split-window -t "$1:standalone" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky9-pg15-standalone /bin/bash --login" && tmux select-layout -t "$1:standalone" tiled
-        tmux split-window -t "$1:standalone" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky9-pg14-standalone /bin/bash --login" && tmux select-layout -t "$1:standalone" tiled
-        tmux split-window -t "$1:standalone" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg17-standalone /bin/bash --login" && tmux select-layout -t "$1:standalone" tiled
-        tmux split-window -t "$1:standalone" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg16-standalone /bin/bash --login" && tmux select-layout -t "$1:standalone" tiled
         tmux split-window -t "$1:standalone" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg15-standalone /bin/bash --login" && tmux select-layout -t "$1:standalone" tiled
-        tmux split-window -t "$1:standalone" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg14-standalone /bin/bash --login" && tmux select-layout -t "$1:standalone" tiled
-        tmux split-window -t "$1:standalone" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg17-standalone /bin/bash --login" && tmux select-layout -t "$1:standalone" tiled
         tmux split-window -t "$1:standalone" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg16-standalone /bin/bash --login" && tmux select-layout -t "$1:standalone" tiled
-        tmux split-window -t "$1:standalone" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg15-standalone /bin/bash --login" && tmux select-layout -t "$1:standalone" tiled
-        tmux split-window -t "$1:standalone" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg14-standalone /bin/bash --login" && tmux select-layout -t "$1:standalone" tiled
-        tmux split-window -t "$1:standalone" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg17-standalone /bin/bash --login" && tmux select-layout -t "$1:standalone" tiled
-        tmux split-window -t "$1:standalone" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg16-standalone /bin/bash --login" && tmux select-layout -t "$1:standalone" tiled
-        tmux split-window -t "$1:standalone" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg15-standalone /bin/bash --login" && tmux select-layout -t "$1:standalone" tiled
         tmux split-window -t "$1:standalone" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg14-standalone /bin/bash --login" && tmux select-layout -t "$1:standalone" tiled
         tmux select-pane -t "$1:standalone.0"
         let no++
         tmux new-window -t "$1:$no" -n pg17 "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky9-pg17-active /bin/bash --login"
         tmux split-window -t "$1:pg17" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky9-pg17-standby /bin/bash --login" && tmux select-layout -t "$1:pg17" tiled
         tmux split-window -t "$1:pg17" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky9-pg17-standalone /bin/bash --login" && tmux select-layout -t "$1:pg17" tiled
-        tmux split-window -t "$1:pg17" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg17-active /bin/bash --login" && tmux select-layout -t "$1:pg17" tiled
-        tmux split-window -t "$1:pg17" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg17-standby /bin/bash --login" && tmux select-layout -t "$1:pg17" tiled
-        tmux split-window -t "$1:pg17" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg17-standalone /bin/bash --login" && tmux select-layout -t "$1:pg17" tiled
-        tmux split-window -t "$1:pg17" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg17-active /bin/bash --login" && tmux select-layout -t "$1:pg17" tiled
-        tmux split-window -t "$1:pg17" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg17-standby /bin/bash --login" && tmux select-layout -t "$1:pg17" tiled
-        tmux split-window -t "$1:pg17" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg17-standalone /bin/bash --login" && tmux select-layout -t "$1:pg17" tiled
-        tmux split-window -t "$1:pg17" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg17-active /bin/bash --login" && tmux select-layout -t "$1:pg17" tiled
-        tmux split-window -t "$1:pg17" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg17-standby /bin/bash --login" && tmux select-layout -t "$1:pg17" tiled
-        tmux split-window -t "$1:pg17" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg17-standalone /bin/bash --login" && tmux select-layout -t "$1:pg17" tiled
         tmux select-pane -t "$1:pg17.0"
         let no++
-        tmux new-window -t "$1:$no" -n pg16 "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky9-pg16-active /bin/bash --login"
-        tmux split-window -t "$1:pg16" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky9-pg16-standby /bin/bash --login" && tmux select-layout -t "$1:pg16" tiled
-        tmux split-window -t "$1:pg16" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky9-pg16-standalone /bin/bash --login" && tmux select-layout -t "$1:pg16" tiled
-        tmux split-window -t "$1:pg16" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg16-active /bin/bash --login" && tmux select-layout -t "$1:pg16" tiled
-        tmux split-window -t "$1:pg16" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg16-standby /bin/bash --login" && tmux select-layout -t "$1:pg16" tiled
-        tmux split-window -t "$1:pg16" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg16-standalone /bin/bash --login" && tmux select-layout -t "$1:pg16" tiled
-        tmux split-window -t "$1:pg16" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg16-active /bin/bash --login" && tmux select-layout -t "$1:pg16" tiled
+        tmux new-window -t "$1:$no" -n pg16 "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg16-active /bin/bash --login"
         tmux split-window -t "$1:pg16" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg16-standby /bin/bash --login" && tmux select-layout -t "$1:pg16" tiled
         tmux split-window -t "$1:pg16" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg16-standalone /bin/bash --login" && tmux select-layout -t "$1:pg16" tiled
-        tmux split-window -t "$1:pg16" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg16-active /bin/bash --login" && tmux select-layout -t "$1:pg16" tiled
-        tmux split-window -t "$1:pg16" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg16-standby /bin/bash --login" && tmux select-layout -t "$1:pg16" tiled
-        tmux split-window -t "$1:pg16" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg16-standalone /bin/bash --login" && tmux select-layout -t "$1:pg16" tiled
         tmux select-pane -t "$1:pg16.0"
         let no++
-        tmux new-window -t "$1:$no" -n pg15 "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky9-pg15-active /bin/bash --login"
-        tmux split-window -t "$1:pg15" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky9-pg15-standby /bin/bash --login" && tmux select-layout -t "$1:pg15" tiled
-        tmux split-window -t "$1:pg15" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky9-pg15-standalone /bin/bash --login" && tmux select-layout -t "$1:pg15" tiled
-        tmux split-window -t "$1:pg15" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg15-active /bin/bash --login" && tmux select-layout -t "$1:pg15" tiled
+        tmux new-window -t "$1:$no" -n pg15 "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg15-active /bin/bash --login"
         tmux split-window -t "$1:pg15" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg15-standby /bin/bash --login" && tmux select-layout -t "$1:pg15" tiled
         tmux split-window -t "$1:pg15" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg15-standalone /bin/bash --login" && tmux select-layout -t "$1:pg15" tiled
-        tmux split-window -t "$1:pg15" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg15-active /bin/bash --login" && tmux select-layout -t "$1:pg15" tiled
-        tmux split-window -t "$1:pg15" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg15-standby /bin/bash --login" && tmux select-layout -t "$1:pg15" tiled
-        tmux split-window -t "$1:pg15" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg15-standalone /bin/bash --login" && tmux select-layout -t "$1:pg15" tiled
-        tmux split-window -t "$1:pg15" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg15-active /bin/bash --login" && tmux select-layout -t "$1:pg15" tiled
-        tmux split-window -t "$1:pg15" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg15-standby /bin/bash --login" && tmux select-layout -t "$1:pg15" tiled
-        tmux split-window -t "$1:pg15" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg15-standalone /bin/bash --login" && tmux select-layout -t "$1:pg15" tiled
         tmux select-pane -t "$1:pg15.0"
         let no++
-        tmux new-window -t "$1:$no" -n pg14 "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky9-pg14-active /bin/bash --login"
-        tmux split-window -t "$1:pg14" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky9-pg14-standby /bin/bash --login" && tmux select-layout -t "$1:pg14" tiled
-        tmux split-window -t "$1:pg14" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky9-pg14-standalone /bin/bash --login" && tmux select-layout -t "$1:pg14" tiled
-        tmux split-window -t "$1:pg14" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg14-active /bin/bash --login" && tmux select-layout -t "$1:pg14" tiled
-        tmux split-window -t "$1:pg14" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg14-standby /bin/bash --login" && tmux select-layout -t "$1:pg14" tiled
-        tmux split-window -t "$1:pg14" "docker compose exec -ti $env -w /var/lib/pgsql -u postgres rocky8-pg14-standalone /bin/bash --login" && tmux select-layout -t "$1:pg14" tiled
-        tmux split-window -t "$1:pg14" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg14-active /bin/bash --login" && tmux select-layout -t "$1:pg14" tiled
-        tmux split-window -t "$1:pg14" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg14-standby /bin/bash --login" && tmux select-layout -t "$1:pg14" tiled
-        tmux split-window -t "$1:pg14" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu24-pg14-standalone /bin/bash --login" && tmux select-layout -t "$1:pg14" tiled
-        tmux split-window -t "$1:pg14" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg14-active /bin/bash --login" && tmux select-layout -t "$1:pg14" tiled
+        tmux new-window -t "$1:$no" -n pg14 "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg14-active /bin/bash --login"
         tmux split-window -t "$1:pg14" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg14-standby /bin/bash --login" && tmux select-layout -t "$1:pg14" tiled
         tmux split-window -t "$1:pg14" "docker compose exec -ti $env -w /var/lib/postgresql -u postgres ubuntu22-pg14-standalone /bin/bash --login" && tmux select-layout -t "$1:pg14" tiled
         tmux select-pane -t "$1:pg14.0"
