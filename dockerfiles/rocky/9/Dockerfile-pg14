@@ -36,6 +36,7 @@ ENV GIT_CONFIG_GLOBAL=/var/lib/pgsql/workspace/.gitconfig
 COPY --chown=postgres:postgres --chmod=644 rocky/files/pgsql_bashrc /var/lib/pgsql/.bashrc
 RUN mkdir /var/lib/pgsql/.vscode-server && mkdir /var/lib/pgsql/workspace && mkdir /var/lib/pgsql/workspace/.vscode && mkdir /var/lib/pgsql/workspace/postgres && mkdir /var/lib/pgsql/workspace/pg_store_plans && mkdir /var/lib/pgsql/workspace/pgsentinel && mkdir /var/lib/pgsql/workspace/pg_ensure_queryid
 COPY --chown=postgres:postgres --chmod=644 rocky/files/gitconfig /var/lib/pgsql/workspace/.gitconfig
+COPY --chown=postgres:postgres --chmod=644 files/gitignore /var/lib/pgsql/workspace/.gitignore
 COPY --chown=postgres:postgres --chmod=644 rocky/files/launch-pg14.json /var/lib/pgsql/workspace/.vscode/launch.json
 RUN ( cd /var/lib/pgsql/workspace/postgres && git init && git remote add origin https://github.com/assam258-5892/postgres.git && git remote add upstream https://github.com/postgres/postgres.git )
 RUN ( cd /var/lib/pgsql/workspace/pg_store_plans && git init && git remote add origin https://github.com/experdb/pg_store_plans.git && git remote add upstream https://github.com/ossc-db/pg_store_plans.git )

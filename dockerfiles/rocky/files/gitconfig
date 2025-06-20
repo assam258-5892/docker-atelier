@@ -14,3 +14,5 @@
         default = simple
 [init]
         defaultBranch = master
+[core]
+        excludesFile = /var/lib/pgsql/workspace/.gitignore
