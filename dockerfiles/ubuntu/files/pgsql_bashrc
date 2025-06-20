@@ -280,6 +280,28 @@ function pg-start {
     echo "PostgreSQL server started successfully."
 }
 
+function pg-restart {
+    echo "Restarting PostgreSQL server..."
+    distro=$(echo "${HOSTNAME}" | cut -d - -f 1)
+    version=$(echo "${HOSTNAME}" | cut -d - -f 2 | cut -b 3-)
+    echo "Detected Distro: ${distro}, PostgreSQL Version: ${version}"
+    case "${distro}" in
+        ubuntu*)
+            echo "Restarting PostgreSQL service..."
+            sudo systemctl restart postgresql
+            ;;
+        rocky*)
+            echo "Restarting PostgreSQL service..."
+            sudo systemctl restart postgresql-${version}
+            ;;
+        *)
+            echo "Unrecognized distro ${distro}, cannot restart PostgreSQL service."
+            exit 1
+            ;;
+    esac
+    echo "PostgreSQL server restarted successfully."
+}
+
 function pg-stop {
     echo "Stopping PostgreSQL server..."
     distro=$(echo "${HOSTNAME}" | cut -d - -f 1)
