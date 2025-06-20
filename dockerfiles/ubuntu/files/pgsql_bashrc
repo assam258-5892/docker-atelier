@@ -248,6 +248,36 @@ function pg-install {
             return 1
         fi
         echo "PostgreSQL installation completed successfully."
+        if [ -d ~/workspace/pg_ensure_queryid ]; then
+            cd ~/workspace/pg_ensure_queryid
+            echo "Installing pg_ensure_queryid..."
+            git clean -xdf && sudo PATH=${PATH} USE_PGXS=1 make install
+            if [ $? -ne 0 ]; then
+                echo "pg_ensure_queryid installation failed. Please check the output for errors."
+                return 1
+            fi
+            echo "pg_ensure_queryid installation completed successfully."
+        fi
+        if [ -d ~/workspace/pg_store_plans ]; then
+            cd ~/workspace/pg_store_plans
+            echo "Installing pg_store_plans..."
+            git clean -xdf && sudo PATH=${PATH} USE_PGXS=1 make install
+            if [ $? -ne 0 ]; then
+                echo "pg_store_plans installation failed. Please check the output for errors."
+                return 1
+            fi
+            echo "pg_store_plans installation completed successfully."
+        fi
+        if [ -d ~/workspace/pgsentinel ]; then
+            cd ~/workspace/pgsentinel/src
+            echo "Installing pgsentinel..."
+            git clean -xdf && sudo PATH=${PATH} USE_PGXS=1 make install
+            if [ $? -ne 0 ]; then
+                echo "pgsentinel installation failed. Please check the output for errors."
+                return 1
+            fi
+            echo "pgsentinel installation completed successfully."
+        fi
         echo "Setting ownership of PostgreSQL files to postgres user..."
         sudo chown -R postgres:postgres ~/workspace/postgres
         if [ $? -ne 0 ]; then
