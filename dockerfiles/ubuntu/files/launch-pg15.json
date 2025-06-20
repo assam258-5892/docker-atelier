@@ -1,0 +1,73 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "postgres (attach)",
+            "type": "cppdbg",
+            "request": "attach",
+            "program": "/usr/lib/postgresql/15/bin/postgres",
+            "processId": "${command:pickProcess}",
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "postgres (launch)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/usr/lib/postgresql/15/bin/postgres",
+            "args": [
+                "--single",
+                "-D",
+                "/var/lib/postgresql/15/main",
+                "-c",
+                "config_file=/etc/postgresql/15/main/postgresql.conf",
+                "experdb"
+            ],
+            "cwd": "/var/lib/postgresql",
+            "stopAtEntry": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "psql (launch)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/usr/lib/postgresql/15/bin/psql",
+            "args": [
+                "-h",
+                "localhost",
+                "-U",
+                "experdba",
+                "experdb"
+            ],
+            "cwd": "/var/lib/postgresql",
+            "environment": [
+                {
+                    "name": "PGPASSWORD",
+                    "value": "experdba"
+                }
+            ],
+            "stopAtEntry": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+    ]
+}

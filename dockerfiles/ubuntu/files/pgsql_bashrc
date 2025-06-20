@@ -140,7 +140,12 @@ function rsync-workspace {
             hostsuffix="$1"
         fi
         echo "Synchronizing workspace from ${hostprefix}-${hostsuffix}:${HOME}/workspace to ${HOME}"
-        rsync -avh8 --delete "${hostprefix}-${hostsuffix}:${HOME}/workspace" "${HOME}"
+        rsync -avh8 --delete "${hostprefix}-${hostsuffix}:${HOME}/workspace/*" "${HOME}/workspace"
+        if [ $? -ne 0 ]; then
+            echo "Failed to synchronize workspace. Please check the output for errors."
+            return 1
+        fi
+        echo "Workspace synchronized successfully."
     )
 }
 
@@ -152,7 +157,24 @@ function pg-configure {
         fi
         cd ~/workspace/postgres
         echo "Configuring PostgreSQL with custom settings..."
-        pg_config --configure | sed -e s/runstatedir/with-rundir/g | sed -e s/-O2/-O0/g | sed -e s/\ -Wp,-D_FORTIFY_SOURCE=2//g | sed -e s/\ -D_FORTIFY_SOURCE=2//g | sed -e s/\ -D_FORTIFY_SOURCE=3//g | xargs ./configure
+        pg_config --configure | sed -e s/runstatedir/with-rundir/g | xargs ./configure $@
+        if [ $? -ne 0 ]; then
+            echo "Configuration failed. Please check the output for errors."
+            return 1
+        fi
+        echo "Configuration completed successfully."
+    )
+}
+
+function pg-debug {
+    (
+        if [ ! -d ~/workspace/postgres ]; then
+            echo "PostgreSQL source directory not found. Please clone the repository first."
+            return 1
+        fi
+        cd ~/workspace/postgres
+        echo "Configuring PostgreSQL with custom settings..."
+        pg_config --configure | sed -e s/runstatedir/with-rundir/g | sed -e s/-O2/-O0/g | sed -e s/\ -Wp,-D_FORTIFY_SOURCE=2//g | sed -e s/\ -D_FORTIFY_SOURCE=2//g | sed -e s/\ -D_FORTIFY_SOURCE=3//g | xargs ./configure $@
         if [ $? -ne 0 ]; then
             echo "Configuration failed. Please check the output for errors."
             return 1

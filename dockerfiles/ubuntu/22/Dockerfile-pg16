@@ -32,8 +32,9 @@ ENV PGDATA=/var/lib/postgresql/16/main PGHOST=localhost PGUSER=experdba PGPASSWO
 # Workspace 설정
 ENV GIT_CONFIG_GLOBAL=/var/lib/postgresql/workspace/.gitconfig
 COPY --chown=postgres:postgres --chmod=644 rocky/files/pgsql_bashrc /var/lib/postgresql/.bashrc
-RUN mkdir /var/lib/postgresql/.vscode-server && mkdir /var/lib/postgresql/workspace && mkdir /var/lib/postgresql/workspace/postgres && mkdir /var/lib/postgresql/workspace/pg_store_plans && mkdir /var/lib/postgresql/workspace/pgsentinel && mkdir /var/lib/postgresql/workspace/pg_ensure_queryid
+RUN mkdir /var/lib/postgresql/.vscode-server && mkdir /var/lib/postgresql/workspace && mkdir /var/lib/postgresql/workspace/.vscode && mkdir /var/lib/postgresql/workspace/postgres && mkdir /var/lib/postgresql/workspace/pg_store_plans && mkdir /var/lib/postgresql/workspace/pgsentinel && mkdir /var/lib/postgresql/workspace/pg_ensure_queryid
 COPY --chown=postgres:postgres --chmod=644 ubuntu/files/gitconfig /var/lib/postgresql/workspace/.gitconfig
+COPY --chown=postgres:postgres --chmod=644 ubuntu/files/launch-pg16.json /var/lib/postgresql/workspace/.vscode/launch.json
 RUN ( cd /var/lib/postgresql/workspace/postgres && git init && git remote add origin https://github.com/assam258-5892/postgres.git && git remote add upstream https://github.com/postgres/postgres.git )
 RUN ( cd /var/lib/postgresql/workspace/pg_store_plans && git init && git remote add origin https://github.com/experdb/pg_store_plans.git && git remote add upstream https://github.com/ossc-db/pg_store_plans.git )
 RUN ( cd /var/lib/postgresql/workspace/pgsentinel && git init && git remote add origin https://github.com/experdb/pgsentinel.git && git remote add upstream https://github.com/pgsentinel/pgsentinel.git )
