@@ -107,7 +107,7 @@ function git-clean {
             dir="`dirname $dir`" 
             echo "Cleaning untracked files in $dir"
             cd "$dir"
-            git clean -xdf
+            sudo git clean -xdf
             if [ $? -ne 0 ]; then
                 echo "Failed to clean untracked files in $dir. Please check the output for errors."
             else
@@ -251,7 +251,7 @@ function pg-install {
         if [ -d ~/workspace/pg_ensure_queryid ]; then
             cd ~/workspace/pg_ensure_queryid
             echo "Installing pg_ensure_queryid..."
-            git clean -xdf && sudo PATH=${PATH} USE_PGXS=1 make install
+            sudo git clean -xdf && sudo sh -c "PATH=${PATH} USE_PGXS=1 make install"
             if [ $? -ne 0 ]; then
                 echo "pg_ensure_queryid installation failed. Please check the output for errors."
                 return 1
@@ -261,7 +261,7 @@ function pg-install {
         if [ -d ~/workspace/pg_store_plans ]; then
             cd ~/workspace/pg_store_plans
             echo "Installing pg_store_plans..."
-            git clean -xdf && sudo PATH=${PATH} USE_PGXS=1 make install
+            sudo git clean -xdf && sudo sh -c "PATH=${PATH} USE_PGXS=1 make install"
             if [ $? -ne 0 ]; then
                 echo "pg_store_plans installation failed. Please check the output for errors."
                 return 1
@@ -271,7 +271,7 @@ function pg-install {
         if [ -d ~/workspace/pgsentinel ]; then
             cd ~/workspace/pgsentinel/src
             echo "Installing pgsentinel..."
-            git clean -xdf && sudo PATH=${PATH} USE_PGXS=1 make install
+            sudo git clean -xdf && sudo sh -c "PATH=${PATH} USE_PGXS=1 make install"
             if [ $? -ne 0 ]; then
                 echo "pgsentinel installation failed. Please check the output for errors."
                 return 1
@@ -279,7 +279,7 @@ function pg-install {
             echo "pgsentinel installation completed successfully."
         fi
         echo "Setting ownership of PostgreSQL files to postgres user..."
-        sudo chown -R postgres:postgres ~/workspace/postgres
+        sudo chown -R postgres:postgres ~/workspace
         if [ $? -ne 0 ]; then
             echo "Failed to set ownership. Please check the output for errors."
             return 1
@@ -290,21 +290,21 @@ function pg-install {
 
 function pg-start {
     echo "Starting PostgreSQL server..."
-    distro=$(echo "${HOSTNAME}" | cut -d - -f 1)
-    version=$(echo "${HOSTNAME}" | cut -d - -f 2 | cut -b 3-)
+    distro=`cat /etc/os-release | grep ^ID= | cut -d = -f 2 | tr -d \"`
+    version=`psql --version | cut -d " " -f 3 | cut -d . -f 1`
     echo "Detected Distro: ${distro}, PostgreSQL Version: ${version}"
     case "${distro}" in
-        ubuntu*)
+        ubuntu)
             echo "Starting PostgreSQL service..."
             sudo systemctl start postgresql
             ;;
-        rocky*)
+        rhel|rocky)
             echo "Starting PostgreSQL service..."
             sudo systemctl start postgresql-${version}
             ;;
         *)
             echo "Unrecognized distro ${distro}, cannot start PostgreSQL service."
-            exit 1
+            return 1
             ;;
     esac
     echo "PostgreSQL server started successfully."
@@ -312,21 +312,21 @@ function pg-start {
 
 function pg-restart {
     echo "Restarting PostgreSQL server..."
-    distro=$(echo "${HOSTNAME}" | cut -d - -f 1)
-    version=$(echo "${HOSTNAME}" | cut -d - -f 2 | cut -b 3-)
+    distro=`cat /etc/os-release | grep ^ID= | cut -d = -f 2 | tr -d \"`
+    version=`psql --version | cut -d " " -f 3 | cut -d . -f 1`
     echo "Detected Distro: ${distro}, PostgreSQL Version: ${version}"
     case "${distro}" in
-        ubuntu*)
+        ubuntu)
             echo "Restarting PostgreSQL service..."
             sudo systemctl restart postgresql
             ;;
-        rocky*)
+        rhel|rocky)
             echo "Restarting PostgreSQL service..."
             sudo systemctl restart postgresql-${version}
             ;;
         *)
             echo "Unrecognized distro ${distro}, cannot restart PostgreSQL service."
-            exit 1
+            return 1
             ;;
     esac
     echo "PostgreSQL server restarted successfully."
@@ -334,21 +334,21 @@ function pg-restart {
 
 function pg-stop {
     echo "Stopping PostgreSQL server..."
-    distro=$(echo "${HOSTNAME}" | cut -d - -f 1)
-    version=$(echo "${HOSTNAME}" | cut -d - -f 2 | cut -b 3-)
+    distro=`cat /etc/os-release | grep ^ID= | cut -d = -f 2 | tr -d \"`
+    version=`psql --version | cut -d " " -f 3 | cut -d . -f 1`
     echo "Detected Distro: ${distro}, PostgreSQL Version: ${version}"
     case "${distro}" in
-        ubuntu*)
+        ubuntu)
             echo "Stopping PostgreSQL service..."
             sudo systemctl stop postgresql
             ;;
-        rocky*)
+        rhel|rocky)
             echo "Stopping PostgreSQL service..."
             sudo systemctl stop postgresql-${version}
             ;;
         *)
             echo "Unrecognized distro ${distro}, cannot stop PostgreSQL service."
-            exit 1
+            return 1
             ;;
     esac
     echo "PostgreSQL server stopped successfully."
@@ -356,21 +356,21 @@ function pg-stop {
 
 function pg-status {
     echo "Checking PostgreSQL server status..."
-    distro=$(echo "${HOSTNAME}" | cut -d - -f 1)
-    version=$(echo "${HOSTNAME}" | cut -d - -f 2 | cut -b 3-)
+    distro=`cat /etc/os-release | grep ^ID= | cut -d = -f 2 | tr -d \"`
+    version=`psql --version | cut -d " " -f 3 | cut -d . -f 1`
     echo "Detected Distro: ${distro}, PostgreSQL Version: ${version}"
     case "${distro}" in
-        ubuntu*)
+        ubuntu)
             echo "Checking PostgreSQL service status..."
             sudo systemctl status postgresql
             ;;
-        rocky*)
+        rhel|rocky)
             echo "Checking PostgreSQL service status..."
             sudo systemctl status postgresql-${version}
             ;;
         *)
             echo "Unrecognized distro ${distro}, cannot check PostgreSQL service status."
-            exit 1
+            return 1
             ;;
     esac
     echo "PostgreSQL server status checked successfully."
