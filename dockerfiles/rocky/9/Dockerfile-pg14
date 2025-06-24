@@ -4,7 +4,7 @@ FROM rocky9-init
 RUN dnf install -y postgresql14-server postgresql14-contrib postgresql14-plpython3 postgresql14-plperl postgresql14-devel
 RUN dnf install -y pg_hint_plan_14
 RUN dnf install -y pg_show_plans_14
-RUN ( git clone --depth 1 --branch 1.6.1 https://github.com/ossc-db/pg_store_plans.git && cd pg_store_plans && USE_PGXS=1 PATH=/usr/pgsql-14/bin:${PATH} make install && cd .. && rm -rf pg_store_plans )
+RUN ( git clone --depth 1 --branch 1.8.2 https://github.com/experdb/pg_store_plans.git && cd pg_store_plans && USE_PGXS=1 PATH=/usr/pgsql-14/bin:${PATH} make install && cd .. && rm -rf pg_store_plans )
 RUN ( git clone --depth 1 --branch v1.1.0 https://github.com/pgsentinel/pgsentinel.git && cd pgsentinel/src && PATH=/usr/pgsql-14/bin:${PATH} make install && cd ../.. && rm -rf pgsentinel )
 RUN ( git clone --depth 1 --branch 1.0.0 https://github.com/experdb/pg_ensure_queryid.git && cd pg_ensure_queryid && PATH=/usr/pgsql-14/bin:${PATH} make install && cd ../.. && rm -rf pg_ensure_queryid )
 

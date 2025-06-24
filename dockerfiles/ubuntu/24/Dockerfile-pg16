@@ -4,7 +4,7 @@ FROM ubuntu24-init
 RUN apt install -y postgresql-16 postgresql-contrib-16 postgresql-plpython3-16 postgresql-plperl-16 postgresql-server-dev-16
 RUN apt install -y postgresql-16-pg-hint-plan
 RUN apt install -y postgresql-16-show-plans
-RUN ( git clone --depth 1 --branch 1.8 https://github.com/ossc-db/pg_store_plans.git && cd pg_store_plans && USE_PGXS=1 PATH=/usr/lib/postgresql/16/bin:${PATH} make install && cd .. && rm -rf pg_store_plans )
+RUN ( git clone --depth 1 --branch 1.8.2 https://github.com/experdb/pg_store_plans.git && cd pg_store_plans && USE_PGXS=1 PATH=/usr/lib/postgresql/16/bin:${PATH} make install && cd .. && rm -rf pg_store_plans )
 RUN ( git clone --depth 1 --branch v1.1.0 https://github.com/pgsentinel/pgsentinel.git && cd pgsentinel/src && PATH=/usr/lib/postgresql/16/bin:${PATH} make install && cd ../.. && rm -rf pgsentinel )
 RUN ( git clone --depth 1 --branch 1.0.0 https://github.com/experdb/pg_ensure_queryid.git && cd pg_ensure_queryid && PATH=/usr/postgresql/16/bin:${PATH} make install && cd ../.. && rm -rf pg_ensure_queryid )
 
