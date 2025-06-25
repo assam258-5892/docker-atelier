@@ -39,6 +39,6 @@ COPY --chown=postgres:postgres --chmod=644 ubuntu/files/launch-pg14.json /var/li
 RUN ( cd /var/lib/postgresql/workspace/postgres && git init && git remote add origin https://github.com/assam258-5892/postgres.git && git remote add upstream https://github.com/postgres/postgres.git )
 RUN ( cd /var/lib/postgresql/workspace/pg_store_plans && git init && git remote add origin https://github.com/experdb/pg_store_plans.git && git remote add upstream https://github.com/ossc-db/pg_store_plans.git )
 RUN ( cd /var/lib/postgresql/workspace/pgsentinel && git init && git remote add origin https://github.com/experdb/pgsentinel.git && git remote add upstream https://github.com/pgsentinel/pgsentinel.git )
-RUN ( cd /var/lib/postgresql/workspace/pg_ensure_queryid && git init && git remote add origin https://github.com/assam258-5892/pg_ensure_queryid.git && git remote add upstream https://github.com/experdb/pg_ensure_queryid.git )
+RUN ( cd /var/lib/postgresql/workspace/pg_ensure_queryid && git init && git remote add origin https://github.com/experdb/pg_ensure_queryid.git )
 RUN chown -R postgres:postgres /var/lib/postgresql/.vscode-server /var/lib/postgresql/workspace
 VOLUME /var/lib/postgresql/workspace
