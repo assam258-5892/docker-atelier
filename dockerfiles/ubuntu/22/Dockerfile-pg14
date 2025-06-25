@@ -4,7 +4,7 @@ FROM ubuntu22-init
 RUN apt install -y postgresql-14 postgresql-contrib-14 postgresql-plpython3-14 postgresql-plperl-14 postgresql-server-dev-14
 RUN apt install -y postgresql-14-pg-hint-plan
 RUN apt install -y postgresql-14-show-plans
-RUN ( git clone --depth 1 --branch 1.8.2 https://github.com/experdb/pg_store_plans.git && cd pg_store_plans && USE_PGXS=1 PATH=/usr/lib/postgresql/14/bin:${PATH} make install && cd .. && rm -rf pg_store_plans )
+RUN ( git clone --depth 1 --branch 1.8.0.1 https://github.com/experdb/pg_store_plans.git && cd pg_store_plans && USE_PGXS=1 PATH=/usr/lib/postgresql/14/bin:${PATH} make install && cd .. && rm -rf pg_store_plans )
 RUN ( git clone --depth 1 --branch v1.1.0 https://github.com/pgsentinel/pgsentinel.git && cd pgsentinel/src && PATH=/usr/lib/postgresql/14/bin:${PATH} make install && cd ../.. && rm -rf pgsentinel )
 RUN ( git clone --depth 1 --branch 1.0.0 https://github.com/experdb/pg_ensure_queryid.git && cd pg_ensure_queryid && PATH=/usr/postgresql/14/bin:${PATH} make install && cd ../.. && rm -rf pg_ensure_queryid )
 
