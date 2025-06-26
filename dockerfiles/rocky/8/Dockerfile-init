@@ -31,7 +31,7 @@ RUN dnf install -y flex bison clang docbook-dtds docbook-style-xsl perl-core per
 RUN dnf install -y gettext-devel krb5-devel libicu-devel libuuid-devel libxslt-devel libzstd-devel llvm-devel lz4-devel openldap-devel openssl-devel pam-devel python3-devel readline-devel systemd-devel tcl-devel zlib-devel
 
 # 사용자 환경 설정
-RUN echo -e "\nLANG=ko_KR.UTF-8\nLANGUAGE=ko:en\nLC_ALL=ko_KR.UTF-8\n\nalias remove='rm -f .*~ *~'" >> /root/.bashrc
+RUN echo -e "\nLANG=ko_KR.UTF-8\nLANGUAGE=ko:en\nLC_ALL=ko_KR.UTF-8\n\nalias remove='rm -f .*~ *~'\n\nulimit -n 1048576" >> /root/.bashrc
 ADD files/ssh.tar.gz /root/.ssh
 RUN touch /root/.hushlogin
 

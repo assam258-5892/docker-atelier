@@ -26,7 +26,7 @@ RUN apt-get install -y pkg-config flex bison ccache fop gettext libxml2-utils xs
 RUN apt-get install -y libcairo2-dev libkrb5-dev libkrb5-dev libldap-dev liblz4-dev libpam-dev libperl-dev libreadline-dev libssl-dev libsystemd-dev libxml2-dev libxslt1-dev libzstd-dev python3-dev systemtap-sdt-dev tcl-dev zlib1g-dev
 
 # 사용자 환경 설정
-RUN echo "\nLANG=ko_KR.UTF-8\nLANGUAGE=ko:en\nLC_ALL=ko_KR.UTF-8\n\nalias remove='rm -f .*~ *~'" >> /root/.bashrc
+RUN echo "\nLANG=ko_KR.UTF-8\nLANGUAGE=ko:en\nLC_ALL=ko_KR.UTF-8\n\nalias remove='rm -f .*~ *~'\n\nulimit -n 1048576" >> /root/.bashrc
 ADD files/ssh.tar.gz /root/.ssh
 RUN touch /root/.hushlogin
 

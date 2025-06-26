@@ -67,6 +67,8 @@ PS2='> '
 PS3='+ '
 export USER PS1 PS2 PS3
 
+ulimit -n 1048576
+
 alias remove='rm -f .*~ *~'
 
 export GIT_CONFIG_GLOBAL=/var/lib/postgresql/workspace/.gitconfig
