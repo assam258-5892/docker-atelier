@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "`echo "${HOSTNAME}" | cut -d - -f 3`" == "standby" ]; then
+if [ "`echo ${HOSTNAME} | cut -d - -f 3`" == "standby" ]; then
     echo "This is a standby server, initialization required."
     if [ ! -f ${PGDATA}/standby.signal ]; then
         distro=$(echo "${HOSTNAME}" | cut -d - -f 1)
@@ -34,7 +34,7 @@ if [ "`echo "${HOSTNAME}" | cut -d - -f 3`" == "standby" ]; then
         chmod 700 ${PGDATA}
         echo "Running pg_basebackup to initialize standby server..."
         echo "Using replication slot 'replslot' for base backup."
-        PGPASSWORD=repluser pg_basebackup -h "`echo "${HOSTNAME}" | cut -d - -f 1-2`-active" -D "${PGDATA}" -U repluser -P -v -R -X stream -C -S replslot
+        PGPASSWORD=repluser pg_basebackup -h "`echo ${HOSTNAME} | cut -d - -f 1-2`-active" -D "${PGDATA}" -U repluser -P -v -R -X stream -C -S replslot
         while [ "$?" != "0" ]; do
             echo "pg_basebackup failed, retrying in 3 seconds..."
             sleep 3
@@ -45,7 +45,7 @@ if [ "`echo "${HOSTNAME}" | cut -d - -f 3`" == "standby" ]; then
                 mkdir -p ${PGDATA}
                 chmod 700 ${PGDATA}
             fi
-            PGPASSWORD=repluser pg_basebackup -h "`echo "${HOSTNAME}" | cut -d - -f 1-2`-active" -D "${PGDATA}" -U repluser -P -v -R -X stream -C -S replslot
+            PGPASSWORD=repluser pg_basebackup -h "`echo ${HOSTNAME} | cut -d - -f 1-2`-active" -D "${PGDATA}" -U repluser -P -v -R -X stream -C -S replslot
         done
         echo "PostgreSQL standby server initialized successfully."
         touch ${PGDATA}/standby.signal
@@ -62,7 +62,7 @@ if [ "`echo "${HOSTNAME}" | cut -d - -f 3`" == "standby" ]; then
     fi
     echo "Initialization complete."
 else
-    echo "This is an active server, no initialization required."
+    echo "This is an `echo ${HOSTNAME} | cut -d - -f 3` server, no initialization required."
 fi
 
 echo "Removing initialization script and crontab..."
