@@ -27,6 +27,7 @@ RUN ( curl -fsSL http://www.jedsoft.org/releases/jed/jed-0.99-19.tar.gz | tar xz
 RUN dnf install -y python3-psutil
 
 # PostgreSQL 개발 환경 설정
+RUN echo "fs.inotify.max_user_instances=4096" >> /etc/sysctl.conf
 RUN dnf install -y flex bison clang docbook-dtds docbook-style-xsl perl-core perl-IPC-Run
 RUN dnf install -y gettext-devel krb5-devel libicu-devel libuuid-devel libxslt-devel libzstd-devel llvm-devel lz4-devel openldap-devel openssl-devel pam-devel python3-devel readline-devel systemd-devel tcl-devel zlib-devel
 

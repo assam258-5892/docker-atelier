@@ -1,0 +1,4098 @@
+# wcsrtombs uses some clever optimizations internally, which to valgrind
+# may look like access to uninitialized data. For example AVX2 instructions
+# load data in 256-bit chunks, irrespectedly of wchar length. gconv does
+# somethink similar by loading data in 32bit chunks and then shifting the
+# data internally. Neither of those actually uses the uninitialized part
+# of the buffer, as far as we know.
+#
+# https://www.postgresql.org/message-id/90ac0452-e907-e7a4-b3c8-15bd33780e62@2ndquadrant.com
+
+{
+   wcsnlen_optimized
+   Memcheck:Cond
+   fun:__wcsnlen_avx2
+   fun:wcsrtombs
+   fun:wcstombs
+   fun:wchar2char
+}
+
+{
+   wcsnlen_optimized_addr32
+   Memcheck:Addr32
+   fun:__wcsnlen_avx2
+   fun:wcsrtombs
+   fun:wcstombs
+   fun:wchar2char
+}
+
+{
+   gconv_transform_internal
+   Memcheck:Cond
+   fun:__gconv_transform_internal_utf8
+   fun:wcsrtombs
+   fun:wcstombs
+   fun:wchar2char
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:MemoryContextAlloc
+   fun:MemoryContextStrdup
+   fun:RelationBuildRuleLock
+   fun:RelationBuildDesc
+   fun:RelationIdGetRelation
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:MemoryContextAlloc
+   fun:MemoryContextStrdup
+   fun:RelationInitIndexAccessInf
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:MemoryContextAlloc
+   fun:MemoryContextStrdup
+   fun:RelationInitIndexAccessInfo
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:MemoryContextAlloc
+   fun:MemoryContextStrdup
+   fun:load_relcache_init_file
+   fun:RelationCacheInitializePhase2
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:MemoryContextAlloc
+   fun:MemoryContextStrdup
+   fun:load_relcache_init_file
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:MemoryContextAllocExtended
+   fun:guc_malloc
+   fun:guc_strdup
+   fun:add_placeholder_variable
+   fun:find_option
+   fun:set_config_with_handle
+   fun:set_config_option
+   fun:ProcessConfigFileInternal
+   fun:ProcessConfigFile
+   fun:SelectConfigFiles
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:MemoryContextAllocExtended
+   fun:guc_malloc
+   fun:guc_strdup
+   fun:set_config_sourcefile
+   fun:ProcessConfigFileInternal
+   fun:ProcessConfigFile
+   fun:SelectConfigFiles
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:AllocSetAllocFromNewBlock
+   fun:AllocSetAlloc
+   fun:palloc
+   fun:pgsp_shmem_startup
+   fun:ash_shmem_startup
+   fun:CreateSharedMemoryAndSemaphores
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:save_ps_display_args
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:palloc
+   fun:FinishWalRecovery
+   fun:StartupXLOG
+   fun:StartupProcessMain
+   fun:postmaster_child_launch
+   fun:StartChildProcess
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:palloc
+   fun:ProcessStartupPacket
+   fun:BackendInitialize
+   fun:BackendMain
+   fun:postmaster_child_launch
+   fun:BackendStartup
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:palloc
+   fun:ProcessStartupPacket
+   fun:ProcessStartupPacket
+   fun:BackendInitialize
+   fun:BackendMain
+   fun:postmaster_child_launch
+   fun:BackendStartup
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:palloc
+   fun:new_list
+   fun:lappend
+   fun:Lock_AF_UNIX
+   fun:ListenServerPort
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:palloc
+   fun:new_list
+   fun:lcons
+   fun:CreateLockFile
+   fun:CreateDataDirLockFile
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:palloc0
+   fun:InitWalRecovery
+   fun:StartupXLOG
+   fun:StartupProcessMain
+   fun:postmaster_child_launch
+   fun:StartChildProcess
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:InitIndexAmRoutine
+   fun:RelationInitIndexAccessInfo
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:InitIndexAmRoutine
+   fun:load_relcache_init_file
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:MemoryContextStrdup
+   fun:pstrdup
+   fun:CatalogCacheInitializeCache
+   fun:GetCatCacheHashValue
+   fun:GetSysCacheHashValue
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:MemoryContextStrdup
+   fun:pstrdup
+   fun:CatalogCacheInitializeCache
+   fun:InitCatCachePhase2
+   fun:InitCatalogCachePhase2
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:MemoryContextStrdup
+   fun:pstrdup
+   fun:CatalogCacheInitializeCache
+   fun:InitCatCachePhase2
+   fun:SysCacheGetAttr
+   fun:get_attoptions
+   fun:RelationGetIndexAttOptions
+   fun:RelationInitIndexAccessInfo
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:MemoryContextStrdup
+   fun:pstrdup
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache
+   fun:SearchSysCache
+   fun:GetSysCacheOid
+   fun:TypenameGetTypidExtended
+   fun:LookupTypeNameExtended
+   fun:FuncNameAsType
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:MemoryContextStrdup
+   fun:pstrdup
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache
+   fun:SearchSysCache
+   fun:GetSysCacheOid
+   fun:get_namespace_oid
+   fun:preprocessNamespacePath
+   fun:cachedNamespacePath
+   fun:recomputeNamespacePath
+   fun:RelnameGetRelid
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:MemoryContextStrdup
+   fun:pstrdup
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache
+   fun:SearchSysCache
+   fun:GetSysCacheOid
+   fun:get_relname_relid
+   fun:RelnameGetRelid
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:MemoryContextStrdup
+   fun:pstrdup
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache
+   fun:SearchSysCache
+   fun:GetSysCacheOid
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:MemoryContextStrdup
+   fun:pstrdup
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache1
+   fun:SearchSysCache1
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:MemoryContextStrdup
+   fun:pstrdup
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache1
+   fun:SearchSysCache1
+   fun:RelationInitIndexAccessInfo
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:MemoryContextStrdup
+   fun:pstrdup
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache1
+   fun:SearchSysCache1
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:MemoryContextStrdup
+   fun:pstrdup
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache2
+   fun:SearchSysCache2
+   fun:IsBinaryCoercibleWithCast
+   fun:IsBinaryCoercible
+   fun:GetDefaultOpClass
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:MemoryContextStrdup
+   fun:pstrdup
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache2
+   fun:SearchSysCache2
+   fun:get_attoptions
+   fun:RelationGetIndexAttOptions
+   fun:RelationInitIndexAccessInfo
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:MemoryContextStrdup
+   fun:pstrdup
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache3
+   fun:SearchSysCache3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:MemoryContextStrdup
+   fun:pstrdup
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache4
+   fun:SearchSysCache4
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:MemoryContextStrdup
+   fun:pstrdup
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheList
+   fun:SearchSysCacheList
+   fun:FuncnameGetCandidates
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:MemoryContextStrdup
+   fun:pstrdup
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheList
+   fun:SearchSysCacheList
+   fun:OpernameGetOprid
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:MemoryContextStrdup
+   fun:pstrdup
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheList
+   fun:SearchSysCacheList
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:RelationBuildRuleLock
+   fun:RelationBuildDesc
+   fun:RelationIdGetRelation
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_bt_metaversion
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:GetDefaultOpClass
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_bt_metaversion
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:LookupOpclassInfo
+   fun:IndexSupportInitialize
+   fun:RelationInitIndexAccessInfo
+   fun:RelationBuildDesc
+   fun:load_critical_index
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_bt_metaversion
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:RelationBuildTupleDesc
+   fun:RelationBuildDesc
+   fun:load_critical_index
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_bt_metaversion
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:RelationGetIndexList
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_bt_metaversion
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:SearchCatCacheMiss
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache
+   fun:SearchSysCache
+   fun:GetSysCacheOid
+   fun:TypenameGetTypidExtended
+   fun:LookupTypeNameExtended
+   fun:FuncNameAsType
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_bt_metaversion
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:SearchCatCacheMiss
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache
+   fun:SearchSysCache
+   fun:GetSysCacheOid
+   fun:get_relname_relid
+   fun:RelnameGetRelid
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_bt_metaversion
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:SearchCatCacheMiss
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache1
+   fun:SearchSysCache1
+   fun:typeOrDomainTypeRelid
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_bt_metaversion
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:get_extension_oid
+   fun:PgSentinelHasBeenLoaded
+   fun:pgsentinel_main
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_bt_metaversion
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:get_extension_oid
+   fun:PgSentinelHasBeenLoaded
+   fun:pgsentinel_main
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:process_pm_child_exit
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_bt_metaversion
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext_ordered
+   fun:heap_fetch_toast_slice
+   fun:table_relation_fetch_toast_slice
+   fun:toast_fetch_datum
+   fun:detoast_attr
+   fun:pg_detoast_datum_packed
+   fun:text_to_cstring
+   fun:RelationBuildRuleLock
+   fun:RelationBuildDesc
+   fun:RelationIdGetRelation
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
+   fun:mdreadv
+   fun:smgrreadv
+   fun:WaitReadBuffers
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:ReleaseAndReadBuffer
+   fun:_bt_relandgetbuf
+   fun:_bt_search
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:RelationBuildTupleDesc
+   fun:RelationBuildDesc
+   fun:RelationIdGetRelation
+   fun:relation_open
+   fun:relation_openrv_extended
+   fun:table_openrv_extended
+   fun:parserOpenTable
+   fun:addRangeTableEntry
+   fun:transformTableEntry
+   fun:transformFromClauseItem
+   fun:transformFromClause
+   fun:transformSelectStmt
+   fun:transformStmt
+   fun:transformOptionalSelectInto
+   fun:transformTopLevelStmt
+   fun:parse_analyze_fixedparams
+   fun:pg_analyze_and_rewrite_fixedparams
+   fun:exec_simple_query
+   fun:PostgresMain
+   fun:BackendMain
+   fun:postmaster_child_launch
+   fun:BackendStartup
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
+   fun:mdreadv
+   fun:smgrreadv
+   fun:WaitReadBuffers
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:ReleaseAndReadBuffer
+   fun:_bt_relandgetbuf
+   fun:_bt_search
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:SearchCatCacheList
+   fun:SearchSysCacheList
+   fun:FuncnameGetCandidates
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
+   fun:mdreadv
+   fun:smgrreadv
+   fun:WaitReadBuffers
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:ReleaseAndReadBuffer
+   fun:_bt_relandgetbuf
+   fun:_bt_search
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:SearchCatCacheMiss
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache
+   fun:SearchSysCache
+   fun:GetSysCacheOid
+   fun:TypenameGetTypidExtended
+   fun:LookupTypeNameExtended
+   fun:FuncNameAsType
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
+   fun:mdreadv
+   fun:smgrreadv
+   fun:WaitReadBuffers
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:ReleaseAndReadBuffer
+   fun:_bt_relandgetbuf
+   fun:_bt_search
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:SearchCatCacheMiss
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache
+   fun:SearchSysCache
+   fun:GetSysCacheOid
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
+   fun:mdreadv
+   fun:smgrreadv
+   fun:WaitReadBuffers
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:ReleaseAndReadBuffer
+   fun:heapam_index_fetch_tuple
+   fun:table_index_fetch_tuple.lto_priv.0
+   fun:index_fetch_heap
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:RelationBuildRuleLock
+   fun:RelationBuildDesc
+   fun:RelationIdGetRelation~
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
+   fun:mdreadv
+   fun:smgrreadv
+   fun:WaitReadBuffers
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:ReleaseAndReadBuffer
+   fun:heapam_index_fetch_tuple
+   fun:table_index_fetch_tuple.lto_priv.0
+   fun:index_fetch_heap
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:RelationBuildTupleDesc
+   fun:RelationBuildDesc
+   fun:RelationIdGetRelation
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
+   fun:mdreadv
+   fun:smgrreadv
+   fun:WaitReadBuffers
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:ReleaseAndReadBuffer
+   fun:heapam_index_fetch_tuple
+   fun:table_index_fetch_tuple.lto_priv.0
+   fun:index_fetch_heap
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:SearchCatCacheList
+   fun:SearchSysCacheList
+   fun:OpernameGetOprid
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
+   fun:mdreadv
+   fun:smgrreadv
+   fun:WaitReadBuffers
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:ReleaseAndReadBuffer
+   fun:heapam_index_fetch_tuple
+   fun:table_index_fetch_tuple.lto_priv.0
+   fun:index_fetch_heap
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:SearchCatCacheList
+   fun:SearchSysCacheList
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
+   fun:mdreadv
+   fun:smgrreadv
+   fun:WaitReadBuffers
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:ReleaseAndReadBuffer
+   fun:heapam_index_fetch_tuple
+   fun:table_index_fetch_tuple.lto_priv.0
+   fun:index_fetch_heap
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:SearchCatCacheMiss
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache1
+   fun:SearchSysCache1
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
+   fun:mdreadv
+   fun:smgrreadv
+   fun:WaitReadBuffers
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:ReleaseAndReadBuffer
+   fun:heapam_index_fetch_tuple
+   fun:table_index_fetch_tuple.lto_priv.0
+   fun:index_fetch_heap
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:SearchCatCacheMiss
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache2
+   fun:SearchSysCache2
+   fun:IsBinaryCoercibleWithCast
+   fun:IsBinaryCoercible
+   fun:GetDefaultOpClass
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
+   fun:mdreadv
+   fun:smgrreadv
+   fun:WaitReadBuffers
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:ReleaseAndReadBuffer
+   fun:heapam_index_fetch_tuple
+   fun:table_index_fetch_tuple.lto_priv.0
+   fun:index_fetch_heap
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:SearchCatCacheMiss
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache3
+   fun:SearchSysCache3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
+   fun:mdreadv
+   fun:smgrreadv
+   fun:WaitReadBuffers
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:_bt_getbuf
+   fun:_bt_getroot
+   fun:_bt_search
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:GetDatabaseTuple
+   fun:InitPostgres
+   fun:PostgresMain
+   fun:BackendMain
+   fun:postmaster_child_launch
+   fun:BackendStartup
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
+   fun:mdreadv
+   fun:smgrreadv
+   fun:WaitReadBuffers
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:_bt_getbuf
+   fun:_bt_getroot
+   fun:_bt_search
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:SearchCatCacheMiss
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache
+   fun:SearchSysCache
+   fun:GetSysCacheOid
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
+   fun:mdreadv
+   fun:smgrreadv
+   fun:WaitReadBuffers
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:_bt_getbuf
+   fun:_bt_metaversion
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:GetDatabaseTuple
+   fun:InitPostgres
+   fun:PostgresMain
+   fun:BackendMain
+   fun:postmaster_child_launch
+   fun:BackendStartup
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
+   fun:mdreadv
+   fun:smgrreadv
+   fun:WaitReadBuffers
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:_bt_getbuf
+   fun:_bt_metaversion
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:GetDefaultOpClass
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
+   fun:mdreadv
+   fun:smgrreadv
+   fun:WaitReadBuffers
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:_bt_getbuf
+   fun:_bt_metaversion
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:RelationGetStatExtList
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
+   fun:mdreadv
+   fun:smgrreadv
+   fun:WaitReadBuffers
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:_bt_getbuf
+   fun:_bt_metaversion
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:SearchCatCacheList
+   fun:SearchSysCacheList
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
+   fun:mdreadv
+   fun:smgrreadv
+   fun:WaitReadBuffers
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:_bt_getbuf
+   fun:_bt_metaversion
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:SearchCatCacheMiss
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache
+   fun:SearchSysCache
+   fun:GetSysCacheOid
+   fun:TypenameGetTypidExtended
+   fun:LookupTypeNameExtended
+   fun:FuncNameAsType
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
+   fun:mdreadv
+   fun:smgrreadv
+   fun:WaitReadBuffers
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:_bt_getbuf
+   fun:_bt_metaversion
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:SearchCatCacheMiss
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache
+   fun:SearchSysCache
+   fun:GetSysCacheOid
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
+   fun:mdreadv
+   fun:smgrreadv
+   fun:WaitReadBuffers
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:_bt_getbuf
+   fun:_bt_metaversion
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:SearchCatCacheMiss
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache1
+   fun:SearchSysCache1
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
+   fun:mdreadv
+   fun:smgrreadv
+   fun:WaitReadBuffers
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:_bt_getbuf
+   fun:_bt_metaversion
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:SearchCatCacheMiss
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache2
+   fun:SearchSysCache2
+   fun:IsBinaryCoercibleWithCast
+   fun:IsBinaryCoercible
+   fun:GetDefaultOpClass
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
+   fun:mdreadv
+   fun:smgrreadv
+   fun:WaitReadBuffers
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:_bt_getbuf
+   fun:_bt_metaversion
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:SearchCatCacheMiss
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache3
+   fun:SearchSysCache3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
+   fun:mdreadv
+   fun:smgrreadv
+   fun:WaitReadBuffers
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:_bt_getbuf
+   fun:_bt_metaversion
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:SearchCatCacheMiss
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache4
+   fun:SearchSysCache4
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:mdnblocks
+   fun:smgrnblocks
+   fun:RelationGetNumberOfBlocksInFork
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:mdnblocks
+   fun:smgrnblocks
+   fun:table_block_relation_size
+   fun:table_relation_size
+   fun:RelationGetNumberOfBlocksInFork
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:enlarge_list
+   fun:new_tail_cell
+   fun:lappend
+   fun:nodeRead
+   fun:_readAlias
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:enlarge_list
+   fun:new_tail_cell
+   fun:lappend
+   fun:nodeRead
+   fun:_readOpExpr
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:enlarge_list
+   fun:new_tail_cell
+   fun:lappend
+   fun:nodeRead
+   fun:_readQuery
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:enlarge_list
+   fun:new_tail_cell
+   fun:lappend
+   fun:nodeRead
+   fun:_readRangeTblEntry
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:enlarge_list
+   fun:new_tail_cell
+   fun:lappend_int
+   fun:nodeRead
+   fun:_readRangeTblEntry
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:load_relcache_init_file
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:LookupOpclassInfo
+   fun:IndexSupportInitialize
+   fun:RelationInitIndexAccessInfo
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:RelationBuildDesc
+   fun:RelationIdGetRelation
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:RememberSyncRequest
+   fun:RegisterSyncRequest
+   fun:SlruPhysicalWritePage
+   fun:SlruInternalWritePage
+   fun:SimpleLruWriteAll
+   fun:CheckPointCLOG
+   fun:CheckPointGuts
+   fun:CreateCheckPoint
+   fun:ShutdownXLOG
+   fun:HandleCheckpointerInterrupts
+   fun:CheckpointerMain
+   fun:postmaster_child_launch
+   fun:StartChildProcess
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:ReservePrivateRefCountEntry
+   fun:BufferAlloc
+   fun:PinBufferForBlock
+   fun:StartReadBuffersImpl
+   fun:StartReadBuffers
+   fun:read_stream_start_pending_read
+   fun:read_stream_look_ahead
+   fun:read_stream_next_buffer
+   fun:heap_fetch_next_buffer
+   fun:heapgettup_pagemode
+   fun:heap_getnextslot
+   fun:table_scan_getnextslot.lto_priv.1
+   fun:systable_getnext
+   fun:RelationBuildTupleDesc
+   fun:RelationBuildDesc
+   fun:load_critical_index
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:add_guc_variable
+   fun:add_placeholder_variable
+   fun:find_option
+   fun:set_config_with_handle
+   fun:set_config_option
+   fun:ProcessConfigFileInternal
+   fun:ProcessConfigFile
+   fun:SelectConfigFiles
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:assign_record_type_typmod
+   fun:internal_get_result_type
+   fun:get_expr_result_type
+   fun:ExecInitFunctionScan
+   fun:ExecInitNode
+   fun:InitPlan
+   fun:standard_ExecutorStart
+   fun:pgss_ExecutorStart
+   fun:pgsp_ExecutorStart
+   fun:ExecutorStart
+   fun:PortalStart
+   fun:exec_simple_query
+   fun:PostgresMain
+   fun:BackendMain
+   fun:postmaster_child_launch
+   fun:BackendStartup
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:assign_record_type_typmod
+   fun:internal_get_result_type
+   fun:get_expr_result_type
+   fun:addRangeTableEntryForFunction
+   fun:transformRangeFunction
+   fun:transformFromClauseItem
+   fun:transformFromClause
+   fun:transformSelectStmt
+   fun:transformStmt
+   fun:transformOptionalSelectInto
+   fun:transformTopLevelStmt
+   fun:parse_analyze_fixedparams
+   fun:pg_analyze_and_rewrite_fixedparams
+   fun:_SPI_execute_plan
+   fun:SPI_execute
+   fun:pgsentinel_main
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:assign_record_type_typmod
+   fun:internal_get_result_type
+   fun:get_expr_result_type
+   fun:addRangeTableEntryForFunction
+   fun:transformRangeFunction
+   fun:transformFromClauseItem
+   fun:transformFromClause
+   fun:transformSelectStmt
+   fun:transformStmt
+   fun:transformOptionalSelectInto
+   fun:transformTopLevelStmt
+   fun:parse_analyze_fixedparams
+   fun:pg_analyze_and_rewrite_fixedparams
+   fun:_SPI_execute_plan
+   fun:SPI_execute
+   fun:pgsentinel_main
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:process_pm_child_exit
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:build_guc_variables
+   fun:InitializeGUCOptions
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:formrdesc
+   fun:RelationCacheInitializePhase2
+   fun:InitPostgres
+   fun:AutoVacLauncherMain
+   fun:postmaster_child_launch
+   fun:StartChildProcess
+   fun:process_pm_child_exit
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:formrdesc
+   fun:RelationCacheInitializePhase2
+   fun:InitPostgres
+   fun:BackgroundWorkerInitializeConnection
+   fun:ApplyLauncherMain
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:process_pm_child_exit
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:formrdesc
+   fun:RelationCacheInitializePhase2
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:load_relcache_init_file
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:lookup_type_cache
+   fun:check_memoizable
+   fun:distribute_restrictinfo_to_rels
+   fun:distribute_qual_to_rels
+   fun:distribute_quals_to_rels
+   fun:deconstruct_distribute
+   fun:deconstruct_jointree
+   fun:query_planner
+   fun:grouping_planner
+   fun:subquery_planner
+   fun:standard_planner
+   fun:pgss_planner
+   fun:planner
+   fun:pg_plan_query
+   fun:pg_plan_queries
+   fun:BuildCachedPlan
+   fun:GetCachedPlan
+   fun:_SPI_execute_plan
+   fun:SPI_execute
+   fun:pgsentinel_main
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:lookup_type_cache
+   fun:check_memoizable
+   fun:distribute_restrictinfo_to_rels
+   fun:distribute_qual_to_rels
+   fun:distribute_quals_to_rels
+   fun:deconstruct_distribute
+   fun:deconstruct_jointree
+   fun:query_planner
+   fun:grouping_planner
+   fun:subquery_planner
+   fun:standard_planner
+   fun:pgss_planner
+   fun:planner
+   fun:pg_plan_query
+   fun:pg_plan_queries
+   fun:BuildCachedPlan
+   fun:GetCachedPlan
+   fun:_SPI_execute_plan
+   fun:SPI_execute
+   fun:pgsentinel_main
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:process_pm_child_exit
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:make_oper_cache_entry
+   fun:oper
+   fun:make_op
+   fun:transformAExprOp
+   fun:transformExprRecurse
+   fun:transformExpr
+   fun:transformWhereClause
+   fun:transformJoinOnClause
+   fun:transformFromClauseItem
+   fun:transformFromClause
+   fun:transformSelectStmt
+   fun:transformStmt
+   fun:transformOptionalSelectInto
+   fun:transformTopLevelStmt
+   fun:parse_analyze_fixedparams
+   fun:pg_analyze_and_rewrite_fixedparams
+   fun:_SPI_execute_plan
+   fun:SPI_execute
+   fun:pgsentinel_main
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:make_oper_cache_entry
+   fun:oper
+   fun:make_op
+   fun:transformAExprOp
+   fun:transformExprRecurse
+   fun:transformExpr
+   fun:transformWhereClause
+   fun:transformJoinOnClause
+   fun:transformFromClauseItem
+   fun:transformFromClause
+   fun:transformSelectStmt
+   fun:transformStmt
+   fun:transformOptionalSelectInto
+   fun:transformTopLevelStmt
+   fun:parse_analyze_fixedparams
+   fun:pg_analyze_and_rewrite_fixedparams
+   fun:_SPI_execute_plan
+   fun:SPI_execute
+   fun:pgsentinel_main
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:process_pm_child_exit
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:record_C_func
+   fun:fmgr_info_C_lang
+   fun:fmgr_info_cxt_security
+   fun:fmgr_info_cxt
+   fun:init_sexpr
+   fun:ExecInitTableFunctionResult
+   fun:ExecInitFunctionScan
+   fun:ExecInitNode
+   fun:ExecInitNestLoop
+   fun:ExecInitNode
+   fun:InitPlan
+   fun:standard_ExecutorStart
+   fun:pgss_ExecutorStart
+   fun:pgsp_ExecutorStart
+   fun:ExecutorStart
+   fun:_SPI_pquery
+   fun:_SPI_execute_plan
+   fun:SPI_execute
+   fun:pgsentinel_main
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:record_C_func
+   fun:fmgr_info_C_lang
+   fun:fmgr_info_cxt_security
+   fun:fmgr_info_cxt
+   fun:init_sexpr
+   fun:ExecInitTableFunctionResult
+   fun:ExecInitFunctionScan
+   fun:ExecInitNode
+   fun:ExecInitNestLoop
+   fun:ExecInitNode
+   fun:InitPlan
+   fun:standard_ExecutorStart
+   fun:pgss_ExecutorStart
+   fun:pgsp_ExecutorStart
+   fun:ExecutorStart
+   fun:_SPI_pquery
+   fun:_SPI_execute_plan
+   fun:SPI_execute
+   fun:pgsentinel_main
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:process_pm_child_exit
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:record_C_func
+   fun:fmgr_info_C_lang
+   fun:fmgr_info_cxt_security
+   fun:fmgr_info_cxt
+   fun:init_sexpr
+   fun:ExecInitTableFunctionResult
+   fun:ExecInitFunctionScan
+   fun:ExecInitNode
+   fun:InitPlan
+   fun:standard_ExecutorStart
+   fun:pgss_ExecutorStart
+   fun:pgsp_ExecutorStart
+   fun:ExecutorStart
+   fun:PortalStart
+   fun:exec_simple_query
+   fun:PostgresMain
+   fun:BackendMain
+   fun:postmaster_child_launch
+   fun:BackendStartup
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:smgropen
+   fun:RelationGetSmgr.lto_priv.12
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:ReleaseAndReadBuffer
+   fun:heapam_index_fetch_tuple
+   fun:table_index_fetch_tuple.lto_priv.0
+   fun:index_fetch_heap
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:SearchCatCacheList
+   fun:SearchSysCacheList
+   fun:OpernameGetOprid
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:smgropen
+   fun:RelationGetSmgr.lto_priv.12
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:_bt_getbuf
+   fun:_bt_metaversion
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:SearchCatCacheList
+   fun:SearchSysCacheList
+   fun:OpernameGetOprid
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:smgropen
+   fun:RelationGetSmgr.lto_priv.12
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:_bt_getbuf
+   fun:_bt_metaversion
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:SearchCatCacheMiss
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache
+   fun:SearchSysCache
+   fun:GetSysCacheOid
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:smgropen
+   fun:RelationGetSmgr.lto_priv.7
+   fun:table_block_relation_size
+   fun:table_relation_size
+   fun:RelationGetNumberOfBlocksInFork
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:hash_create
+   fun:EnablePortalManager
+   fun:InitPostgres
+   fun:AutoVacLauncherMain
+   fun:postmaster_child_launch
+   fun:StartChildProcess
+   fun:process_pm_child_exit
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:hash_create
+   fun:EnablePortalManager
+   fun:InitPostgres
+   fun:BackgroundWorkerInitializeConnection
+   fun:ApplyLauncherMain
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:process_pm_child_exit
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:hash_create
+   fun:EnablePortalManager
+   fun:InitPostgres
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:hash_create
+   fun:InitLocks
+   fun:CreateOrAttachShmemStructs
+   fun:CreateSharedMemoryAndSemaphores
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:hash_create
+   fun:InitializeTableSpaceCache
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:hash_create
+   fun:find_rendezvous_variable
+   fun:_PG_init
+   fun:internal_load_library
+   fun:load_file
+   fun:load_libraries
+   fun:process_shared_preload_libraries
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:hash_create
+   fun:init_timezone_hashtable
+   fun:pg_tzset
+   fun:pg_timezone_initialize
+   fun:InitializeGUCOptions
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:MemoryContextAllocAligned
+   fun:palloc_aligned
+   fun:InitCatCache
+   fun:InitCatalogCache
+   fun:InitPostgres
+   fun:AutoVacLauncherMain
+   fun:postmaster_child_launch
+   fun:StartChildProcess
+   fun:process_pm_child_exit
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:MemoryContextAllocAligned
+   fun:palloc_aligned
+   fun:InitCatCache
+   fun:InitCatalogCache
+   fun:InitPostgres
+   fun:BackgroundWorkerInitializeConnection
+   fun:ApplyLauncherMain
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:process_pm_child_exit
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:MemoryContextAllocAligned
+   fun:palloc_aligned
+   fun:InitCatCache
+   fun:InitCatalogCache
+   fun:InitPostgres
+   fun:PostgresMain
+   fun:BackendMain
+   fun:postmaster_child_launch
+   fun:BackendStartup
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:MemoryContextAllocAligned
+   fun:palloc_aligned
+   fun:InitCatCache
+   fun:InitCatalogCache
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:RegisterBackgroundWorker
+   fun:ApplyLauncherRegister
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:guc_malloc
+   fun:guc_strdup
+   fun:init_custom_variable
+   fun:DefineCustomBoolVariable
+   fun:_PG_init
+   fun:internal_load_library
+   fun:load_file
+   fun:load_libraries
+   fun:process_shared_preload_libraries
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:guc_malloc
+   fun:guc_strdup
+   fun:init_custom_variable
+   fun:DefineCustomBoolVariable
+   fun:pgsentinel_load_params
+   fun:_PG_init
+   fun:internal_load_library
+   fun:load_file
+   fun:load_libraries
+   fun:process_shared_preload_libraries
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:guc_malloc
+   fun:guc_strdup
+   fun:init_custom_variable
+   fun:DefineCustomEnumVariable
+   fun:_PG_init
+   fun:internal_load_library
+   fun:load_file
+   fun:load_libraries
+   fun:process_shared_preload_libraries
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:guc_malloc
+   fun:guc_strdup
+   fun:init_custom_variable
+   fun:DefineCustomIntVariable
+   fun:_PG_init
+   fun:internal_load_library
+   fun:load_file
+   fun:load_libraries
+   fun:process_shared_preload_libraries
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:guc_malloc
+   fun:guc_strdup
+   fun:init_custom_variable
+   fun:DefineCustomIntVariable
+   fun:pgsentinel_load_params
+   fun:_PG_init
+   fun:internal_load_library
+   fun:load_file
+   fun:load_libraries
+   fun:process_shared_preload_libraries
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:guc_malloc
+   fun:guc_strdup
+   fun:init_custom_variable
+   fun:DefineCustomStringVariable
+   fun:_PG_init
+   fun:internal_load_library
+   fun:load_file
+   fun:load_libraries
+   fun:process_shared_preload_libraries
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:guc_malloc
+   fun:guc_strdup
+   fun:set_config_sourcefile
+   fun:define_custom_variable
+   fun:DefineCustomBoolVariable
+   fun:pgsentinel_load_params
+   fun:_PG_init
+   fun:internal_load_library
+   fun:load_file
+   fun:load_libraries
+   fun:process_shared_preload_libraries
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:guc_malloc
+   fun:guc_strdup
+   fun:set_config_sourcefile
+   fun:define_custom_variable
+   fun:DefineCustomIntVariable
+   fun:pgsentinel_load_params
+   fun:_PG_init
+   fun:internal_load_library
+   fun:load_file
+   fun:load_libraries
+   fun:process_shared_preload_libraries
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:guc_malloc
+   fun:init_custom_variable
+   fun:DefineCustomBoolVariable
+   fun:_PG_init
+   fun:internal_load_library
+   fun:load_file
+   fun:load_libraries
+   fun:process_shared_preload_libraries
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:guc_malloc
+   fun:init_custom_variable
+   fun:DefineCustomBoolVariable
+   fun:pgsentinel_load_params
+   fun:_PG_init
+   fun:internal_load_library
+   fun:load_file
+   fun:load_libraries
+   fun:process_shared_preload_libraries
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:guc_malloc
+   fun:init_custom_variable
+   fun:DefineCustomEnumVariable
+   fun:_PG_init
+   fun:internal_load_library
+   fun:load_file
+   fun:load_libraries
+   fun:process_shared_preload_libraries
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:guc_malloc
+   fun:init_custom_variable
+   fun:DefineCustomIntVariable
+   fun:_PG_init
+   fun:internal_load_library
+   fun:load_file
+   fun:load_libraries
+   fun:process_shared_preload_libraries
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:guc_malloc
+   fun:init_custom_variable
+   fun:DefineCustomIntVariable
+   fun:pgsentinel_load_params
+   fun:_PG_init
+   fun:internal_load_library
+   fun:load_file
+   fun:load_libraries
+   fun:process_shared_preload_libraries
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:guc_malloc
+   fun:init_custom_variable
+   fun:DefineCustomStringVariable
+   fun:_PG_init
+   fun:internal_load_library
+   fun:load_file
+   fun:load_libraries
+   fun:process_shared_preload_libraries
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:guc_malloc
+   fun:plpgsql_extra_checks_check_hook
+   fun:call_string_check_hook
+   fun:InitializeOneGUCOption
+   fun:define_custom_variable
+   fun:DefineCustomStringVariable
+   fun:_PG_init
+   fun:internal_load_library
+   fun:load_file
+   fun:load_libraries
+   fun:process_shared_preload_libraries
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocZero
+   fun:LookupOpclassInfo
+   fun:IndexSupportInitialize
+   fun:RelationInitIndexAccessInfo
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocZero
+   fun:RelationBuildTupleDesc
+   fun:RelationBuildDesc
+   fun:RelationIdGetRelation
+   fun:relation_open
+   fun:table_open
+   fun:CatalogCacheInitializeCache
+   fun:InitCatCachePhase2
+   fun:InitCatalogCachePhase2
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocZero
+   fun:RelationBuildTupleDesc
+   fun:RelationBuildDesc
+   fun:RelationIdGetRelation
+   fun:relation_open
+   fun:table_open
+   fun:process_settings
+   fun:InitPostgres
+   fun:PostgresMain
+   fun:BackendMain
+   fun:postmaster_child_launch
+   fun:BackendStartup
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocZero
+   fun:RelationBuildTupleDesc
+   fun:RelationBuildDesc
+   fun:RelationIdGetRelation
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocZero
+   fun:RelationInitIndexAccessInfo
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocZero
+   fun:SearchCatCacheList
+   fun:SearchSysCacheList
+   fun:FuncnameGetCandidates
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocZero
+   fun:SearchCatCacheList
+   fun:SearchSysCacheList
+   fun:OpernameGetOprid
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocZero
+   fun:SearchCatCacheList
+   fun:SearchSysCacheList
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocZero
+   fun:load_relcache_init_file
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc
+   fun:AllocSetAllocFromNewBlock
+   fun:AllocSetAlloc
+   fun:palloc_extended
+   fun:XLogReaderAllocate
+   fun:InitWalRecovery
+   fun:StartupXLOG
+   fun:StartupProcessMain
+   fun:postmaster_child_launch
+   fun:StartChildProcess
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:AllocateRelationDesc
+   fun:RelationBuildDesc
+   fun:RelationIdGetRelation
+   fun:relation_open
+   fun:index_open
+   fun:InitCatCachePhase2
+   fun:InitCatalogCachePhase2
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:AllocateRelationDesc
+   fun:RelationBuildDesc
+   fun:RelationIdGetRelation
+   fun:relation_open
+   fun:index_open
+   fun:systable_beginscan
+   fun:ApplySetting
+   fun:process_settings
+   fun:InitPostgres
+   fun:PostgresMain
+   fun:BackendMain
+   fun:postmaster_child_launch
+   fun:BackendStartup
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:AllocateRelationDesc
+   fun:RelationBuildDesc
+   fun:RelationIdGetRelation
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CatalogCacheCreateEntry
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CopyIndexAttOptions
+   fun:RelationGetIndexAttOptions
+   fun:RelationInitIndexAccessInfo
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CreateTemplateTupleDesc
+   fun:AllocateRelationDesc
+   fun:RelationBuildDesc
+   fun:RelationIdGetRelation
+   fun:relation_open
+   fun:index_open
+   fun:InitCatCachePhase2
+   fun:InitCatalogCachePhase2
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CreateTemplateTupleDesc
+   fun:AllocateRelationDesc
+   fun:RelationBuildDesc
+   fun:RelationIdGetRelation
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CreateTemplateTupleDesc
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:GetCatCacheHashValue
+   fun:GetSysCacheHashValue
+   fun:initialize_acl
+   fun:InitPostgres
+   fun:BackgroundWorkerInitializeConnection
+   fun:pgsentinel_main
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CreateTemplateTupleDesc
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:GetCatCacheHashValue
+   fun:GetSysCacheHashValue
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CreateTemplateTupleDesc
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:InitCatCachePhase2
+   fun:InitCatalogCachePhase2
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CreateTemplateTupleDesc
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:InitCatCachePhase2
+   fun:SysCacheGetAttr
+   fun:get_attoptions
+   fun:RelationGetIndexAttOptions
+   fun:RelationInitIndexAccessInfo
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CreateTemplateTupleDesc
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache
+   fun:SearchSysCache
+   fun:GetSysCacheOid
+   fun:TypenameGetTypidExtended
+   fun:LookupTypeNameExtended
+   fun:FuncNameAsType
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CreateTemplateTupleDesc
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache
+   fun:SearchSysCache
+   fun:GetSysCacheOid
+   fun:get_namespace_oid
+   fun:preprocessNamespacePath
+   fun:cachedNamespacePath
+   fun:recomputeNamespacePath
+   fun:RelnameGetRelid
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CreateTemplateTupleDesc
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache
+   fun:SearchSysCache
+   fun:GetSysCacheOid
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CreateTemplateTupleDesc
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache1
+   fun:SearchSysCache1
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CreateTemplateTupleDesc
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache1
+   fun:SearchSysCache1
+   fun:RelationInitIndexAccessInfo
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CreateTemplateTupleDesc
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache1
+   fun:SearchSysCache1
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CreateTemplateTupleDesc
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache2
+   fun:SearchSysCache2
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CreateTemplateTupleDesc
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache3
+   fun:SearchSysCache3
+   fun:get_attavgwidth
+   fun:set_rel_width
+   fun:set_baserel_size_estimates
+   fun:set_plain_rel_size
+   fun:set_rel_size
+   fun:set_base_rel_sizes
+   fun:make_one_rel
+   fun:query_planner
+   fun:grouping_planner
+   fun:subquery_planner
+   fun:standard_planner
+   fun:pgss_planner
+   fun:planner
+   fun:pg_plan_query
+   fun:pg_plan_queries
+   fun:BuildCachedPlan
+   fun:GetCachedPlan
+   fun:_SPI_execute_plan
+   fun:SPI_execute
+   fun:pgsentinel_main
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CreateTemplateTupleDesc
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache4
+   fun:SearchSysCache4
+   fun:get_opfamily_member
+   fun:lookup_type_cache
+   fun:check_memoizable
+   fun:distribute_restrictinfo_to_rels
+   fun:distribute_qual_to_rels
+   fun:distribute_quals_to_rels
+   fun:deconstruct_distribute
+   fun:deconstruct_jointree
+   fun:query_planner
+   fun:grouping_planner
+   fun:subquery_planner
+   fun:standard_planner
+   fun:pgss_planner
+   fun:planner
+   fun:pg_plan_query
+   fun:pg_plan_queries
+   fun:BuildCachedPlan
+   fun:GetCachedPlan
+   fun:_SPI_execute_plan
+   fun:SPI_execute
+   fun:pgsentinel_main
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CreateTemplateTupleDesc
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache4
+   fun:SearchSysCache4
+   fun:get_opfamily_proc
+   fun:get_op_hash_functions
+   fun:convert_saop_to_hashed_saop_walker
+   fun:expression_tree_walker_impl
+   fun:expression_tree_walker_impl
+   fun:convert_saop_to_hashed_saop_walker
+   fun:convert_saop_to_hashed_saop
+   fun:preprocess_expression
+   fun:preprocess_qual_conditions
+   fun:subquery_planner
+   fun:standard_planner
+   fun:pgss_planner
+   fun:planner
+   fun:pg_plan_query
+   fun:pg_plan_queries
+   fun:BuildCachedPlan
+   fun:GetCachedPlan
+   fun:_SPI_execute_plan
+   fun:SPI_execute
+   fun:pgsentinel_main
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CreateTemplateTupleDesc
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheList
+   fun:SearchSysCacheList
+   fun:FuncnameGetCandidates
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CreateTemplateTupleDesc
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheList
+   fun:SearchSysCacheList
+   fun:OpernameGetOprid
+   fun:binary_oper_exact
+   fun:oper
+   fun:make_op
+   fun:transformAExprOp
+   fun:transformExprRecurse
+   fun:transformExpr
+   fun:transformWhereClause
+   fun:transformJoinOnClause
+   fun:transformFromClauseItem
+   fun:transformFromClause
+   fun:transformSelectStmt
+   fun:transformStmt
+   fun:transformOptionalSelectInto
+   fun:transformTopLevelStmt
+   fun:parse_analyze_fixedparams
+   fun:pg_analyze_and_rewrite_fixedparams
+   fun:_SPI_execute_plan
+   fun:SPI_execute
+   fun:pgsentinel_main
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CreateTemplateTupleDesc
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheList
+   fun:SearchSysCacheList
+   fun:get_op_hash_functions
+   fun:convert_saop_to_hashed_saop_walker
+   fun:expression_tree_walker_impl
+   fun:expression_tree_walker_impl
+   fun:convert_saop_to_hashed_saop_walker
+   fun:convert_saop_to_hashed_saop
+   fun:preprocess_expression
+   fun:preprocess_qual_conditions
+   fun:subquery_planner
+   fun:standard_planner
+   fun:pgss_planner
+   fun:planner
+   fun:pg_plan_query
+   fun:pg_plan_queries
+   fun:BuildCachedPlan
+   fun:GetCachedPlan
+   fun:_SPI_execute_plan
+   fun:SPI_execute
+   fun:pgsentinel_main
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CreateTemplateTupleDesc
+   fun:formrdesc
+   fun:RelationCacheInitializePhase2
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CreateTemplateTupleDesc
+   fun:load_relcache_init_file
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:SearchCatCacheList
+   fun:SearchSysCacheList
+   fun:FuncnameGetCandidates
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:SearchCatCacheList
+   fun:SearchSysCacheList
+   fun:OpernameGetOprid
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:SearchCatCacheList
+   fun:SearchSysCacheList
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:datumCopy
+   fun:CatCacheCopyKeys
+   fun:CatalogCacheCreateEntry
+   fun:SearchCatCacheMiss
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache
+   fun:SearchSysCache
+   fun:GetSysCacheOid
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:datumCopy
+   fun:CatCacheCopyKeys
+   fun:SearchCatCacheList
+   fun:SearchSysCacheList
+   fun:FuncnameGetCandidates
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:datumCopy
+   fun:CatCacheCopyKeys
+   fun:SearchCatCacheList
+   fun:SearchSysCacheList
+   fun:OpernameGetOprid
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:debackslash
+   fun:nodeRead
+   fun:nodeRead
+   fun:_readAlias
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:debackslash
+   fun:nullable_string
+   fun:_readAlias
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:debackslash
+   fun:nullable_string
+   fun:_readTargetEntry
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:heap_copytuple
+   fun:RelationInitIndexAccessInfo
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:load_relcache_init_file
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:new_list
+   fun:lappend
+   fun:nodeRead
+   fun:_readAlias
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:new_list
+   fun:lappend
+   fun:nodeRead
+   fun:_readFromExpr
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:new_list
+   fun:lappend
+   fun:nodeRead
+   fun:_readFuncExpr
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:new_list
+   fun:lappend
+   fun:nodeRead
+   fun:_readOpExpr
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:new_list
+   fun:lappend
+   fun:nodeRead
+   fun:_readQuery
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:new_list
+   fun:lappend
+   fun:nodeRead
+   fun:_readRangeTblEntry
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:new_list
+   fun:lappend
+   fun:nodeRead
+   fun:stringToNodeInternal
+   fun:stringToNode
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:new_list
+   fun:lappend_int
+   fun:nodeRead
+   fun:_readRangeTblEntry
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:new_list
+   fun:list_copy
+   fun:RelationGetIndexList
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:AllocateRelationDesc
+   fun:RelationBuildDesc
+   fun:RelationIdGetRelation
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:GetCatCacheHashValue
+   fun:GetSysCacheHashValue
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:InitCatCachePhase2
+   fun:InitCatalogCachePhase2
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:InitCatCachePhase2
+   fun:SysCacheGetAttr
+   fun:get_attoptions
+   fun:RelationGetIndexAttOptions
+   fun:RelationInitIndexAccessInfo
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache
+   fun:SearchSysCache
+   fun:GetSysCacheOid
+   fun:TypenameGetTypidExtended
+   fun:LookupTypeNameExtended
+   fun:FuncNameAsType
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache
+   fun:SearchSysCache
+   fun:GetSysCacheOid
+   fun:get_namespace_oid
+   fun:preprocessNamespacePath
+   fun:cachedNamespacePath
+   fun:recomputeNamespacePath
+   fun:RelnameGetRelid
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache
+   fun:SearchSysCache
+   fun:GetSysCacheOid
+   fun:get_relname_relid
+   fun:RelnameGetRelid
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache
+   fun:SearchSysCache
+   fun:GetSysCacheOid
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache1
+   fun:SearchSysCache1
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache1
+   fun:SearchSysCache1
+   fun:RelationInitIndexAccessInfo
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache1
+   fun:SearchSysCache1
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache2
+   fun:SearchSysCache2
+   fun:IsBinaryCoercibleWithCast
+   fun:IsBinaryCoercible
+   fun:GetDefaultOpClass
+   fun:lookup_type_cache
+   fun:check_memoizable
+   fun:distribute_restrictinfo_to_rels
+   fun:distribute_qual_to_rels
+   fun:distribute_quals_to_rels
+   fun:deconstruct_distribute
+   fun:deconstruct_jointree
+   fun:query_planner
+   fun:grouping_planner
+   fun:subquery_planner
+   fun:standard_planner
+   fun:pgss_planner
+   fun:planner
+   fun:pg_plan_query
+   fun:pg_plan_queries
+   fun:BuildCachedPlan
+   fun:GetCachedPlan
+   fun:_SPI_execute_plan
+   fun:SPI_execute
+   fun:pgsentinel_main
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache2
+   fun:SearchSysCache2
+   fun:get_attoptions
+   fun:RelationGetIndexAttOptions
+   fun:RelationInitIndexAccessInfo
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache3
+   fun:SearchSysCache3
+   fun:get_attavgwidth
+   fun:set_rel_width
+   fun:set_baserel_size_estimates
+   fun:set_plain_rel_size
+   fun:set_rel_size
+   fun:set_base_rel_sizes
+   fun:make_one_rel
+   fun:query_planner
+   fun:grouping_planner
+   fun:subquery_planner
+   fun:standard_planner
+   fun:pgss_planner
+   fun:planner
+   fun:pg_plan_query
+   fun:pg_plan_queries
+   fun:BuildCachedPlan
+   fun:GetCachedPlan
+   fun:_SPI_execute_plan
+   fun:SPI_execute
+   fun:pgsentinel_main
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache4
+   fun:SearchSysCache4
+   fun:get_opfamily_member
+   fun:lookup_type_cache
+   fun:check_memoizable
+   fun:distribute_restrictinfo_to_rels
+   fun:distribute_qual_to_rels
+   fun:distribute_quals_to_rels
+   fun:deconstruct_distribute
+   fun:deconstruct_jointree
+   fun:query_planner
+   fun:grouping_planner
+   fun:subquery_planner
+   fun:standard_planner
+   fun:pgss_planner
+   fun:planner
+   fun:pg_plan_query
+   fun:pg_plan_queries
+   fun:BuildCachedPlan
+   fun:GetCachedPlan
+   fun:_SPI_execute_plan
+   fun:SPI_execute
+   fun:pgsentinel_main
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache4
+   fun:SearchSysCache4
+   fun:get_opfamily_proc
+   fun:get_op_hash_functions
+   fun:convert_saop_to_hashed_saop_walker
+   fun:expression_tree_walker_impl
+   fun:expression_tree_walker_impl
+   fun:convert_saop_to_hashed_saop_walker
+   fun:convert_saop_to_hashed_saop
+   fun:preprocess_expression
+   fun:preprocess_qual_conditions
+   fun:subquery_planner
+   fun:standard_planner
+   fun:pgss_planner
+   fun:planner
+   fun:pg_plan_query
+   fun:pg_plan_queries
+   fun:BuildCachedPlan
+   fun:GetCachedPlan
+   fun:_SPI_execute_plan
+   fun:SPI_execute
+   fun:pgsentinel_main
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheList
+   fun:SearchSysCacheList
+   fun:FuncnameGetCandidates
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheList
+   fun:SearchSysCacheList
+   fun:OpernameGetOprid
+   fun:binary_oper_exact
+   fun:oper
+   fun:make_op
+   fun:transformAExprOp
+   fun:transformExprRecurse
+   fun:transformExpr
+   fun:transformWhereClause
+   fun:transformJoinOnClause
+   fun:transformFromClauseItem
+   fun:transformFromClause
+   fun:transformSelectStmt
+   fun:transformStmt
+   fun:transformOptionalSelectInto
+   fun:transformTopLevelStmt
+   fun:parse_analyze_fixedparams
+   fun:pg_analyze_and_rewrite_fixedparams
+   fun:_SPI_execute_plan
+   fun:SPI_execute
+   fun:pgsentinel_main
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:CreateTupleDescCopyConstr
+   fun:CatalogCacheInitializeCache
+   fun:SearchCatCacheList
+   fun:SearchSysCacheList
+   fun:get_op_hash_functions
+   fun:convert_saop_to_hashed_saop_walker
+   fun:expression_tree_walker_impl
+   fun:expression_tree_walker_impl
+   fun:convert_saop_to_hashed_saop_walker
+   fun:convert_saop_to_hashed_saop
+   fun:preprocess_expression
+   fun:preprocess_qual_conditions
+   fun:subquery_planner
+   fun:standard_planner
+   fun:pgss_planner
+   fun:planner
+   fun:pg_plan_query
+   fun:pg_plan_queries
+   fun:BuildCachedPlan
+   fun:GetCachedPlan
+   fun:_SPI_execute_plan
+   fun:SPI_execute
+   fun:pgsentinel_main
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:InitCatCache
+   fun:InitCatalogCache
+   fun:InitPostgres
+   fun:AutoVacLauncherMain
+   fun:postmaster_child_launch
+   fun:StartChildProcess
+   fun:process_pm_child_exit
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:InitCatCache
+   fun:InitCatalogCache
+   fun:InitPostgres
+   fun:BackgroundWorkerInitializeConnection
+   fun:ApplyLauncherMain
+   fun:BackgroundWorkerMain
+   fun:postmaster_child_launch
+   fun:do_start_bgworker
+   fun:maybe_start_bgworkers
+   fun:process_pm_child_exit
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:InitCatCache
+   fun:InitCatalogCache
+   fun:InitPostgres
+   fun:PostgresMain
+   fun:BackendMain
+   fun:postmaster_child_launch
+   fun:BackendStartup
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:InitCatCache
+   fun:InitCatalogCache
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:bms_make_singleton
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:formrdesc
+   fun:RelationCacheInitializePhase2
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:load_relcache_init_file
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:newNode.lto_priv.94
+   fun:makeConst
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:newNode.lto_priv.97
+   fun:_readAlias
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:newNode.lto_priv.97
+   fun:_readConst
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:newNode.lto_priv.97
+   fun:_readFromExpr
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:newNode.lto_priv.97
+   fun:_readFuncExpr
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:newNode.lto_priv.97
+   fun:_readJoinExpr
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:newNode.lto_priv.97
+   fun:_readOpExpr
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:newNode.lto_priv.97
+   fun:_readQuery
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:newNode.lto_priv.97
+   fun:_readRTEPermissionInfo
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:newNode.lto_priv.97
+   fun:_readRangeTblEntry
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:newNode.lto_priv.97
+   fun:_readRangeTblFunction
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:newNode.lto_priv.97
+   fun:_readRangeTblRef
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:newNode.lto_priv.97
+   fun:_readTargetEntry
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:newNode.lto_priv.97
+   fun:_readVar
+   fun:parseNodeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:newNode.lto_priv.99
+   fun:makeString
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Param
+   write(buf)
+   fun:write
+   fun:_IO_file_write@@GLIBC_2.2.5
+   fun:new_do_write
+   fun:_IO_do_write@@GLIBC_2.2.5
+   fun:_IO_file_xsputn@@GLIBC_2.2.5
+   fun:fwrite
+   fun:write_item
+   fun:write_relcache_init_file
+   fun:RelationCacheInitializePhase3
+   fun:InitPostgres
+   fun:PostgresMain
+   fun:BackendMain
+   fun:postmaster_child_launch
+   fun:BackendStartup
+   fun:ServerLoop
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Param
+   write(buf)
+   fun:write
+   fun:_IO_file_write@@GLIBC_2.2.5
+   fun:new_do_write
+   fun:_IO_do_write@@GLIBC_2.2.5
+   fun:_IO_file_xsputn@@GLIBC_2.2.5
+   fun:fwrite
+   fun:write_item
+   fun:write_relcache_init_file
+   fun:RelationCacheInitializePhase3
+}

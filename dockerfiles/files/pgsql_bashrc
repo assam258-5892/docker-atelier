@@ -71,7 +71,7 @@ ulimit -n 1048576
 
 alias remove='rm -f .*~ *~'
 
-export GIT_CONFIG_GLOBAL=/var/lib/postgresql/workspace/.gitconfig
+export GIT_CONFIG_GLOBAL=${HOME}/workspace/.gitconfig
 
 function git-pull {
     for dir in `ls -d ~/workspace/*/.git`; do
@@ -376,4 +376,33 @@ function pg-status {
             ;;
     esac
     echo "PostgreSQL server status checked successfully."
+}
+
+function pg-valgrind {
+    echo "Running PostgreSQL with Valgrind..."
+    if [ ! -d "$HOME/workspace/valgrind" ]; then
+        mkdir -p "$HOME/workspace/valgrind"
+    fi
+    if [ ! -f "$HOME/.valgrind.supp" ]; then
+        touch "$HOME/.valgrind.supp"
+    fi
+    if [ ! -f "$HOME/workspace/valgrind.supp" ]; then
+        touch "$HOME/workspace/valgrind.supp"
+    fi
+    rm -f $HOME/workspace/valgrind/*.log
+    distro=`cat /etc/os-release | grep ^ID= | cut -d = -f 2 | tr -d \"`
+    version=`psql --version | cut -d " " -f 3 | cut -d . -f 1`
+    echo "Detected Distro: ${distro}, PostgreSQL Version: ${version}"
+    case "${distro}" in
+        ubuntu)
+            valgrind --leak-check=full --gen-suppressions=all --suppressions=$HOME/.valgrind.supp --suppressions=$HOME/workspace/valgrind.supp --time-stamp=yes --log-file=$HOME/workspace/valgrind/%p.log --trace-children=yes postgres -D "${PGDATA}" -c "config_file=/etc/postgresql/${version}/main/postgresql.conf" &
+            ;;
+        rhel|rocky)
+            valgrind --leak-check=full --gen-suppressions=all --suppressions=$HOME/.valgrind.supp --suppressions=$HOME/workspace/valgrind.supp --time-stamp=yes --log-file=$HOME/workspace/valgrind/%p.log --trace-children=yes postgres -D "${PGDATA}" &
+            ;;
+        *)
+            echo "Unrecognized distro ${distro}, cannot check PostgreSQL service status."
+            return 1
+            ;;
+    esac
 }
