@@ -34,8 +34,9 @@ ENV PGDATA=/var/lib/pgsql/16/data PGHOST=localhost PGUSER=experdba PGPASSWORD=ex
 # Workspace 설정
 ENV GIT_CONFIG_GLOBAL=/var/lib/pgsql/workspace/.gitconfig
 COPY --chown=postgres:postgres --chmod=644 files/pgsql_bashrc /var/lib/pgsql/.bashrc
-RUN mkdir /var/lib/pgsql/.vscode-server && mkdir /var/lib/pgsql/workspace && mkdir /var/lib/pgsql/workspace/.vscode && mkdir /var/lib/pgsql/workspace/postgres && mkdir /var/lib/pgsql/workspace/pg_store_plans && mkdir /var/lib/pgsql/workspace/pgsentinel && mkdir /var/lib/pgsql/workspace/pg_ensure_queryid
+RUN mkdir /var/lib/pgsql/.vscode-server && mkdir /var/lib/pgsql/valgrind && mkdir /var/lib/pgsql/workspace && mkdir /var/lib/pgsql/workspace/.vscode && mkdir /var/lib/pgsql/workspace/postgres && mkdir /var/lib/pgsql/workspace/pg_store_plans && mkdir /var/lib/pgsql/workspace/pgsentinel && mkdir /var/lib/pgsql/workspace/pg_ensure_queryid
 COPY --chown=postgres:postgres --chmod=644 files/valgrind.supp /var/lib/pgsql/.valgrind.supp
+COPY --chown=postgres:postgres --chmod=755 files/cuttail.py files/unique.py /var/lib/pgsql/valgrind
 COPY --chown=postgres:postgres --chmod=644 rocky/files/gitconfig /var/lib/pgsql/workspace/.gitconfig
 COPY --chown=postgres:postgres --chmod=644 files/gitignore /var/lib/pgsql/workspace/.gitignore
 COPY --chown=postgres:postgres --chmod=644 rocky/files/launch-pg16.json /var/lib/pgsql/workspace/.vscode/launch.json

@@ -378,6 +378,33 @@ function pg-status {
     echo "PostgreSQL server status checked successfully."
 }
 
+function pg-kill {
+    echo "Kill PostgreSQL server..."
+    distro=`cat /etc/os-release | grep ^ID= | cut -d = -f 2 | tr -d \"`
+    version=`psql --version | cut -d " " -f 3 | cut -d . -f 1`
+    echo "Detected Distro: ${distro}, PostgreSQL Version: ${version}"
+    case "${distro}" in
+        ubuntu)
+            if [ ! -f  "$HOME/$version/main/postmaster.pid" ]; then
+                echo "PostgreSQL pid file not found."
+                return 1
+            fi
+            kill `head -n 1 "$HOME/$version/main/postmaster.pid"`
+            ;;
+        rhel|rocky)
+            if [ ! -f  "$HOME/$version/data/postmaster.pid" ]; then
+                echo "PostgreSQL pid file not found."
+                return 1
+            fi
+            kill `head -n 1 "$HOME/$version/data/postmaster.pid"`            
+            ;;
+        *)
+            echo "Unrecognized distro ${distro}, cannot check PostgreSQL service status."
+            return 1
+            ;;
+    esac
+}
+
 function pg-valgrind {
     echo "Running PostgreSQL with Valgrind..."
     if [ ! -d "$HOME/workspace/valgrind" ]; then
@@ -395,14 +422,31 @@ function pg-valgrind {
     echo "Detected Distro: ${distro}, PostgreSQL Version: ${version}"
     case "${distro}" in
         ubuntu)
-            valgrind --leak-check=full --gen-suppressions=all --suppressions=$HOME/.valgrind.supp --suppressions=$HOME/workspace/valgrind.supp --time-stamp=yes --log-file=$HOME/workspace/valgrind/%p.log --trace-children=yes postgres -D "${PGDATA}" -c "config_file=/etc/postgresql/${version}/main/postgresql.conf" &
+            valgrind --leak-check=full --num-callers=100 --gen-suppressions=all --suppressions=$HOME/.valgrind.supp --suppressions=$HOME/workspace/valgrind.supp --time-stamp=yes --log-file=$HOME/workspace/valgrind/%p.log --trace-children=yes postgres -D "${PGDATA}" -c "config_file=/etc/postgresql/${version}/main/postgresql.conf" &
             ;;
         rhel|rocky)
-            valgrind --leak-check=full --gen-suppressions=all --suppressions=$HOME/.valgrind.supp --suppressions=$HOME/workspace/valgrind.supp --time-stamp=yes --log-file=$HOME/workspace/valgrind/%p.log --trace-children=yes postgres -D "${PGDATA}" &
+            valgrind --leak-check=full --num-callers=100 --gen-suppressions=all --suppressions=$HOME/.valgrind.supp --suppressions=$HOME/workspace/valgrind.supp --time-stamp=yes --log-file=$HOME/workspace/valgrind/%p.log --trace-children=yes postgres -D "${PGDATA}" &
             ;;
         *)
             echo "Unrecognized distro ${distro}, cannot check PostgreSQL service status."
             return 1
             ;;
     esac
+}
+
+function pg-trim-valgrind {
+    (
+        if [ -d "$HOME/workspace/valgrind" ]; then
+            cd "$HOME/workspace/valgrind"
+            if [ ! "$(ls *.log)" ]; then
+                echo "No log files in directory '$HOME/workspace/valgrind'."
+                return 1
+            fi
+            for filename in `ls *.log`; do
+                if [ `grep -v ^== "$filename" | wc -l` -eq 0 ]; then
+                    rm "$filename"
+                fi
+            done
+        fi
+    )
 }
