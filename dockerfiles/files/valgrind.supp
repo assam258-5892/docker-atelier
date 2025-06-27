@@ -254,6 +254,20 @@
    match-leak-kinds: definite
    fun:malloc
    fun:AllocSetAlloc
+   fun:palloc
+   fun:heap_copytuple
+   fun:systable_inplace_update_begin
+   fun:vac_update_datfrozenxid
+   fun:do_autovacuum
+   fun:AutoVacWorkerMain
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:AllocSetAlloc
    fun:palloc_extended
    fun:XLogReaderAllocate
    fun:StartupXLOG
@@ -610,6 +624,21 @@
    fun:hash_search_with_hash_value
    fun:hash_search
    fun:RememberSyncRequest
+   fun:AbsorbSyncRequests
+   fun:CheckpointerMain
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:RememberSyncRequest
    fun:RegisterSyncRequest
    fun:SlruPhysicalWritePage
    fun:SlruInternalWritePage
@@ -664,8 +693,41 @@
    fun:get_hash_entry
    fun:hash_search_with_hash_value
    fun:hash_search
+   fun:do_autovacuum
+   fun:AutoVacWorkerMain
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
    fun:formrdesc
    fun:RelationCacheInitializePhase2
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:get_attribute_options
+   fun:do_analyze_rel
+   fun:analyze_rel
+   fun:vacuum
+   fun:autovacuum_do_vac_analyze
+   fun:do_autovacuum
+   fun:AutoVacWorkerMain
 }
 
 {
@@ -745,6 +807,28 @@
    fun:pg_plan_queries
    fun:BuildCachedPlan
    fun:GetCachedPlan
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:lookup_type_cache
+   fun:get_sort_group_operators
+   fun:std_typanalyze
+   fun:examine_attribute
+   fun:do_analyze_rel
+   fun:analyze_rel
+   fun:vacuum
+   fun:autovacuum_do_vac_analyze
+   fun:do_autovacuum
+   fun:AutoVacWorkerMain
 }
 
 {
@@ -2735,6 +2819,69 @@
    fun:_fdvec_resize
    fun:mdopenfork
    fun:_mdfd_getseg
+   fun:mdread
+   fun:smgrread
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:_bt_getbuf
+   fun:_bt_metaversion
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext_ordered
+   fun:heap_fetch_toast_slice
+   fun:table_relation_fetch_toast_slice
+   fun:toast_fetch_datum
+   fun:detoast_external_attr
+   fun:toast_flatten_tuple
+   fun:CatalogCacheCreateEntry
+   fun:SearchCatCacheMiss
+   fun:SearchCatCacheInternal
+   fun:SearchCatCache3
+   fun:SearchSysCache3
+
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
+   fun:mdread
+   fun:smgrread
+   fun:ReadBuffer_common
+   fun:ReadBufferExtended
+   fun:ReadBuffer
+   fun:_bt_getbuf
+   fun:_bt_vacuum_needs_cleanup
+   fun:btvacuumcleanup
+   fun:index_vacuum_cleanup
+   fun:vac_cleanup_one_index
+   fun:lazy_cleanup_one_index
+   fun:lazy_cleanup_all_indexes
+   fun:lazy_scan_heap
+   fun:heap_vacuum_rel
+   fun:table_relation_vacuum
+   fun:vacuum_rel
+   fun:vacuum
+   fun:autovacuum_do_vac_analyze
+   fun:do_autovacuum
+   fun:AutoVacWorkerMain
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:_mdfd_getseg
    fun:mdreadv
    fun:smgrreadv
    fun:WaitReadBuffers
@@ -3611,7 +3758,61 @@
    fun:heap_toast_insert_or_update
    fun:heap_update
    fun:simple_heap_update
+   fun:CatalogTupleUpdate
+   fun:update_attstats
+   fun:do_analyze_rel
+   fun:analyze_rel
+   fun:vacuum
+   fun:autovacuum_do_vac_analyze
+   fun:do_autovacuum
+   fun:AutoVacWorkerMain
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:mdexists
+   fun:smgrexists
+   fun:fsm_readbuf
+   fun:fsm_search
+   fun:GetPageWithFreeSpace
+   fun:RelationGetBufferForTuple
+   fun:heap_insert
+   fun:toast_save_datum
+   fun:toast_tuple_externalize
+   fun:heap_toast_insert_or_update
+   fun:heap_update
+   fun:simple_heap_update
    fun:CatalogTupleUpdateWithInfo
+   fun:update_attstats
+   fun:do_analyze_rel
+   fun:analyze_rel
+   fun:vacuum
+   fun:autovacuum_do_vac_analyze
+   fun:do_autovacuum
+   fun:AutoVacWorkerMain
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:mdexists
+   fun:smgrexists
+   fun:fsm_readbuf
+   fun:fsm_search
+   fun:GetPageWithFreeSpace
+   fun:RelationGetBufferForTuple
+   fun:heap_update
+   fun:simple_heap_update
+   fun:CatalogTupleUpdate
    fun:update_attstats
    fun:do_analyze_rel
    fun:analyze_rel
@@ -3658,7 +3859,58 @@
    fun:heap_toast_insert_or_update
    fun:heap_update
    fun:simple_heap_update
+   fun:CatalogTupleUpdate
+   fun:update_attstats
+   fun:do_analyze_rel
+   fun:analyze_rel
+   fun:vacuum
+   fun:autovacuum_do_vac_analyze
+   fun:do_autovacuum
+   fun:AutoVacWorkerMain
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:mdexists
+   fun:smgrexists
+   fun:vm_readbuf
+   fun:visibilitymap_pin
+   fun:RelationGetBufferForTuple
+   fun:heap_insert
+   fun:toast_save_datum
+   fun:toast_tuple_externalize
+   fun:heap_toast_insert_or_update
+   fun:heap_update
+   fun:simple_heap_update
    fun:CatalogTupleUpdateWithInfo
+   fun:update_attstats
+   fun:do_analyze_rel
+   fun:analyze_rel
+   fun:vacuum
+   fun:autovacuum_do_vac_analyze
+   fun:do_autovacuum
+   fun:AutoVacWorkerMain
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_fdvec_resize
+   fun:mdopenfork
+   fun:mdexists
+   fun:smgrexists
+   fun:vm_readbuf
+   fun:visibilitymap_pin
+   fun:heap_update
+   fun:simple_heap_update
+   fun:CatalogTupleUpdate
    fun:update_attstats
    fun:do_analyze_rel
    fun:analyze_rel
@@ -6166,6 +6418,22 @@
    fun:XLogFlush
    fun:RecordTransactionCommit
    fun:CommitTransaction
+   fun:CommitTransactionCommand
+   fun:vacuum
+   fun:autovacuum_do_vac_analyze
+   fun:do_autovacuum
+   fun:AutoVacWorkerMain
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Param
+   pwrite64(buf)
+   fun:pwrite
+   fun:XLogWrite
+   fun:XLogFlush
+   fun:RecordTransactionCommit
+   fun:CommitTransaction
    fun:CommitTransactionCommandInternal
    fun:CommitTransactionCommand
    fun:vacuum
@@ -7000,4 +7268,3 @@
    fun:wcstombs
    fun:wchar2char
 }
-
