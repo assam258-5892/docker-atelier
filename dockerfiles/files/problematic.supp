@@ -1,0 +1,233 @@
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   fun:bcmp
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:entry_reset
+   fun:pg_store_plans_reset
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   fun:bcmp
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:pgsp_store
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   fun:calc_bucket
+   fun:hash_initial_lookup
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:pgsp_store
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   fun:calc_bucket
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:entry_alloc
+   fun:pgsp_store
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   fun:calc_bucket
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:entry_reset
+   fun:pg_store_plans_reset
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   fun:calc_bucket
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:pgsp_store
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:entry_alloc
+   fun:pgsp_store
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:entry_reset
+   fun:pg_store_plans_reset
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:pgsp_store
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:AllocSetAlloc
+   fun:palloc
+   fun:pgsp_shmem_startup
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:ptext_load_file
+   fun:pg_store_plans_internal
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Value8
+   fun:hash_initial_lookup
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:entry_alloc
+   fun:pgsp_store
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Value8
+   fun:hash_initial_lookup
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:entry_reset
+   fun:pg_store_plans_reset
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Value8
+   fun:hash_initial_lookup
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:pgsp_store
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Value8
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:entry_alloc
+   fun:pgsp_store
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Value8
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:entry_reset
+   fun:pg_store_plans_reset
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Value8
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:pgsp_store
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc
+   fun:AllocSetAlloc
+   fun:palloc
+   fun:pgsp_shmem_startup
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Overlap
+   fun:__GI_memcpy
+   fun:normalize_expr
+   fun:conv_expression
+   fun:json_scalar
+   fun:parse_scalar
+   fun:parse_object_field
+   fun:parse_object
+   fun:parse_array_element
+   fun:parse_array
+   fun:parse_object_field
+   fun:parse_object
+   fun:parse_object_field
+   fun:parse_object
+   fun:pg_parse_json
+   fun:run_pg_parse_json
+   fun:pgsp_json_normalize
+   fun:pgsp_store
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Overlap
+   fun:__GI_memcpy
+   fun:normalize_expr
+   fun:conv_expression
+   fun:json_scalar
+   fun:parse_scalar
+   fun:parse_object_field
+   fun:parse_object
+   fun:parse_array_element
+   fun:parse_array
+   fun:parse_object_field
+   fun:parse_object
+   fun:parse_object_field
+   fun:parse_object
+   fun:pg_parse_json
+   fun:run_pg_parse_json
+   fun:pgsp_json_normalize
+   fun:pgsp_store
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Overlap
+   fun:__GI_memcpy
+   fun:normalize_expr
+   fun:conv_expression
+   fun:json_scalar
+   fun:parse_scalar
+   fun:parse_object_field
+   fun:parse_object
+   fun:parse_array_element
+   fun:parse_array
+   fun:parse_object_field
+   fun:parse_object
+   fun:parse_object_field
+   fun:parse_object
+   fun:pg_parse_json
+   fun:run_pg_parse_json
+   fun:pgsp_json_normalize
+   fun:pgsp_store
+}

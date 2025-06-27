@@ -1281,6 +1281,16 @@
    fun:MemoryContextAlloc
    fun:InitIndexAmRoutine
    fun:load_relcache_init_file
+   fun:RelationCacheInitializePhase2
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:InitIndexAmRoutine
+   fun:load_relcache_init_file
    fun:RelationCacheInitializePhase3
 }
 
@@ -1535,6 +1545,20 @@
    fun:RelationBuildRuleLock
    fun:RelationBuildDesc
    fun:RelationIdGetRelation
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:_bt_metaversion
+   fun:_bt_first
+   fun:btgettuple
+   fun:index_getnext_tid
+   fun:index_getnext_slot
+   fun:systable_getnext
+   fun:GetDatabaseTupleByOid
 }
 
 {
@@ -3741,6 +3765,15 @@
    match-leak-kinds: possible
    fun:MemoryContextAlloc
    fun:load_relcache_init_file
+   fun:RelationCacheInitializePhase2
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAlloc
+   fun:load_relcache_init_file
    fun:RelationCacheInitializePhase3
 }
 
@@ -3968,6 +4001,20 @@
    fun:autovacuum_do_vac_analyze
    fun:do_autovacuum
    fun:AutoVacWorkerMain
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocExtended
+   fun:DynaHashAlloc
+   fun:element_alloc
+   fun:get_hash_entry
+   fun:hash_search_with_hash_value
+   fun:hash_search
+   fun:load_relcache_init_file
+   fun:RelationCacheInitializePhase2
 }
 
 {
@@ -4664,6 +4711,15 @@
    match-leak-kinds: possible
    fun:MemoryContextAllocZero
    fun:load_relcache_init_file
+   fun:RelationCacheInitializePhase2
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:MemoryContextAllocZero
+   fun:load_relcache_init_file
    fun:RelationCacheInitializePhase3
 }
 
@@ -4886,6 +4942,16 @@
    Memcheck:Leak
    match-leak-kinds: possible
    fun:malloc
+   obj:/usr/lib/postgresql/14/bin/postgres
+   obj:/usr/lib/postgresql/14/bin/postgres
+   obj:/usr/libexec/valgrind/memcheck-arm64-linux
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc
    obj:/usr/lib/postgresql/16/bin/postgres
    fun:PostmasterMain
 }
@@ -4920,6 +4986,16 @@
    fun:select
    obj:/usr/pgsql-15/bin/postgres
    fun:PostmasterMain
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc
+   obj:/usr/pgsql-15/bin/postgres
+   obj:/usr/pgsql-15/bin/postgres
+   obj:/usr/libexec/valgrind/memcheck-arm64-linux
 }
 
 {
@@ -5216,6 +5292,26 @@
    match-leak-kinds: possible
    fun:palloc
    fun:CreateTemplateTupleDesc
+   fun:formrdesc
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CreateTemplateTupleDesc
+   fun:load_relcache_init_file
+   fun:RelationCacheInitializePhase2
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:CreateTemplateTupleDesc
    fun:load_relcache_init_file
    fun:RelationCacheInitializePhase3
 }
@@ -5349,6 +5445,15 @@
    fun:palloc
    fun:heap_copytuple
    fun:RelationInitIndexAccessInfo
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc
+   fun:load_relcache_init_file
+   fun:RelationCacheInitializePhase2
 }
 
 {
@@ -5753,6 +5858,24 @@
    Memcheck:Leak
    match-leak-kinds: possible
    fun:palloc0
+   fun:formrdesc
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
+   fun:load_relcache_init_file
+   fun:RelationCacheInitializePhase2
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:palloc0
    fun:load_relcache_init_file
    fun:RelationCacheInitializePhase3
 }
@@ -5907,6 +6030,135 @@
 
 {
    <insert_a_suppression_name_here>
+   Memcheck:Overlap
+   fun:__GI_memcpy
+   fun:UnknownInlinedFun
+   fun:normalize_expr
+   fun:UnknownInlinedFun
+   fun:conv_expression
+   fun:UnknownInlinedFun
+   fun:json_scalar
+   obj:/usr/lib/postgresql/16/bin/postgres
+   obj:/usr/lib/postgresql/16/bin/postgres
+   obj:/usr/lib/postgresql/16/bin/postgres
+   obj:/usr/lib/postgresql/16/bin/postgres
+   obj:/usr/lib/postgresql/16/bin/postgres
+   obj:/usr/lib/postgresql/16/bin/postgres
+   obj:/usr/lib/postgresql/16/bin/postgres
+   obj:/usr/lib/postgresql/16/bin/postgres
+   obj:/usr/lib/postgresql/16/bin/postgres
+   fun:UnknownInlinedFun
+   fun:pgsp_json_normalize
+   fun:UnknownInlinedFun
+   fun:pgsp_ExecutorEnd
+   obj:/usr/lib/postgresql/16/bin/postgres
+   fun:SPI_execute
+   fun:pgsentinel_main
+   fun:StartBackgroundWorker
+   obj:/usr/lib/postgresql/16/bin/postgres
+   obj:/usr/lib/postgresql/16/bin/postgres
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Overlap
+   fun:__GI_memcpy
+   fun:UnknownInlinedFun
+   fun:normalize_expr
+   fun:UnknownInlinedFun
+   fun:conv_expression
+   fun:UnknownInlinedFun
+   fun:json_scalar
+   obj:/usr/pgsql-17/bin/postgres
+   obj:/usr/pgsql-17/bin/postgres
+   obj:/usr/pgsql-17/bin/postgres
+   obj:/usr/pgsql-17/bin/postgres
+   obj:/usr/pgsql-17/bin/postgres
+   obj:/usr/pgsql-17/bin/postgres
+   obj:/usr/pgsql-17/bin/postgres
+   obj:/usr/pgsql-17/bin/postgres
+   fun:pg_parse_json
+   fun:UnknownInlinedFun
+   fun:pgsp_json_normalize
+   fun:UnknownInlinedFun
+   fun:pgsp_ExecutorEnd
+   obj:/usr/pgsql-17/bin/postgres
+   fun:SPI_execute
+   fun:pgsentinel_main
+   fun:BackgroundWorkerMain
+   obj:/usr/pgsql-17/bin/postgres
+   obj:/usr/pgsql-17/bin/postgres
+   obj:/usr/pgsql-17/bin/postgres
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Overlap
+   fun:__GI_memcpy
+   fun:UnknownInlinedFun
+   fun:normalize_expr
+   fun:UnknownInlinedFun
+   fun:conv_expression
+   fun:json_scalar
+   obj:/usr/lib/postgresql/14/bin/postgres
+   obj:/usr/lib/postgresql/14/bin/postgres
+   obj:/usr/lib/postgresql/14/bin/postgres
+   obj:/usr/lib/postgresql/14/bin/postgres
+   obj:/usr/lib/postgresql/14/bin/postgres
+   obj:/usr/lib/postgresql/14/bin/postgres
+   obj:/usr/lib/postgresql/14/bin/postgres
+   obj:/usr/lib/postgresql/14/bin/postgres
+   fun:pg_parse_json
+   fun:run_pg_parse_json
+   fun:pgsp_json_normalize
+   fun:UnknownInlinedFun
+   fun:pgsp_ExecutorEnd
+   obj:/usr/lib/postgresql/14/bin/postgres
+   fun:SPI_execute
+   fun:pgsentinel_main
+   fun:StartBackgroundWorker
+   obj:/usr/lib/postgresql/14/bin/postgres
+   obj:/usr/lib/postgresql/14/bin/postgres
+   obj:/usr/libexec/valgrind/memcheck-arm64-linux
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Overlap
+   fun:__GI_memcpy
+   fun:memcpy
+   fun:normalize_expr
+   fun:conv_expression
+   fun:conv_expression
+   fun:json_scalar
+   obj:/usr/pgsql-15/bin/postgres
+   obj:/usr/pgsql-15/bin/postgres
+   obj:/usr/pgsql-15/bin/postgres
+   obj:/usr/pgsql-15/bin/postgres
+   obj:/usr/pgsql-15/bin/postgres
+   obj:/usr/pgsql-15/bin/postgres
+   obj:/usr/pgsql-15/bin/postgres
+   obj:/usr/pgsql-15/bin/postgres
+   fun:pg_parse_json
+   fun:run_pg_parse_json
+   fun:pgsp_json_normalize
+   fun:pgsp_store
+   fun:pgsp_ExecutorEnd
+   obj:/usr/pgsql-15/bin/postgres
+   fun:SPI_execute
+   fun:pgsentinel_main
+   fun:StartBackgroundWorker
+   obj:/usr/pgsql-15/bin/postgres
+   obj:/usr/pgsql-15/bin/postgres
+   obj:/usr/libexec/valgrind/memcheck-arm64-linux
+}
+
+{
+   <insert_a_suppression_name_here>
    Memcheck:Param
    pwrite64(buf)
    fun:pwrite
@@ -5950,6 +6202,24 @@
    obj:/usr/pgsql-15/bin/postgres
    obj:/usr/pgsql-15/bin/postgres
    fun:StartAutoVacWorker
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Param
+   pwrite64(buf)
+   fun:pwrite
+   obj:/usr/pgsql-17/bin/postgres
+   fun:XLogFlush
+   obj:/usr/pgsql-17/bin/postgres
+   obj:/usr/pgsql-17/bin/postgres
+   fun:vacuum
+   obj:/usr/pgsql-17/bin/postgres
+   fun:AutoVacWorkerMain
+   obj:/usr/pgsql-17/bin/postgres
+   obj:/usr/pgsql-17/bin/postgres
+   obj:/usr/pgsql-17/bin/postgres
+   fun:PostmasterMain
 }
 
 {
@@ -6093,6 +6363,253 @@
    fun:select
    obj:/usr/lib/postgresql/14/bin/postgres
    fun:PostmasterMain
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Param
+   socketcall.sendto(msg)
+   fun:send
+   obj:/usr/lib/postgresql/14/bin/postgres
+   obj:/usr/lib/postgresql/14/bin/postgres
+   obj:/usr/lib/postgresql/14/bin/postgres
+   obj:/usr/lib/postgresql/14/bin/postgres
+   fun:StartAutoVacLauncher
+   obj:/usr/lib/postgresql/14/bin/postgres
+   obj:/usr/libexec/valgrind/memcheck-arm64-linux
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Param
+   write(buf)
+   fun:write
+   fun:_IO_file_write@@GLIBC_2.17
+   fun:new_do_write
+   fun:_IO_do_write@@GLIBC_2.17
+   fun:_IO_file_xsputn@@GLIBC_2.17
+   fun:fwrite
+   fun:write_item
+   fun:write_relcache_init_file
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Param
+   write(buf)
+   fun:write
+   fun:_IO_file_write@@GLIBC_2.17
+   fun:new_do_write
+   fun:_IO_do_write@@GLIBC_2.17
+   fun:_IO_file_xsputn@@GLIBC_2.17
+   fun:fwrite
+   obj:/usr/pgsql-15/bin/postgres
+   obj:/usr/pgsql-15/bin/postgres
+   fun:RelationCacheInitializePhase3
+   fun:InitPostgres
+   fun:BackgroundWorkerInitializeConnection
+   fun:pgsentinel_main
+   fun:StartBackgroundWorker
+   obj:/usr/pgsql-15/bin/postgres
+   obj:/usr/pgsql-15/bin/postgres
+   obj:/usr/libexec/valgrind/memcheck-arm64-linux
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Param
+   write(buf)
+   fun:write
+   fun:_IO_file_write@@GLIBC_2.17
+   fun:new_do_write
+   fun:_IO_do_write@@GLIBC_2.17
+   fun:_IO_file_xsputn@@GLIBC_2.17
+   fun:fwrite
+   obj:/usr/pgsql-15/bin/postgres
+   obj:/usr/pgsql-15/bin/postgres
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Param
+   write(buf)
+   fun:write
+   fun:_IO_file_write@@GLIBC_2.17
+   fun:new_do_write
+   fun:_IO_do_write@@GLIBC_2.17
+   fun:_IO_file_xsputn@@GLIBC_2.17
+   fun:fwrite
+   obj:/usr/pgsql-17/bin/postgres
+   obj:/usr/pgsql-17/bin/postgres
+   fun:RelationCacheInitializePhase3
+   fun:InitPostgres
+   fun:AutoVacWorkerMain
+   obj:/usr/pgsql-17/bin/postgres
+   obj:/usr/pgsql-17/bin/postgres
+   obj:/usr/pgsql-17/bin/postgres
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Param
+   write(buf)
+   fun:write
+   fun:_IO_file_write@@GLIBC_2.17
+   fun:new_do_write
+   fun:_IO_do_write@@GLIBC_2.17
+   fun:_IO_file_xsputn@@GLIBC_2.17
+   fun:fwrite
+   obj:/usr/pgsql-17/bin/postgres
+   obj:/usr/pgsql-17/bin/postgres
+   fun:RelationCacheInitializePhase3
+   fun:InitPostgres
+   fun:BackgroundWorkerInitializeConnection
+   fun:pgsentinel_main
+   fun:BackgroundWorkerMain
+   obj:/usr/pgsql-17/bin/postgres
+   obj:/usr/pgsql-17/bin/postgres
+   obj:/usr/pgsql-17/bin/postgres
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Param
+   write(buf)
+   fun:write
+   fun:_IO_file_write@@GLIBC_2.17
+   fun:new_do_write
+   fun:_IO_do_write@@GLIBC_2.17
+   fun:_IO_file_xsputn@@GLIBC_2.17
+   fun:fwrite
+   obj:/usr/pgsql-17/bin/postgres
+   obj:/usr/pgsql-17/bin/postgres
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Param
+   write(buf)
+   fun:write
+   fun:_IO_file_write@@GLIBC_2.17
+   fun:new_do_write
+   fun:_IO_do_write@@GLIBC_2.17
+   fun:_IO_new_file_xsputn
+   fun:_IO_file_xsputn@@GLIBC_2.17
+   fun:fwrite
+   fun:write_item
+   fun:write_relcache_init_file
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Param
+   write(buf)
+   fun:write
+   fun:_IO_file_write@@GLIBC_2.17
+   fun:new_do_write
+   fun:_IO_do_write@@GLIBC_2.17
+   fun:_IO_new_file_xsputn
+   fun:_IO_file_xsputn@@GLIBC_2.17
+   fun:fwrite
+   obj:/usr/lib/postgresql/16/bin/postgres
+   obj:/usr/lib/postgresql/16/bin/postgres
+   fun:RelationCacheInitializePhase3
+   fun:InitPostgres
+   fun:BackgroundWorkerInitializeConnection
+   fun:pgsentinel_main
+   fun:StartBackgroundWorker
+   obj:/usr/lib/postgresql/16/bin/postgres
+   obj:/usr/lib/postgresql/16/bin/postgres
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Param
+   write(buf)
+   fun:write
+   fun:_IO_file_write@@GLIBC_2.17
+   fun:new_do_write
+   fun:_IO_do_write@@GLIBC_2.17
+   fun:_IO_new_file_xsputn
+   fun:_IO_file_xsputn@@GLIBC_2.17
+   fun:fwrite
+   obj:/usr/lib/postgresql/16/bin/postgres
+   obj:/usr/lib/postgresql/16/bin/postgres
+   fun:RelationCacheInitializePhase3
+   fun:InitPostgres
+   obj:/usr/lib/postgresql/16/bin/postgres
+   fun:StartAutoVacWorker
+   obj:/usr/lib/postgresql/16/bin/postgres
+   fun:PostmasterMain
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Param
+   write(buf)
+   fun:write
+   fun:_IO_file_write@@GLIBC_2.17
+   fun:new_do_write
+   fun:_IO_new_do_write
+   fun:_IO_do_write@@GLIBC_2.17
+   fun:_IO_new_file_xsputn
+   fun:_IO_file_xsputn@@GLIBC_2.17
+   fun:fwrite
+   fun:write_item
+   fun:write_relcache_init_file
+   fun:RelationCacheInitializePhase3
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Param
+   write(buf)
+   fun:write
+   fun:_IO_file_write@@GLIBC_2.17
+   fun:new_do_write
+   fun:_IO_new_do_write
+   fun:_IO_do_write@@GLIBC_2.17
+   fun:_IO_new_file_xsputn
+   fun:_IO_file_xsputn@@GLIBC_2.17
+   fun:fwrite
+   obj:/usr/lib/postgresql/14/bin/postgres
+   obj:/usr/lib/postgresql/14/bin/postgres
+   fun:RelationCacheInitializePhase3
+   fun:InitPostgres
+   fun:BackgroundWorkerInitializeConnection
+   fun:pgsentinel_main
+   fun:StartBackgroundWorker
+   obj:/usr/lib/postgresql/14/bin/postgres
+   obj:/usr/lib/postgresql/14/bin/postgres
+   obj:/usr/libexec/valgrind/memcheck-arm64-linux
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Param
+   write(buf)
+   fun:write
+   fun:_IO_file_write@@GLIBC_2.17
+   fun:new_do_write
+   fun:_IO_new_do_write
+   fun:_IO_do_write@@GLIBC_2.17
+   fun:_IO_new_file_xsputn
+   fun:_IO_file_xsputn@@GLIBC_2.17
+   fun:fwrite
+   obj:/usr/lib/postgresql/14/bin/postgres
+   obj:/usr/lib/postgresql/14/bin/postgres
+   fun:RelationCacheInitializePhase3
 }
 
 {
@@ -6483,3 +7000,4 @@
    fun:wcstombs
    fun:wchar2char
 }
+
