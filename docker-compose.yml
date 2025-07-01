@@ -8,6 +8,10 @@ services:
     tty: false
     extra_hosts:
       - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.8.1
+      - active:${ATELIER_SUBNET}.8.15
+      - standby:${ATELIER_SUBNET}.8.45
+      - standalone:${ATELIER_SUBNET}.8.75
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.1
@@ -20,6 +24,10 @@ services:
     tty: false
     extra_hosts:
       - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.8.1
+      - active:${ATELIER_SUBNET}.8.15
+      - standby:${ATELIER_SUBNET}.8.45
+      - standalone:${ATELIER_SUBNET}.8.75
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.15
@@ -35,6 +43,10 @@ services:
     tty: false
     extra_hosts:
       - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.8.1
+      - active:${ATELIER_SUBNET}.8.15
+      - standby:${ATELIER_SUBNET}.8.45
+      - standalone:${ATELIER_SUBNET}.8.75
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.45
@@ -50,6 +62,10 @@ services:
     tty: false
     extra_hosts:
       - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.8.1
+      - active:${ATELIER_SUBNET}.8.15
+      - standby:${ATELIER_SUBNET}.8.45
+      - standalone:${ATELIER_SUBNET}.8.75
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.75
@@ -65,6 +81,10 @@ services:
     tty: false
     extra_hosts:
       - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.9.1
+      - active:${ATELIER_SUBNET}.9.17
+      - standby:${ATELIER_SUBNET}.9.47
+      - standalone:${ATELIER_SUBNET}.9.77
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.1
@@ -77,6 +97,10 @@ services:
     tty: false
     extra_hosts:
       - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.9.1
+      - active:${ATELIER_SUBNET}.9.17
+      - standby:${ATELIER_SUBNET}.9.47
+      - standalone:${ATELIER_SUBNET}.9.77
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.17
@@ -92,6 +116,10 @@ services:
     tty: false
     extra_hosts:
       - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.9.1
+      - active:${ATELIER_SUBNET}.9.17
+      - standby:${ATELIER_SUBNET}.9.47
+      - standalone:${ATELIER_SUBNET}.9.77
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.47
@@ -107,6 +135,10 @@ services:
     tty: false
     extra_hosts:
       - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.9.1
+      - active:${ATELIER_SUBNET}.9.17
+      - standby:${ATELIER_SUBNET}.9.47
+      - standalone:${ATELIER_SUBNET}.9.77
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.77
@@ -122,6 +154,10 @@ services:
     tty: false
     extra_hosts:
       - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.22.1
+      - active:${ATELIER_SUBNET}.22.14
+      - standby:${ATELIER_SUBNET}.22.44
+      - standalone:${ATELIER_SUBNET}.22.74
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.1
@@ -134,6 +170,10 @@ services:
     tty: false
     extra_hosts:
       - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.22.1
+      - active:${ATELIER_SUBNET}.22.14
+      - standby:${ATELIER_SUBNET}.22.44
+      - standalone:${ATELIER_SUBNET}.22.74
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.14
@@ -149,6 +189,10 @@ services:
     tty: false
     extra_hosts:
       - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.22.1
+      - active:${ATELIER_SUBNET}.22.14
+      - standby:${ATELIER_SUBNET}.22.44
+      - standalone:${ATELIER_SUBNET}.22.74
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.44
@@ -164,6 +208,10 @@ services:
     tty: false
     extra_hosts:
       - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.22.1
+      - active:${ATELIER_SUBNET}.22.14
+      - standby:${ATELIER_SUBNET}.22.44
+      - standalone:${ATELIER_SUBNET}.22.74
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.74
@@ -179,6 +227,10 @@ services:
     tty: false
     extra_hosts:
       - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.24.1
+      - active:${ATELIER_SUBNET}.24.16
+      - standby:${ATELIER_SUBNET}.24.46
+      - standalone:${ATELIER_SUBNET}.24.76
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.1
@@ -191,6 +243,10 @@ services:
     tty: false
     extra_hosts:
       - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.24.1
+      - active:${ATELIER_SUBNET}.24.16
+      - standby:${ATELIER_SUBNET}.24.46
+      - standalone:${ATELIER_SUBNET}.24.76
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.16
@@ -206,6 +262,10 @@ services:
     tty: false
     extra_hosts:
       - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.24.1
+      - active:${ATELIER_SUBNET}.24.16
+      - standby:${ATELIER_SUBNET}.24.46
+      - standalone:${ATELIER_SUBNET}.24.76
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.46
@@ -221,6 +281,10 @@ services:
     tty: false
     extra_hosts:
       - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.24.1
+      - active:${ATELIER_SUBNET}.24.16
+      - standby:${ATELIER_SUBNET}.24.46
+      - standalone:${ATELIER_SUBNET}.24.76
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.76
@@ -233,6 +297,11 @@ services:
     hostname: haproxy
     domainname: atelier
     tty: false
+    depends_on:
+      - rocky8-init
+      - rocky9-init
+      - ubuntu22-init
+      - ubuntu24-init
     extra_hosts:
       - host.docker.internal:host-gateway
     networks:

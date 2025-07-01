@@ -121,28 +121,27 @@ function git-clean {
 
 function rsync-workspace {
     (
-        hostprefix="`hostname|cut -d - -f 1-2`"
-        hostsuffix="`hostname|cut -d - -f 3`"
+        source="`hostname|cut -d - -f 3`"
         if [ "$#" -eq 0 ]; then
-            case "$hostsuffix" in
+            case "$source" in
                 active)
-                    hostsuffix="standalone"
+                    source="standalone"
                     ;;
                 standby)
-                    hostsuffix="standalone"
+                    source="standalone"
                     ;;
                 standalone)
-                    hostsuffix="active"
+                    source="active"
                     ;;
                 *)
-                    hostsuffix="unknown"
+                    source="unknown"
                     ;;
             esac
         else
-            hostsuffix="$1"
+            source="$1"
         fi
-        echo "Synchronizing workspace from ${hostprefix}-${hostsuffix}:${HOME}/workspace to ${HOME}"
-        rsync -avh8 --delete "${hostprefix}-${hostsuffix}:${HOME}/workspace/*" "${HOME}/workspace"
+        echo "Synchronizing workspace from ${source}:${HOME}/workspace to ${HOME}"
+        rsync -avh8 --delete "${source}:${HOME}/workspace/*" "${HOME}/workspace"
         if [ $? -ne 0 ]; then
             echo "Failed to synchronize workspace. Please check the output for errors."
             return 1
