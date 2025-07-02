@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [ $# -gt 0 ]; then
+    session=$1
+else
+    session="docker"
+fi
+
+tmux kill-session -t "${session}" 2>/dev/null
+
+./tmux-docker-pg14 $@
