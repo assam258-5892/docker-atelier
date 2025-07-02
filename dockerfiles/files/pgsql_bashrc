@@ -435,14 +435,16 @@ function pg-valgrind {
 
 function pg-trim-valgrind {
     (
+        echo "Trimming Valgrind log files..."
         if [ -d "$HOME/workspace/valgrind" ]; then
             cd "$HOME/workspace/valgrind"
             if [ ! "$(ls *.log)" ]; then
-                echo "No log files in directory '$HOME/workspace/valgrind'."
+                echo "No log files to trim in directory '$HOME/workspace/valgrind'."
                 return 1
             fi
             for filename in `ls *.log`; do
                 if [ `grep -v ^== "$filename" | wc -l` -eq 0 ]; then
+                    echo "Removing empty log file: $filename"
                     rm "$filename"
                 fi
             done
