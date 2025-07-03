@@ -16,9 +16,9 @@ ENV LANG=ko_KR.UTF-8 LANGUAGE=ko:en LC_ALL=ko_KR.UTF-8
 # OS 패키지 설치
 RUN dnf install -y http://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm && crb enable
 RUN sed -i -e 's/^metalink=/#metalink=/g' /etc/yum.repos.d/epel.repo /etc/yum.repos.d/epel-testing.repo
-RUN sed -i -e 's/^#baseurl=https:\/\/download.example\//baseurl=http:\/\/ftp.kaist.ac.kr\//g' /etc/yum.repos.d/epel*.repo
+RUN sed -i -e 's|^#baseurl=https://download.example/|baseurl=http://ftp.kaist.ac.kr/|g' /etc/yum.repos.d/epel*.repo
 RUN dnf install -y http://download.postgresql.org/pub/repos/yum/reporpms/EL-9-`uname -m`/pgdg-redhat-repo-latest.noarch.rpm && dnf -qy module disable postgresql
-RUN sed -i -e 's/^baseurl=https:/baseurl=http:/g' /etc/yum.repos.d/pgdg-redhat-all.repo
+RUN sed -i -e 's|^baseurl=https://|baseurl=http://|g' /etc/yum.repos.d/pgdg-redhat-all.repo
 RUN dnf makecache -y
 RUN dnf install -y cronie openssh-server openssh-clients rsync sudo ncurses procps-ng findutils iproute iputils net-tools htop ncdu mlocate vim-enhanced
 RUN dnf install -y gcc gdb git make valgrind redhat-rpm-config valgrind-devel

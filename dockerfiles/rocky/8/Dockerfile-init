@@ -16,9 +16,9 @@ ENV LANG=ko_KR.UTF-8 LANGUAGE=ko:en LC_ALL=ko_KR.UTF-8
 # OS 패키지 설치
 RUN dnf install -y http://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm && crb enable
 RUN sed -i -e 's/^metalink=/#metalink=/g' /etc/yum.repos.d/epel*.repo
-RUN sed -i -e 's/^#baseurl=https:\/\/download.example\//baseurl=http:\/\/ftp.kaist.ac.kr\//g' /etc/yum.repos.d/epel*.repo
+RUN sed -i -e 's|^#baseurl=https://download.example/|baseurl=http://ftp.kaist.ac.kr/|g' /etc/yum.repos.d/epel*.repo
 RUN dnf install -y http://download.postgresql.org/pub/repos/yum/reporpms/EL-8-`uname -m`/pgdg-redhat-repo-latest.noarch.rpm && dnf -qy module disable postgresql
-RUN sed -i -e 's/^baseurl=https:/baseurl=http:/g' /etc/yum.repos.d/pgdg-redhat-all.repo
+RUN sed -i -e 's|^baseurl=https://|baseurl=http://|g' /etc/yum.repos.d/pgdg-redhat-all.repo
 RUN dnf makecache -y
 RUN dnf install -y cronie openssh-server openssh-clients rsync sudo ncurses procps-ng findutils iproute iputils net-tools htop ncdu mlocate vim-enhanced
 RUN dnf install -y gcc gdb git make valgrind redhat-rpm-config valgrind-devel
@@ -27,11 +27,11 @@ RUN ( curl -fsSL http://www.jedsoft.org/releases/jed/jed-0.99-19.tar.gz | tar xz
 RUN dnf install -y python3-psutil
 
 # PostgreSQL 개발 환경 설정
-RUN echo "fs.inotify.max_user_instances=4096" >> /etc/sysctl.conf
 RUN dnf install -y flex bison clang docbook-dtds docbook-style-xsl perl-core perl-IPC-Run
 RUN dnf install -y gettext-devel krb5-devel libicu-devel libuuid-devel libxslt-devel libzstd-devel llvm-devel lz4-devel openldap-devel openssl-devel pam-devel python3-devel readline-devel systemd-devel tcl-devel zlib-devel
 
 # 사용자 환경 설정
+RUN echo "fs.inotify.max_user_instances=4096" >> /etc/sysctl.conf
 RUN echo -e "\nLANG=ko_KR.UTF-8\nLANGUAGE=ko:en\nLC_ALL=ko_KR.UTF-8\n\nalias remove='rm -f .*~ *~'\n\nulimit -n 1048576" >> /root/.bashrc
 ADD files/ssh.tar.gz /root/.ssh
 RUN touch /root/.hushlogin
