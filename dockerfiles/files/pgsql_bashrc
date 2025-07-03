@@ -471,7 +471,7 @@ function pg-user {
                 ;;
         esac
     fi
-    source "${HOME}/workspace/.pguser"
+    [ -f "${HOME}/workspace/.pguser" ] && source "${HOME}/workspace/.pguser"
     if [ "$PGHOST" ]; then
         echo "Host: $PGHOST"
     fi
