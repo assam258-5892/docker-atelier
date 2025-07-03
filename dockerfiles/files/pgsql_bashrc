@@ -451,3 +451,39 @@ function pg-trim-valgrind {
         fi
     )
 }
+
+function pg-user {
+    if [ "$#" -gt 1 ]; then
+        echo "Usage: pg-user experdba|postgres"
+        return 1
+    fi
+    if [ "$#" -eq 1 ]; then
+        case "$1" in
+            postgres|p)
+                echo -e "unset PGHOST\nunset PGUSER\nunset PGPASSWORD\nunset PGDATABASE" > "${HOME}/workspace/.pguser"
+                ;;
+            experdba|experdb|exp|ex|e)
+                echo -e "PGHOST=localhost\nPGUSER=experdba\nPGPASSWORD=experdba\nPGDATABASE=experdb\nexport PGHOST PGUSER PGPASSWORD PGDATABASE" > "${HOME}/workspace/.pguser"
+                ;;
+            *)
+                echo "Usage: pg-user experdba|postgres"
+                return 1
+                ;;
+        esac
+    fi
+    source "${HOME}/workspace/.pguser"
+    if [ "$PGHOST" ]; then
+        echo "Host: $PGHOST"
+    fi
+    if [ "$PGUSER" ]; then
+        echo "User: $PGUSER"
+    else
+        echo "User: postgres"
+    fi
+    if [ "$PGPASSWORD" ]; then
+        echo "Password: $PGPASSWORD"
+    fi
+    if [ "$PGDATABASE" ]; then
+        echo "Database: $PGDATABASE"
+    fi
+}

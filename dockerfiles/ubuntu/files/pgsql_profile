@@ -7,8 +7,6 @@ PGPASSWORD=experdba
 PGDATABASE=experdb
 export PGDATA PGHOST PGUSER PGPASSWORD PGDATABASE
 [ -f ~/.bashrc ] && source ~/.bashrc
-# If you want to customize your settings,
-# Use the file below. This is not overridden
-# by the RPMS.
 [ -f /var/lib/postgresql/.pgsql_profile ] && source /var/lib/postgresql/.pgsql_profile
 [ -f /var/lib/postgresql/workspace/.pgsql_profile ] && source /var/lib/postgresql/workspace/.pgsql_profile
+[ -f /var/lib/postgresql/workspace/.pguser ] && source /var/lib/postgresql/workspace/.pguser
