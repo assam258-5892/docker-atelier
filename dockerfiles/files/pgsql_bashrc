@@ -103,7 +103,9 @@ function git-pull {
 function git-clean {
     for dir in `ls -d ~/workspace/*/.git`; do
         (
-            dir="`dirname $dir`" 
+            dir="`dirname $dir`"
+            echo "Changing ownership to postgres in $dir"
+            sudo chown -R postgres:postgres "$dir"
             echo "Cleaning untracked files in $dir"
             cd "$dir"
             sudo git clean -xdf
