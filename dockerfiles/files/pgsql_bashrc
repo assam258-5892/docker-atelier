@@ -79,14 +79,11 @@ function git-pull {
             dir="`dirname $dir`" 
             echo "Pulling updates in $dir"
             cd "$dir"
-            for remote in `git remote`; do
-                echo "Fetching from remote: $remote"
-                git fetch "${remote}" --tags --prune
-                if [ $? -ne 0 ]; then
-                    echo "Failed to fetch from remote $remote. Please check the output for errors."
-                    continue
-                fi
-            done
+            echo "Fetching from all remotes..."
+            git fetch --all --tags --prune
+            if [ $? -ne 0 ]; then
+                echo "Failed to fetch from all remotes. Please check the output for errors."
+            fi
             if [ "`git branch|grep \ main$|wc -l`" -eq 0 -a "`git branch -r|grep \ origin/main$|wc -l`" -gt 0 ]; then
                 echo "Creating and checking out main branch from origin/main"
                 git branch main origin/main
@@ -157,25 +154,61 @@ function pg-configure {
             return 1
         fi
         cd ~/workspace/postgres
-        echo "Configuring PostgreSQL with custom settings..."
-        pg_config --configure | sed -e s/runstatedir/with-rundir/g | xargs ./configure $@
-        if [ $? -ne 0 ]; then
-            echo "Configuration failed. Please check the output for errors."
-            return 1
+        MODE="debug"
+        case "$1" in
+            release|r)
+                MODE="release" ;;
+            debug|d)
+                MODE="debug" ;;
+            valgrind|v)
+                MODE="valgrind" ;;
+            *)
+                echo "Usage: pg-configure [release|debug|valgrind]"
+                return 1 ;;
+        esac
+        echo "Configuring PostgreSQL with custom settings... (mode: $MODE)"
+        if [ "$MODE" = "release" ]; then
+            eval set -- $(pg_config --configure)
+            echo "./configure \\" >/tmp/configure.before; for arg in "$@"; do printf "     '%s' \\\\\n" "$arg"; done >>/tmp/configure.before
+            if [ ! -f /tmp/configure.origin ]; then cp /tmp/configure.before /tmp/configure.origin; fi
+            new_args=()
+            for arg in "$@"; do
+                case "$arg" in
+                    --runstatedir=*) ;;
+                    *) new_args+=("$arg") ;;
+                esac
+            done
+            echo "./configure \\" >/tmp/configure.after; for arg in "${new_args[@]}"; do printf "     '%s' \\\\\n" "$arg"; done >>/tmp/configure.after
+            ./configure "${new_args[@]}"
+        elif [ "$MODE" = "debug" ] || [ "$MODE" = "valgrind" ]; then
+            eval set -- $(pg_config --configure)
+            echo "./configure \\" >/tmp/configure.before; for arg in "$@"; do printf "     '%s' \\\\\n" "$arg"; done >>/tmp/configure.before
+            if [ ! -f /tmp/configure.origin ]; then cp /tmp/configure.before /tmp/configure.origin; fi
+            new_args=()
+            for arg in "$@"; do
+                case "$arg" in
+                    --runstatedir=*) ;;
+                    CFLAGS=*|CXXFLAGS=*|CPPFLAGS=*)
+                        arg="$(echo "$arg" | sed -E 's/-O([0-9szSZ]+)/-O0/g')"
+                        arg="$(echo "$arg" | sed -E 's/-Wp,-D_FORTIFY_SOURCE=[0-9]+|-D_FORTIFY_SOURCE=[0-9]+//g')"
+                        if [ "$MODE" = "valgrind" ] && [[ "$arg" != *-DUSE_VALGRIND* ]]; then
+                            if [[ "$arg" =~ ^([^=]+)=(.*)$ ]]; then
+                                key="${BASH_REMATCH[1]}"
+                                value="${BASH_REMATCH[2]}"
+                                if [[ "$value" == *-DUSE_VALGRIND* ]]; then
+                                    arg="$key=$value"
+                                else
+                                    arg="$key=$value -DUSE_VALGRIND"
+                                fi
+                            fi
+                        fi
+                        new_args+=("$arg"); ;;
+                    *) new_args+=("$arg") ;;
+                esac
+            done
+            echo "./configure \\" >/tmp/configure.after; for arg in "${new_args[@]}"; do printf "     '%s' \\\\\n" "$arg"; done >>/tmp/configure.after
+            ./configure "${new_args[@]}"
         fi
-        echo "Configuration completed successfully."
-    )
-}
-
-function pg-debug {
-    (
-        if [ ! -d ~/workspace/postgres ]; then
-            echo "PostgreSQL source directory not found. Please clone the repository first."
-            return 1
-        fi
-        cd ~/workspace/postgres
-        echo "Configuring PostgreSQL with custom settings..."
-        pg_config --configure | sed -e s/runstatedir/with-rundir/g | sed -e s/-O2/-O0/g | sed -e s/\ -Wp,-D_FORTIFY_SOURCE=2//g | sed -e s/\ -D_FORTIFY_SOURCE=2//g | sed -e s/\ -D_FORTIFY_SOURCE=3//g | xargs ./configure $@
         if [ $? -ne 0 ]; then
             echo "Configuration failed. Please check the output for errors."
             return 1
