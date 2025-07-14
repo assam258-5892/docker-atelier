@@ -493,7 +493,12 @@ function pg-user {
     if [ "$#" -eq 1 ]; then
         case "$1" in
             postgres|p)
-                echo -e "unset PGHOST\nunset PGUSER\nunset PGPASSWORD\nunset PGDATABASE" > "${HOME}/workspace/.pguser"
+                distro=`cat /etc/os-release | grep ^ID= | cut -d = -f 2 | tr -d \"`
+                if [ "$distro" = "ubuntu" ]; then
+                    echo -e "PGHOST=/var/run/postgresql\nunset PGUSER\nunset PGPASSWORD\nunset PGDATABASE\nexport PGHOST" > "${HOME}/workspace/.pguser"
+                else
+                    echo -e "unset PGHOST\nunset PGUSER\nunset PGPASSWORD\nunset PGDATABASE" > "${HOME}/workspace/.pguser"
+                fi
                 ;;
             experdba|experdb|exp|ex|e)
                 echo -e "PGHOST=localhost\nPGUSER=experdba\nPGPASSWORD=experdba\nPGDATABASE=experdb\nexport PGHOST PGUSER PGPASSWORD PGDATABASE" > "${HOME}/workspace/.pguser"
