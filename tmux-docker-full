@@ -129,7 +129,9 @@ createSession(){
         tmux split-window -t "$1:ubuntu" "docker compose exec -ti $env -w /root ubuntu22-init /bin/bash --login" && tmux select-layout -t "$1:ubuntu" even-horizontal
         let no++
         tmux new-window -t "$1:$no" -n logs "docker compose logs -f haproxy apache2 squid"
-        tmux select-window -t "$1:logs"
+        let no++
+        tmux new-window -t "$1:$no" -n monitor "bash -c 'while true; do bpytop; done'"
+        tmux select-window -t "$1:bpytop"
         tmux select-window -t "$1:init"
     fi
     return 0
