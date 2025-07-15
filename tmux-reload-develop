@@ -8,4 +8,4 @@ fi
 
 tmux kill-session -t "${session}" 2>/dev/null
 
-./tmux-docker-standalone $@
+./tmux-docker-develop $@
