@@ -1,0 +1,378 @@
+services:
+  rocky8-init:
+    image: rocky8-init
+    container_name: rocky8-init
+    hostname: rocky8-init
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.8.1
+      - active:${ATELIER_SUBNET}.8.15
+      - standby:${ATELIER_SUBNET}.8.45
+      - standalone:${ATELIER_SUBNET}.8.75
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.8.1
+  rocky9-init:
+    image: rocky9-init
+    container_name: rocky9-init
+    hostname: rocky9-init
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.9.1
+      - active:${ATELIER_SUBNET}.9.17
+      - standby:${ATELIER_SUBNET}.9.47
+      - standalone:${ATELIER_SUBNET}.9.77
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.9.1
+  ubuntu22-init:
+    image: ubuntu22-init
+    container_name: ubuntu22-init
+    hostname: ubuntu22-init
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.22.1
+      - active:${ATELIER_SUBNET}.22.14
+      - standby:${ATELIER_SUBNET}.22.44
+      - standalone:${ATELIER_SUBNET}.22.74
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.22.1
+  ubuntu24-init:
+    image: ubuntu24-init
+    container_name: ubuntu24-init
+    hostname: ubuntu24-init
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.24.1
+      - active:${ATELIER_SUBNET}.24.16
+      - standby:${ATELIER_SUBNET}.24.46
+      - standalone:${ATELIER_SUBNET}.24.76
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.24.1
+  ubuntu24-pg14-active:
+    image: ubuntu24-pg14
+    container_name: ubuntu24-pg14-active
+    hostname: ubuntu24-pg14-active
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.24.1
+      - active:${ATELIER_SUBNET}.24.14
+      - standby:${ATELIER_SUBNET}.24.44
+      - standalone:${ATELIER_SUBNET}.24.74
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.24.14
+    volumes:
+      - ubuntu24-pg14-active-vscode-server:/var/lib/postgresql/.vscode-server
+      - ubuntu24-pg14-active-workspace:/var/lib/postgresql/workspace
+  ubuntu24-pg14-standby:
+    image: ubuntu24-pg14
+    container_name: ubuntu24-pg14-standby
+    hostname: ubuntu24-pg14-standby
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.24.1
+      - active:${ATELIER_SUBNET}.24.14
+      - standby:${ATELIER_SUBNET}.24.44
+      - standalone:${ATELIER_SUBNET}.24.74
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.24.44
+    volumes:
+      - ubuntu24-pg14-standby-vscode-server:/var/lib/postgresql/.vscode-server
+      - ubuntu24-pg14-standby-workspace:/var/lib/postgresql/workspace
+  ubuntu24-pg14-standalone:
+    image: ubuntu24-pg14
+    container_name: ubuntu24-pg14-standalone
+    hostname: ubuntu24-pg14-standalone
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.24.1
+      - active:${ATELIER_SUBNET}.24.14
+      - standby:${ATELIER_SUBNET}.24.44
+      - standalone:${ATELIER_SUBNET}.24.74
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.24.74
+    volumes:
+      - ubuntu24-pg14-standalone-vscode-server:/var/lib/postgresql/.vscode-server
+      - ubuntu24-pg14-standalone-workspace:/var/lib/postgresql/workspace
+  ubuntu24-pg15-active:
+    image: ubuntu24-pg15
+    container_name: ubuntu24-pg15-active
+    hostname: ubuntu24-pg15-active
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.24.1
+      - active:${ATELIER_SUBNET}.24.15
+      - standby:${ATELIER_SUBNET}.24.45
+      - standalone:${ATELIER_SUBNET}.24.75
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.24.15
+    volumes:
+      - ubuntu24-pg15-active-vscode-server:/var/lib/postgresql/.vscode-server
+      - ubuntu24-pg15-active-workspace:/var/lib/postgresql/workspace
+  ubuntu24-pg15-standby:
+    image: ubuntu24-pg15
+    container_name: ubuntu24-pg15-standby
+    hostname: ubuntu24-pg15-standby
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.24.1
+      - active:${ATELIER_SUBNET}.24.15
+      - standby:${ATELIER_SUBNET}.24.45
+      - standalone:${ATELIER_SUBNET}.24.75
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.24.45
+    volumes:
+      - ubuntu24-pg15-standby-vscode-server:/var/lib/postgresql/.vscode-server
+      - ubuntu24-pg15-standby-workspace:/var/lib/postgresql/workspace
+  ubuntu24-pg15-standalone:
+    image: ubuntu24-pg15
+    container_name: ubuntu24-pg15-standalone
+    hostname: ubuntu24-pg15-standalone
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.24.1
+      - active:${ATELIER_SUBNET}.24.15
+      - standby:${ATELIER_SUBNET}.24.45
+      - standalone:${ATELIER_SUBNET}.24.75
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.24.75
+    volumes:
+      - ubuntu24-pg15-standalone-vscode-server:/var/lib/postgresql/.vscode-server
+      - ubuntu24-pg15-standalone-workspace:/var/lib/postgresql/workspace
+  ubuntu24-pg16-active:
+    image: ubuntu24-pg16
+    container_name: ubuntu24-pg16-active
+    hostname: ubuntu24-pg16-active
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.24.1
+      - active:${ATELIER_SUBNET}.24.16
+      - standby:${ATELIER_SUBNET}.24.46
+      - standalone:${ATELIER_SUBNET}.24.76
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.24.16
+    volumes:
+      - ubuntu24-pg16-active-vscode-server:/var/lib/postgresql/.vscode-server
+      - ubuntu24-pg16-active-workspace:/var/lib/postgresql/workspace
+  ubuntu24-pg16-standby:
+    image: ubuntu24-pg16
+    container_name: ubuntu24-pg16-standby
+    hostname: ubuntu24-pg16-standby
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.24.1
+      - active:${ATELIER_SUBNET}.24.16
+      - standby:${ATELIER_SUBNET}.24.46
+      - standalone:${ATELIER_SUBNET}.24.76
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.24.46
+    volumes:
+      - ubuntu24-pg16-standby-vscode-server:/var/lib/postgresql/.vscode-server
+      - ubuntu24-pg16-standby-workspace:/var/lib/postgresql/workspace
+  ubuntu24-pg16-standalone:
+    image: ubuntu24-pg16
+    container_name: ubuntu24-pg16-standalone
+    hostname: ubuntu24-pg16-standalone
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.24.1
+      - active:${ATELIER_SUBNET}.24.16
+      - standby:${ATELIER_SUBNET}.24.46
+      - standalone:${ATELIER_SUBNET}.24.76
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.24.76
+    volumes:
+      - ubuntu24-pg16-standalone-vscode-server:/var/lib/postgresql/.vscode-server
+      - ubuntu24-pg16-standalone-workspace:/var/lib/postgresql/workspace
+  ubuntu24-pg17-active:
+    image: ubuntu24-pg17
+    container_name: ubuntu24-pg17-active
+    hostname: ubuntu24-pg17-active
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.24.1
+      - active:${ATELIER_SUBNET}.24.17
+      - standby:${ATELIER_SUBNET}.24.47
+      - standalone:${ATELIER_SUBNET}.24.77
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.24.17
+    volumes:
+      - ubuntu24-pg17-active-vscode-server:/var/lib/postgresql/.vscode-server
+      - ubuntu24-pg17-active-workspace:/var/lib/postgresql/workspace
+  ubuntu24-pg17-standby:
+    image: ubuntu24-pg17
+    container_name: ubuntu24-pg17-standby
+    hostname: ubuntu24-pg17-standby
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.24.1
+      - active:${ATELIER_SUBNET}.24.17
+      - standby:${ATELIER_SUBNET}.24.47
+      - standalone:${ATELIER_SUBNET}.24.77
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.24.47
+    volumes:
+      - ubuntu24-pg17-standby-vscode-server:/var/lib/postgresql/.vscode-server
+      - ubuntu24-pg17-standby-workspace:/var/lib/postgresql/workspace
+  ubuntu24-pg17-standalone:
+    image: ubuntu24-pg17
+    container_name: ubuntu24-pg17-standalone
+    hostname: ubuntu24-pg17-standalone
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - init:${ATELIER_SUBNET}.24.1
+      - active:${ATELIER_SUBNET}.24.17
+      - standby:${ATELIER_SUBNET}.24.47
+      - standalone:${ATELIER_SUBNET}.24.77
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.24.77
+    volumes:
+      - ubuntu24-pg17-standalone-vscode-server:/var/lib/postgresql/.vscode-server
+      - ubuntu24-pg17-standalone-workspace:/var/lib/postgresql/workspace
+  haproxy:
+    image: haproxy
+    container_name: haproxy
+    hostname: haproxy
+    domainname: atelier
+    tty: false
+    depends_on:
+      - rocky8-init
+      - rocky9-init
+      - ubuntu22-init
+      - ubuntu24-init
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.200.1
+    volumes:
+      - ./volumes/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    ports:
+      - "${ATELIER_SSH_PORT}:8022"
+  apache2:
+    image: ubuntu/apache2
+    container_name: apache2
+    hostname: apache2
+    domainname: atelier
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.200.2
+    volumes:
+      - ./volumes/apache2/html:/var/www/html
+    ports:
+      - "${ATELIER_HTTP_PORT}:80"
+  squid:
+    image: ubuntu/squid
+    container_name: squid
+    hostname: squid
+    domainname: atelier
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.200.3
+    volumes:
+      - ./volumes/squid/squid.conf:/etc/squid/squid.conf:ro
+      - squid-logs:/var/log/squid
+      - squid-spool:/var/spool/squid
+    ports:
+      - "${ATELIER_SQUID_PORT}:3128"
+networks:
+  default:
+    name: atelier
+    ipam:
+      config:
+        - subnet: ${ATELIER_SUBNET}.0.0/16
+volumes:
+  squid-logs:
+  squid-spool:
+  ubuntu24-pg14-active-workspace:
+  ubuntu24-pg14-standby-workspace:
+  ubuntu24-pg14-standalone-workspace:
+  ubuntu24-pg15-active-workspace:
+  ubuntu24-pg15-standby-workspace:
+  ubuntu24-pg15-standalone-workspace:
+  ubuntu24-pg16-active-workspace:
+  ubuntu24-pg16-standby-workspace:
+  ubuntu24-pg16-standalone-workspace:
+  ubuntu24-pg17-active-workspace:
+  ubuntu24-pg17-standby-workspace:
+  ubuntu24-pg17-standalone-workspace:
+  ubuntu24-pg14-active-vscode-server:
+  ubuntu24-pg14-standby-vscode-server:
+  ubuntu24-pg14-standalone-vscode-server:
+  ubuntu24-pg15-active-vscode-server:
+  ubuntu24-pg15-standby-vscode-server:
+  ubuntu24-pg15-standalone-vscode-server:
+  ubuntu24-pg16-active-vscode-server:
+  ubuntu24-pg16-standby-vscode-server:
+  ubuntu24-pg16-standalone-vscode-server:
+  ubuntu24-pg17-active-vscode-server:
+  ubuntu24-pg17-standby-vscode-server:
+  ubuntu24-pg17-standalone-vscode-server:
