@@ -3,9 +3,9 @@
 if [ $# -gt 0 ]; then
     session="$1"
 else
-    session="docker"
+    session="atelier"
 fi
 
 tmux kill-session -t "${session}" 2>/dev/null
 
-./tmux-docker $@
+./tmux-docker-atelier $@
