@@ -351,7 +351,7 @@ RUN dnf install -y postgresql14-plpython3 postgresql14-plperl postgresql14-devel
 RUN dnf install -y pg_hint_plan_14 pg_show_plans_14
 
 # 커스텀 확장 설치
-RUN git clone --depth 1 --branch 1.8.0.1 https://github.com/experdb/pg_store_plans.git && \
+RUN git clone --depth 1 --branch 1.9e1 https://github.com/experdb/pg_store_plans.git && \
     cd pg_store_plans && \
     USE_PGXS=1 PATH=/usr/pgsql-14/bin:${PATH} make install
 
