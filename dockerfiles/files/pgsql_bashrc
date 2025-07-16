@@ -74,7 +74,7 @@ alias remove='rm -f .*~ *~'
 export GIT_CONFIG_GLOBAL=${HOME}/workspace/.gitconfig
 
 function git-pull {
-    for dir in `ls -d ~/workspace/*/.git`; do
+    for dir in `ls -d ${HOME}/workspace/*/.git`; do
         (
             dir="`dirname $dir`" 
             echo "Pulling updates in $dir"
@@ -101,7 +101,7 @@ function git-pull {
 }
 
 function git-clean {
-    for dir in `ls -d ~/workspace/*/.git`; do
+    for dir in `ls -d ${HOME}/workspace/*/.git`; do
         (
             dir="`dirname $dir`"
             echo "Changing ownership to postgres in $dir"
@@ -151,11 +151,16 @@ function rsync-workspace {
 
 function pg-configure {
     (
-        if [ ! -d ~/workspace/postgres ]; then
+        if [ ! -d ${HOME}/workspace/postgres ]; then
             echo "PostgreSQL source directory not found. Please clone the repository first."
             return 1
         fi
-        cd ~/workspace/postgres
+        echo "Changing ownership to postgres in postgres"
+        sudo chown -R postgres:postgres ${HOME}/workspace/postgres
+        cd ${HOME}/workspace/postgres
+        echo "Cleaning untracked files in postgres"
+        git clean -xdf
+        echo "Configuring PostgreSQL..."
         MODE="debug"
         case "$1" in
             release|r)
@@ -221,11 +226,13 @@ function pg-configure {
 
 function pg-make {
     (
-        if [ ! -d ~/workspace/postgres ]; then
+        if [ ! -d ${HOME}/workspace/postgres ]; then
             echo "PostgreSQL source directory not found. Please clone the repository first."
             return 1
         fi
-        cd ~/workspace/postgres
+        echo "Changing ownership to postgres in postgres"
+        sudo chown -R postgres:postgres ${HOME}/workspace/postgres
+        cd ${HOME}/workspace/postgres
         echo "Building PostgreSQL..."
         make world $@
         if [ $? -ne 0 ]; then
@@ -238,11 +245,11 @@ function pg-make {
 
 function pg-clean {
     (
-        if [ ! -d ~/workspace/postgres ]; then
+        if [ ! -d ${HOME}/workspace/postgres ]; then
             echo "PostgreSQL source directory not found. Please clone the repository first."
             return 1
         fi
-        cd ~/workspace/postgres
+        cd ${HOME}/workspace/postgres
         echo "Cleaning PostgreSQL build files..."
         make clean
         if [ $? -ne 0 ]; then
@@ -255,11 +262,11 @@ function pg-clean {
 
 function pg-check {
     (
-        if [ ! -d ~/workspace/postgres ]; then
+        if [ ! -d ${HOME}/workspace/postgres ]; then
             echo "PostgreSQL source directory not found. Please clone the repository first."
             return 1
         fi
-        cd ~/workspace/postgres
+        cd ${HOME}/workspace/postgres
         echo "Running checks on PostgreSQL..."
         make check-world
         if [ $? -ne 0 ]; then
@@ -272,11 +279,13 @@ function pg-check {
 
 function pg-install {
     (
-        if [ ! -d ~/workspace/postgres ]; then
+        if [ ! -d ${HOME}/workspace/postgres ]; then
             echo "PostgreSQL source directory not found. Please clone the repository first."
             return 1
         fi
-        cd ~/workspace/postgres
+        echo "Changing ownership to postgres in postgres"
+        sudo chown -R postgres:postgres ${HOME}/workspace/postgres
+        cd ${HOME}/workspace/postgres
         echo "Installing PostgreSQL..."
         sudo make install-world
         if [ $? -ne 0 ]; then
@@ -284,8 +293,10 @@ function pg-install {
             return 1
         fi
         echo "PostgreSQL installation completed successfully."
-        if [ -d ~/workspace/pg_ensure_queryid ]; then
-            cd ~/workspace/pg_ensure_queryid
+        if [ -d ${HOME}/workspace/pg_ensure_queryid ]; then
+            echo "Changing ownership to postgres in pg_ensure_queryid"
+            sudo chown -R postgres:postgres ${HOME}/workspace/pg_ensure_queryid
+            cd ${HOME}/workspace/pg_ensure_queryid
             echo "Installing pg_ensure_queryid..."
             sudo git clean -xdf && sudo sh -c "PATH=${PATH} USE_PGXS=1 make install"
             if [ $? -ne 0 ]; then
@@ -294,8 +305,10 @@ function pg-install {
             fi
             echo "pg_ensure_queryid installation completed successfully."
         fi
-        if [ -d ~/workspace/pg_store_plans ]; then
-            cd ~/workspace/pg_store_plans
+        if [ -d ${HOME}/workspace/pg_store_plans ]; then
+            echo "Changing ownership to postgres in pg_store_plans"
+            sudo chown -R postgres:postgres ${HOME}/workspace/pg_store_plans
+            cd ${HOME}/workspace/pg_store_plans
             echo "Installing pg_store_plans..."
             sudo git clean -xdf && sudo sh -c "PATH=${PATH} USE_PGXS=1 make install"
             if [ $? -ne 0 ]; then
@@ -304,8 +317,10 @@ function pg-install {
             fi
             echo "pg_store_plans installation completed successfully."
         fi
-        if [ -d ~/workspace/pgsentinel ]; then
-            cd ~/workspace/pgsentinel/src
+        if [ -d ${HOME}/workspace/pgsentinel ]; then
+            echo "Changing ownership to postgres in pgsentinel"
+            sudo chown -R postgres:postgres ${HOME}/workspace/pgsentinel
+            cd ${HOME}/workspace/pgsentinel/src
             echo "Installing pgsentinel..."
             sudo git clean -xdf && sudo sh -c "PATH=${PATH} USE_PGXS=1 make install"
             if [ $? -ne 0 ]; then
@@ -315,7 +330,7 @@ function pg-install {
             echo "pgsentinel installation completed successfully."
         fi
         echo "Setting ownership of PostgreSQL files to postgres user..."
-        sudo chown -R postgres:postgres ~/workspace
+        sudo chown -R postgres:postgres ${HOME}/workspace
         if [ $? -ne 0 ]; then
             echo "Failed to set ownership. Please check the output for errors."
             return 1
