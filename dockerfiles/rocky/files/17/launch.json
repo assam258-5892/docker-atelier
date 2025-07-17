@@ -5,7 +5,7 @@
             "name": "postgres (attach)",
             "type": "cppdbg",
             "request": "attach",
-            "program": "/usr/pgsql-17/bin/postgres",
+            "program": "/usr/pgsql-17/bin/postmaster",
             "processId": "${command:pickProcess}",
             "MIMode": "gdb",
             "setupCommands": [

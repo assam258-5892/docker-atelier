@@ -19,12 +19,14 @@ RUN sed -i -e 's/^metalink=/#metalink=/g' /etc/yum.repos.d/epel.repo /etc/yum.re
 RUN sed -i -e 's|^#baseurl=https://download.example/|baseurl=http://ftp.kaist.ac.kr/|g' /etc/yum.repos.d/epel*.repo
 RUN dnf install -y http://download.postgresql.org/pub/repos/yum/reporpms/EL-9-`uname -m`/pgdg-redhat-repo-latest.noarch.rpm && dnf -qy module disable postgresql
 RUN sed -i -e 's|^baseurl=https://|baseurl=http://|g' /etc/yum.repos.d/pgdg-redhat-all.repo
+RUN curl -fsSL https://rpm.nodesource.com/setup_22.x -o /tmp/nodesource.sh && bash /tmp/nodesource.sh && rm /tmp/nodesource.sh
 RUN dnf makecache -y
 RUN dnf install -y cronie openssh-server openssh-clients rsync sudo ncurses procps-ng findutils iproute iputils net-tools htop ncdu mlocate vim-enhanced
 RUN dnf install -y gcc gcc-c++ gdb git make cmake valgrind redhat-rpm-config valgrind-devel
 RUN ( curl -fsSL http://www.jedsoft.org/releases/slang/slang-2.3.3.tar.bz2 | tar xj && cd slang-2.3.3 && ./configure && make && make install && cd .. && rm -rf slang-2.3.3 )
 RUN ( curl -fsSL http://www.jedsoft.org/releases/jed/jed-0.99-19.tar.gz | tar xz && cd jed-0.99-19 && if [ "`/bin/arch`" = "aarch64" ]; then ./configure --build=aarch64-unknown-linux-gnu; else ./configure; fi && make && make install && cd .. && rm -rf jed-0.99-19 )
 RUN dnf install -y python3 python3-devel python3-pip python3-psutil && pip3 install bpytop
+RUN dnf install -y nodejs && npm install -g npm
 
 # PostgreSQL 개발 환경 설정
 RUN dnf install -y flex bison clang clang-tools-extra docbook-dtds docbook-style-xsl perl-core perl-IPC-Run

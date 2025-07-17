@@ -1,0 +1,61 @@
+FROM ubuntu24-init
+
+# PostgreSQL Major Version
+ARG PG_MAJOR
+
+# PostgreSQL 설치
+RUN apt install -y postgresql-${PG_MAJOR} postgresql-contrib-${PG_MAJOR} postgresql-plpython3-${PG_MAJOR} postgresql-plperl-${PG_MAJOR} postgresql-server-dev-${PG_MAJOR}
+RUN apt install -y postgresql-${PG_MAJOR}-pg-hint-plan
+RUN apt install -y postgresql-${PG_MAJOR}-show-plans
+RUN ( git clone --depth 1 --branch 1.9e1 https://github.com/experdb/pg_store_plans.git && cd pg_store_plans && USE_PGXS=1 PATH=/usr/lib/postgresql/${PG_MAJOR}/bin:${PATH} make install && cd .. && rm -rf pg_store_plans )
+RUN ( git clone --depth 1 --branch REL_1_1_0 https://github.com/experdb/pgsentinel.git && cd pgsentinel/src && PATH=/usr/lib/postgresql/${PG_MAJOR}/bin:${PATH} make install && cd ../.. && rm -rf pgsentinel )
+RUN ( git clone --depth 1 --branch 1.0.0 https://github.com/experdb/pg_ensure_queryid.git && cd pg_ensure_queryid && PATH=/usr/postgresql/${PG_MAJOR}/bin:${PATH} make install && cd ../.. && rm -rf pg_ensure_queryid )
+
+# PostgreSQL 데이터베이스 초기화
+RUN echo '# Docker connections:\nhost    all             all             172.0.0.0/8             scram-sha-256\nhost    replication     all             172.0.0.0/8             scram-sha-256' >> /etc/postgresql/${PG_MAJOR}/main/pg_hba.conf
+COPY --chown=postgres:postgres --chmod=600 files/postgresql.auto.conf /var/lib/postgresql/${PG_MAJOR}/main/postgresql.auto.conf
+COPY --chown=root:root --chmod=644 files/role.sql files/extension.sql /
+RUN su -l postgres -c "/usr/lib/postgresql/${PG_MAJOR}/bin/postgres --single -D /var/lib/postgresql/${PG_MAJOR}/main -c config_file=/etc/postgresql/${PG_MAJOR}/main/postgresql.conf" < /role.sql && rm -f /role.sql
+RUN su -l postgres -c "/usr/lib/postgresql/${PG_MAJOR}/bin/postgres --single -D /var/lib/postgresql/${PG_MAJOR}/main -c config_file=/etc/postgresql/${PG_MAJOR}/main/postgresql.conf experdb" < /extension.sql && rm -f /extension.sql
+RUN systemctl enable postgresql
+
+# 사용자 환경 설정
+RUN echo "postgres	ALL=(ALL)	NOPASSWD: ALL" > /etc/sudoers.d/postgres
+RUN chmod 440 /etc/sudoers.d/postgres
+COPY --chown=postgres:postgres --chmod=644 ubuntu/files/pgsql_profile /var/lib/postgresql/.bash_profile
+ADD files/ssh.tar.gz /var/lib/postgresql/.ssh
+RUN touch /var/lib/postgresql/.hushlogin && chown -R postgres:postgres /var/lib/postgresql/.hushlogin /var/lib/postgresql/.ssh && chmod 644 /var/lib/postgresql/.hushlogin  && chmod 700 /var/lib/postgresql/.ssh
+COPY --chown=postgres:postgres --chmod=755 files/initialize.sh /var/lib/postgresql
+RUN su -l postgres -c "echo '@reboot /var/lib/postgresql/initialize.sh >/tmp/initialize.log 2>&1' | crontab"
+
+# 환경 변수 설정
+ENV PATH=/var/lib/postgresql/.local/bin:${PATH}
+ENV PGDATA=/var/lib/postgresql/${PG_MAJOR}/main PGHOST=localhost PGUSER=experdba PGPASSWORD=experdba PGDATABASE=experdb
+
+# Workspace 설정
+
+ENV GIT_CONFIG_GLOBAL=/var/lib/postgresql/workspace/.gitconfig
+COPY --chown=postgres:postgres --chmod=644 files/pgsql_bashrc /var/lib/postgresql/.bashrc
+RUN mkdir /var/lib/postgresql/.vscode-server && mkdir /var/lib/postgresql/valgrind && mkdir /var/lib/postgresql/workspace && mkdir /var/lib/postgresql/workspace/.vscode && mkdir /var/lib/postgresql/workspace/postgres && mkdir /var/lib/postgresql/workspace/pg_store_plans && mkdir /var/lib/postgresql/workspace/pgsentinel && mkdir /var/lib/postgresql/workspace/pg_ensure_queryid
+COPY --chown=postgres:postgres --chmod=644 files/psqlrc /var/lib/postgresql/.psqlrc
+COPY --chown=postgres:postgres --chmod=644 files/valgrind.supp /var/lib/postgresql/.valgrind.supp
+COPY --chown=postgres:postgres --chmod=644 files/problematic.supp /var/lib/postgresql/.problematic.supp
+COPY --chown=postgres:postgres --chmod=755 files/cuttail.py files/unique.py /var/lib/postgresql/valgrind/
+COPY --chown=postgres:postgres --chmod=644 ubuntu/files/gitconfig /var/lib/postgresql/workspace/.gitconfig
+COPY --chown=postgres:postgres --chmod=644 files/gitignore /var/lib/postgresql/workspace/.gitignore
+COPY --chown=postgres:postgres --chmod=644 files/*.json /var/lib/postgresql/workspace/.vscode
+COPY --chown=postgres:postgres --chmod=644 rocky/files/${PG_MAJOR}/launch.json /var/lib/postgresql/workspace/.vscode/launch.json
+RUN ( cd /var/lib/postgresql/workspace/postgres && git init && git remote add origin https://github.com/assam258-5892/postgres.git && git remote add upstream https://github.com/postgres/postgres.git )
+RUN ( cd /var/lib/postgresql/workspace/pg_store_plans && git init && git remote add origin https://github.com/experdb/pg_store_plans.git && git remote add upstream https://github.com/ossc-db/pg_store_plans.git )
+RUN ( cd /var/lib/postgresql/workspace/pgsentinel && git init && git remote add origin https://github.com/experdb/pgsentinel.git && git remote add upstream https://github.com/pgsentinel/pgsentinel.git )
+RUN ( cd /var/lib/postgresql/workspace/pg_ensure_queryid && git init && git remote add origin https://github.com/experdb/pg_ensure_queryid.git )
+RUN chown -R postgres:postgres /var/lib/postgresql
+RUN tar cvzf /var/lib/postgresql/.git.tar.gz -C /var/lib/postgresql/workspace .gitconfig .gitignore && chown postgres:postgres /var/lib/postgresql/.git.tar.gz
+RUN tar cvzf /var/lib/postgresql/.vscode.tar.gz -C /var/lib/postgresql/workspace .vscode && chown postgres:postgres /var/lib/postgresql/.vscode.tar.gz
+RUN tar cvzf /var/lib/postgresql/.postgres.tar.gz -C /var/lib/postgresql/workspace postgres && chown postgres:postgres /var/lib/postgresql/.postgres.tar.gz
+RUN tar cvzf /var/lib/postgresql/.pg_store_plans.tar.gz -C /var/lib/postgresql/workspace pg_store_plans && chown postgres:postgres /var/lib/postgresql/.pg_store_plans.tar.gz
+RUN tar cvzf /var/lib/postgresql/.pgsentinel.tar.gz -C /var/lib/postgresql/workspace pgsentinel && chown postgres:postgres /var/lib/postgresql/.pgsentinel.tar.gz
+RUN tar cvzf /var/lib/postgresql/.pg_ensure_queryid.tar.gz -C /var/lib/postgresql/workspace pg_ensure_queryid && chown postgres:postgres /var/lib/postgresql/.pg_ensure_queryid.tar.gz
+
+# Docker 환경 설정
+VOLUME /var/lib/postgresql/workspace

@@ -76,7 +76,7 @@ export GIT_CONFIG_GLOBAL=${HOME}/workspace/.gitconfig
 function git-pull {
     for dir in `ls -d ${HOME}/workspace/*/.git`; do
         (
-            dir="`dirname $dir`" 
+            dir="`dirname $dir`"
             echo "Pulling updates in $dir"
             cd "$dir"
             echo "Fetching from all remotes..."
@@ -445,7 +445,7 @@ function pg-kill {
                 echo "PostgreSQL pid file not found."
                 return 1
             fi
-            kill `head -n 1 "$HOME/$version/data/postmaster.pid"`            
+            kill `head -n 1 "$HOME/$version/data/postmaster.pid"`
             ;;
         *)
             echo "Unrecognized distro ${distro}, cannot check PostgreSQL service status."
