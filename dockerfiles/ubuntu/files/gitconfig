@@ -1,18 +1,22 @@
 # This is Git's per-user configuration file.
 # Please adapt and uncomment the following lines:
 [filter "lfs"]
-        clean = git-lfs clean -- %f
-        smudge = git-lfs smudge -- %f
-        process = git-lfs filter-process
-        required = true
-[user]
-[credential]
-        helper = store --file /var/lib/postgresql/workspace/.git-credentials
-[pull]
-        rebase = true
-[push]
-        default = simple
-[init]
-        defaultBranch = master
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
 [core]
-        excludesFile = /var/lib/postgresql/workspace/.gitignore
+	excludesFile = /var/lib/postgresql/workspace/.gitignore
+[credential]
+	helper = store --file /var/lib/postgresql/workspace/.git-credentials
+[init]
+	defaultBranch = master
+[merge]
+	conflictStyle = diff3
+[pull]
+	rebase = true
+[push]
+	default = simple
+[user]
+	email = anonymous@domain.com
+	name = Anonymous
