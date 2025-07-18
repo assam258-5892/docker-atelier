@@ -6,6 +6,7 @@
 	process = git-lfs filter-process
 	required = true
 [core]
+	editor = editor
 	excludesFile = /var/lib/postgresql/workspace/.gitignore
 [credential]
 	helper = store --file /var/lib/postgresql/workspace/.git-credentials
