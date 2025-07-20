@@ -67,6 +67,10 @@ PS2='> '
 PS3='+ '
 export USER PS1 PS2 PS3
 
+export POWERLINE_CONFIG_PATHS="${HOME}/.config/powerline"
+alias powerline="if [ -f `which powerline-daemon` ]; then powerline-daemon -q; POWERLINE_BASH_CONTINUATION=1 POWERLINE_BASH_SELECT=1 . $(pip3 show powerline-status | grep Location | awk '{print $2}')/powerline/bindings/bash/powerline.sh; fi"
+if [ -n "$VSCODE_SHELL_INTEGRATION" ]; then powerline; fi
+
 ulimit -n 1048576
 
 alias remove='rm -f .*~ *~'

@@ -36,6 +36,7 @@ ENV PGDATA=/var/lib/pgsql/${PG_MAJOR}/data PGHOST=localhost PGUSER=experdba PGPA
 
 # Workspace 설정
 ENV GIT_CONFIG_GLOBAL=/var/lib/pgsql/workspace/.gitconfig
+ADD  --chown=postgres:postgres files/postgres.tar.gz /var/lib/pgsql
 COPY --chown=postgres:postgres --chmod=644 files/pgsql_bashrc /var/lib/pgsql/.bashrc
 RUN mkdir /var/lib/pgsql/.vscode-server && mkdir /var/lib/pgsql/valgrind && mkdir /var/lib/pgsql/workspace && mkdir /var/lib/pgsql/workspace/.vscode && mkdir /var/lib/pgsql/workspace/postgres && mkdir /var/lib/pgsql/workspace/pg_store_plans && mkdir /var/lib/pgsql/workspace/pgsentinel && mkdir /var/lib/pgsql/workspace/pg_ensure_queryid
 COPY --chown=postgres:postgres --chmod=644 files/psqlrc /var/lib/pgsql/.psqlrc
