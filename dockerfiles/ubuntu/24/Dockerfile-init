@@ -8,7 +8,7 @@ RUN apt update -y
 
 # OS 환경 설정
 ENV LANG=en_US.UTF-8 LANGUAGE=en LC_ALL=en_US.UTF-8 TZ=Asia/Seoul
-RUN apt install -y locales tzdata curl wget bzip2 gnupg && locale-gen en_US.UTF-8 && locale-gen ko_KR.UTF-8 && cp /usr/share/zoneinfo/Asia/Seoul /etc/localtime && echo "Asia/Seoul" > /etc/timezone
+RUN apt install -y locales tzdata curl wget bzip2 gnupg && locale-gen en_US.UTF-8 && locale-gen ko_KR.UTF-8 && locale-gen ko_KR.EUC-KR && update-locale && cp /usr/share/zoneinfo/Asia/Seoul /etc/localtime && echo "Asia/Seoul" > /etc/timezone
 ENV LANG=ko_KR.UTF-8 LANGUAGE=ko:en LC_ALL=ko_KR.UTF-8
 
 # OS 패키지 설치
