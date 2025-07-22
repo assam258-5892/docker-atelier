@@ -197,7 +197,7 @@
     },
     "[c]": {
         "editor.tabSize": 4,
-        "editor.insertSpaces": true,
+        "editor.insertSpaces": false,
         "editor.rulers": [
             80,
             120
@@ -206,7 +206,7 @@
     },
     "[cpp]": {
         "editor.tabSize": 4,
-        "editor.insertSpaces": true,
+        "editor.insertSpaces": false,
         "editor.rulers": [
             80,
             120
