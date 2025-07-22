@@ -7,9 +7,20 @@ ARG PG_MAJOR
 RUN dnf install -y postgresql${PG_MAJOR}-server postgresql${PG_MAJOR}-contrib postgresql${PG_MAJOR}-plpython3 postgresql${PG_MAJOR}-plperl postgresql${PG_MAJOR}-devel
 RUN dnf install -y pg_hint_plan_${PG_MAJOR}
 RUN dnf install -y pg_show_plans_${PG_MAJOR}
+RUN git config --global credential.helper store 
 RUN ( git clone --depth 1 --branch 1.9e1 https://github.com/experdb/pg_store_plans.git && cd pg_store_plans && USE_PGXS=1 PATH=/usr/pgsql-${PG_MAJOR}/bin:${PATH} make install && cd .. && rm -rf pg_store_plans )
 RUN ( git clone --depth 1 --branch REL_1_1_0 https://github.com/experdb/pgsentinel.git && cd pgsentinel/src && PATH=/usr/pgsql-${PG_MAJOR}/bin:${PATH} make install && cd ../.. && rm -rf pgsentinel )
 RUN ( git clone --depth 1 --branch 1.0.0 https://github.com/experdb/pg_ensure_queryid.git && cd pg_ensure_queryid && PATH=/usr/pgsql-${PG_MAJOR}/bin:${PATH} make install && cd ../.. && rm -rf pg_ensure_queryid )
+RUN --mount=type=secret,id=git_credentials cp /run/secrets/git_credentials /root/.git-credentials && \
+    if [ "${PG_MAJOR}" = "16" ]; then \
+        ( git clone --depth 1 --branch REL_1_0 https://github.com/assam258-5892/inzent_tde.git && cd inzent_tde/izt_tde && USE_PGXS=1 PATH=/usr/pgsql-${PG_MAJOR}/bin:${PATH} make pass2 install && cd .. && rm -rf inzent_tde ); \
+    fi && \
+    rm -f /root/.git-credentials
+RUN --mount=type=secret,id=git_credentials cp /run/secrets/git_credentials /root/.git-credentials && \
+    if [ "${PG_MAJOR}" = "16" ]; then \
+        ( git clone --depth 1 --branch REL_1_0 https://github.com/assam258-5892/pg_inzent_tde.git && cd pg_inzent_tde && USE_PGXS=1 PATH=/usr/pgsql-${PG_MAJOR}/bin:${PATH} make install && cd .. && rm -rf pg_inzent_tde ); \
+    fi && \
+    rm -f /root/.git-credentials
 
 # PostgreSQL 데이터베이스 초기화
 RUN echo -e '# Docker connections:\nhost    all             all             172.0.0.0/8             @authmethodhost@\nhost    replication     all             172.0.0.0/8             @authmethodhost@' >> /usr/pgsql-${PG_MAJOR}/share/pg_hba.conf.sample
@@ -38,7 +49,16 @@ ENV PGDATA=/var/lib/pgsql/${PG_MAJOR}/data PGHOST=localhost PGUSER=experdba PGPA
 ENV GIT_CONFIG_GLOBAL=/var/lib/pgsql/workspace/.gitconfig
 ADD  --chown=postgres:postgres files/postgres.tar.gz /var/lib/pgsql
 COPY --chown=postgres:postgres --chmod=644 files/pgsql_bashrc /var/lib/pgsql/.bashrc
-RUN mkdir /var/lib/pgsql/.vscode-server && mkdir /var/lib/pgsql/valgrind && mkdir /var/lib/pgsql/workspace && mkdir /var/lib/pgsql/workspace/.vscode && mkdir /var/lib/pgsql/workspace/postgres && mkdir /var/lib/pgsql/workspace/pg_store_plans && mkdir /var/lib/pgsql/workspace/pgsentinel && mkdir /var/lib/pgsql/workspace/pg_ensure_queryid
+RUN mkdir /var/lib/pgsql/.vscode-server \
+    && mkdir /var/lib/pgsql/valgrind \
+    && mkdir /var/lib/pgsql/workspace \
+    && mkdir /var/lib/pgsql/workspace/.vscode \
+    && mkdir /var/lib/pgsql/workspace/postgres \
+    && mkdir /var/lib/pgsql/workspace/pg_store_plans \
+    && mkdir /var/lib/pgsql/workspace/pgsentinel \
+    && mkdir /var/lib/pgsql/workspace/pg_ensure_queryid \
+    && mkdir /var/lib/pgsql/workspace/inzent_tde \
+    && mkdir /var/lib/pgsql/workspace/pg_inzent_tde
 COPY --chown=postgres:postgres --chmod=644 files/psqlrc /var/lib/pgsql/.psqlrc
 COPY --chown=postgres:postgres --chmod=644 files/valgrind.supp /var/lib/pgsql/.valgrind.supp
 COPY --chown=postgres:postgres --chmod=644 files/problematic.supp /var/lib/pgsql/.problematic.supp
@@ -51,6 +71,8 @@ RUN ( cd /var/lib/pgsql/workspace/postgres && git init && git remote add origin 
 RUN ( cd /var/lib/pgsql/workspace/pg_store_plans && git init && git remote add origin https://github.com/experdb/pg_store_plans.git && git remote add upstream https://github.com/ossc-db/pg_store_plans.git )
 RUN ( cd /var/lib/pgsql/workspace/pgsentinel && git init && git remote add origin https://github.com/experdb/pgsentinel.git && git remote add upstream https://github.com/pgsentinel/pgsentinel.git )
 RUN ( cd /var/lib/pgsql/workspace/pg_ensure_queryid && git init && git remote add origin https://github.com/experdb/pg_ensure_queryid.git )
+RUN ( cd /var/lib/pgsql/workspace/inzent_tde && git init && git remote add origin https://github.com/assam258-5892/inzent_tde.git )
+RUN ( cd /var/lib/pgsql/workspace/pg_inzent_tde && git init && git remote add origin https://github.com/assam258-5892/pg_inzent_tde.git )
 RUN chown -R postgres:postgres /var/lib/pgsql
 RUN tar cvzf /var/lib/pgsql/.git.tar.gz -C /var/lib/pgsql/workspace .gitconfig .gitignore && chown postgres:postgres /var/lib/pgsql/.git.tar.gz
 RUN tar cvzf /var/lib/pgsql/.vscode.tar.gz -C /var/lib/pgsql/workspace .vscode && chown postgres:postgres /var/lib/pgsql/.vscode.tar.gz
@@ -58,6 +80,8 @@ RUN tar cvzf /var/lib/pgsql/.postgres.tar.gz -C /var/lib/pgsql/workspace postgre
 RUN tar cvzf /var/lib/pgsql/.pg_store_plans.tar.gz -C /var/lib/pgsql/workspace pg_store_plans && chown postgres:postgres /var/lib/pgsql/.pg_store_plans.tar.gz
 RUN tar cvzf /var/lib/pgsql/.pgsentinel.tar.gz -C /var/lib/pgsql/workspace pgsentinel && chown postgres:postgres /var/lib/pgsql/.pgsentinel.tar.gz
 RUN tar cvzf /var/lib/pgsql/.pg_ensure_queryid.tar.gz -C /var/lib/pgsql/workspace pg_ensure_queryid && chown postgres:postgres /var/lib/pgsql/.pg_ensure_queryid.tar.gz
+RUN tar cvzf /var/lib/pgsql/.inzent_tde.tar.gz -C /var/lib/pgsql/workspace inzent_tde && chown postgres:postgres /var/lib/pgsql/.inzent_tde.tar.gz
+RUN tar cvzf /var/lib/pgsql/.pg_inzent_tde.tar.gz -C /var/lib/pgsql/workspace pg_inzent_tde && chown postgres:postgres /var/lib/pgsql/.pg_inzent_tde.tar.gz
 
 # Docker 환경 설정
 USER root
