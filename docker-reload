@@ -1,0 +1,49 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+  echo "사용 가능한 docker-*.yml 목록:"
+  files=$(ls docker-*.yml 2>/dev/null)
+  keys=""
+  bases=""
+  idx=1
+  for f in $files; do
+    base=${f#docker-}
+    base=${base%.yml}
+    num=$(echo "$base" | grep -o '[0-9]\+$')
+    if [ -n "$num" ]; then
+      key="$num"
+    else
+      key=""
+      i=1
+      while [ $i -le ${#base} ]; do
+        c=$(echo "$base" | cut -c $i | tr 'A-Z' 'a-z')
+        if echo "$keys" | grep -qw "$c"; then
+          i=$((i+1))
+          continue
+        fi
+        key="$c"
+        keys="$keys $c"
+        break
+      done
+      [ -z "$key" ] && key="$base"
+    fi
+    echo "  $key) $base"
+    bases="$bases|$key:$base"
+    idx=$((idx+1))
+  done
+  printf "번호 또는 키/이름을 입력하세요: "
+  read sel
+  found=""
+  for pair in $(echo "$bases" | tr '|' ' '); do
+    k=$(echo "$pair" | cut -d: -f1)
+    v=$(echo "$pair" | cut -d: -f2-)
+    if [ "$sel" = "$k" ]; then
+      found="$v"
+      break
+    fi
+  done
+  [ -z "$found" ] && found="$sel"
+  set -- "$found"
+fi
+
+docker compose -f docker-$1.yml up -d --remove-orphans
