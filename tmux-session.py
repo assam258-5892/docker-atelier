@@ -213,6 +213,7 @@ def move_pane_to_index(session, name, panes, idx, pane_cmd, layout):
         if cur_idx is not None and cur_idx != idx:
             if idx == 0:
                 tmux('move-pane', '-s', f'{session}:{name}.{cur_idx}', '-t', f'{session}:{name}.0')
+                tmux('move-pane', '-s', f'{session}:{name}.0', '-t', f'{session}:{name}.1')
             else:
                 prev_cmd = panes[idx-1]['command']
                 prev_idx = cmd_to_idx.get(prev_cmd)
