@@ -65,6 +65,7 @@ COPY --chown=postgres:postgres --chmod=644 ubuntu/files/gitconfig /var/lib/postg
 COPY --chown=postgres:postgres --chmod=644 files/gitignore /var/lib/postgresql/workspace/.gitignore
 COPY --chown=postgres:postgres --chmod=644 files/*.json /var/lib/postgresql/workspace/.vscode
 COPY --chown=postgres:postgres --chmod=644 ubuntu/files/${PG_MAJOR}/launch.json /var/lib/postgresql/workspace/.vscode/launch.json
+RUN curl -o /var/lib/postgresql/.git-completion.bash https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
 RUN ( cd /var/lib/postgresql/workspace/postgres && git init && git remote add origin https://github.com/assam258-5892/postgres.git && git remote add upstream https://github.com/postgres/postgres.git )
 RUN ( cd /var/lib/postgresql/workspace/pg_store_plans && git init && git remote add origin https://github.com/experdb/pg_store_plans.git && git remote add upstream https://github.com/ossc-db/pg_store_plans.git )
 RUN ( cd /var/lib/postgresql/workspace/pgsentinel && git init && git remote add origin https://github.com/experdb/pgsentinel.git && git remote add upstream https://github.com/pgsentinel/pgsentinel.git )

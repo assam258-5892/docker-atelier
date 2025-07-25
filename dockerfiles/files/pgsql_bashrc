@@ -73,9 +73,11 @@ if [ -n "$VSCODE_SHELL_INTEGRATION" ]; then powerline; fi
 
 ulimit -n 1048576
 
+[ -f "${HOME}/.git-completion.bash" ] && source "${HOME}/.git-completion.bash"
+
 alias remove='rm -f .*~ *~'
 
-export GIT_CONFIG_GLOBAL=${HOME}/workspace/.gitconfig
+export GIT_CONFIG_GLOBAL="${HOME}/workspace/.gitconfig"
 
 function git-pull {
     for dir in `ls -d ${HOME}/workspace/*/.git`; do
