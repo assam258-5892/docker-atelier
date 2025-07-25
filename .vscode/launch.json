@@ -1,0 +1,33 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "tmux-atelier",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/tmux-session.py",
+            "args": [
+                "${workspaceFolder}/tmux-atelier.yml"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "tmux-docker",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/tmux-session.py",
+            "args": [
+                "${workspaceFolder}/tmux-docker.yml"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "bashdb",
+            "request": "launch",
+            "name": "tmux-list",
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/tmux-list",
+            "args": []
+        }
+    ]
+}
