@@ -5,10 +5,10 @@ windows:
     panes:
       - title: bpytop
         command: bash -c 'while sleep 1; do bpytop; done'
-      - title: logs
-        command: bash -c 'while sleep 1; do docker compose logs -f haproxy apache2 squid; done'
       - title: shell
         command: bash
+      - title: logs
+        command: bash -c 'while sleep 1; do docker compose logs -f haproxy apache2 squid; done'
     resize_panes:
       - target: 0
         x: 185
