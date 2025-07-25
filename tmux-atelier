@@ -6,6 +6,4 @@ else
     session="atelier"
 fi
 
-tmux kill-session -t "${session}" 2>/dev/null
-
-./tmux-docker-atelier $@
+./tmux-session.py tmux-atelier.yml $@

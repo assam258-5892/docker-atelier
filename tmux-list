@@ -1,0 +1,11 @@
+#!/bin/bash
+
+for session in $(tmux list-sessions -F '#S'); do
+  echo "Session: $session"
+  tmux list-windows -t "$session" -F '  Window: #I (#W)' | while read -r win; do
+    echo "$win"
+    win_idx=$(echo "$win" | awk '{print $2}')
+    tmux list-panes -t "$session:$win_idx" -F '    Pane: #P | ID: #D | CMD: #{pane_start_command}'
+  done
+  echo
+done

@@ -1,0 +1,15 @@
+session: atelier
+windows:
+  - name: monitor
+    layout: tiled
+    panes:
+      - title: bpytop
+        command: bash -c 'while sleep 1; do bpytop; done'
+      - title: logs
+        command: bash -c 'while sleep 1; do docker compose logs -f haproxy apache2 squid; done'
+      - title: shell
+        command: bash
+    resize_panes:
+      - target: 0
+        x: 185
+        y: 45
