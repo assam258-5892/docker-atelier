@@ -46,6 +46,9 @@ def get_windows_from_config(config):
 def get_existing_tmux_structure(session):
     result = []
     try:
+        check = subprocess.run(['tmux', 'has-session', '-t', session], capture_output=True, text=True)
+        if check.returncode != 0:
+            return result
         win_out = subprocess.run(['tmux', 'list-windows', '-t', session, '-F', '#I:#W'], capture_output=True, text=True, check=True)
         for line in win_out.stdout.strip().splitlines():
             idx, name = line.split(':', 1)
