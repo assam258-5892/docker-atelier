@@ -1,10 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+
 import sys
 import os
 import subprocess
 import yaml
+import pprint
 
 os.environ['IGNOREEOF'] = '99'
 os.environ['LANG'] = 'ko_KR.UTF-8'
@@ -20,6 +22,14 @@ def strip_quotes(s):
         return s[1:-1].strip()
     return s
 
+def quote_arg(arg):
+    if ' ' in arg or '\t' in arg or '\n' in arg or '"' in arg or "'" in arg:
+        return '"' + arg.replace('"', '\"') + '"'
+    return arg
+
+def print_cmd(cmd):
+    print(' '.join(quote_arg(a) for a in cmd))
+
 def load_config(yml_path):
     with open(yml_path, encoding='utf-8') as f:
         return yaml.safe_load(f)
@@ -28,8 +38,12 @@ def get_compose_services(compose_file='docker-full.yml'):
     try:
         cmd = ['docker', 'compose', '-f', compose_file, 'ps', '--services']
         if tmux_debug:
-            print(' '.join(cmd))
+            print_cmd(cmd)
         result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+        if tmux_debug:
+            print(result.stdout.strip())
+            if result.stderr:
+                print(result.stderr.strip())
         services = set(result.stdout.strip().splitlines())
         return services
     except Exception as e:
@@ -57,16 +71,35 @@ def get_windows_from_config(config):
 def get_existing_tmux_structure(session):
     result = []
     try:
-        check = subprocess.run(['tmux', 'has-session', '-t', session], capture_output=True, text=True)
+        check_cmd = ['tmux', 'has-session', '-t', session]
+        if tmux_debug:
+            print_cmd(check_cmd)
+        check = subprocess.run(check_cmd, capture_output=True, text=True)
+        if check.stderr:
+            print((check.stderr or '').strip())
         if check.returncode != 0:
             return result
-        win_out = subprocess.run(['tmux', 'list-windows', '-t', session, '-F', '#I:#W'], capture_output=True, text=True, check=True)
+        win_cmd = ['tmux', 'list-windows', '-t', session, '-F', '#I:#W']
+        if tmux_debug:
+            print_cmd(win_cmd)
+        win_out = subprocess.run(win_cmd, capture_output=True, text=True, check=True)
+        if tmux_debug:
+            print((win_out.stdout or '').strip())
+            if win_out.stderr:
+                print((win_out.stderr or '').strip())
         for line in win_out.stdout.strip().splitlines():
             idx, name = line.split(':', 1)
-            pane_out = subprocess.run([
+            pane_cmd = [
                 'tmux', 'list-panes', '-t', f'{session}:{idx}',
                 '-F', '#P::#{pane_start_command}::#{pane_dead}'
-            ], capture_output=True, text=True, check=True)
+            ]
+            if tmux_debug:
+                print_cmd(pane_cmd)
+            pane_out = subprocess.run(pane_cmd, capture_output=True, text=True, check=True)
+            if tmux_debug:
+                print((pane_out.stdout or '').strip())
+                if pane_out.stderr:
+                    print((pane_out.stderr or '').strip())
             panes = []
             for pline in pane_out.stdout.strip().splitlines():
                 parts = pline.split('::', 2)
@@ -116,11 +149,7 @@ def mark_delete_candidates(existing, filtered_windows):
 def tmux(*args):
     cmd = ['tmux'] + list(args)
     if tmux_debug:
-        def quote_arg(arg):
-            if ' ' in arg or '\t' in arg or '\n' in arg or '"' in arg or "'" in arg:
-                return '"' + arg.replace('"', '\"') + '"'
-            return arg
-        print(' '.join(quote_arg(a) for a in cmd))
+        print_cmd(cmd)
     return subprocess.run(cmd, check=False)
 
 def tmux_new_session(session, window, command):
@@ -150,7 +179,14 @@ def tmux_resize_pane(session, window, target, x, y):
     tmux('resize-pane', '-t', f'{session}:{window}.{target}', '-x', str(x), '-y', str(y))
 
 def move_window_to_index(session, name, target_idx):
-    win_out = subprocess.run(['tmux', 'list-windows', '-t', session, '-F', '#I:#W'], capture_output=True, text=True, check=False)
+    win_cmd = ['tmux', 'list-windows', '-t', session, '-F', '#I:#W']
+    if tmux_debug:
+        print_cmd(win_cmd)
+    win_out = subprocess.run(win_cmd, capture_output=True, text=True, check=False)
+    if tmux_debug:
+        print((win_out.stdout or '').strip())
+        if win_out.stderr:
+            print((win_out.stderr or '').strip())
     if win_out.returncode != 0:
         return
     name_to_idx = {line.split(':',1)[1]: int(line.split(':',1)[0]) for line in win_out.stdout.strip().splitlines()}
@@ -160,7 +196,14 @@ def move_window_to_index(session, name, target_idx):
 
 def move_pane_to_index(session, name, panes, idx, pane_cmd, layout):
     try:
-        pane_out = subprocess.run(['tmux', 'list-panes', '-t', f'{session}:{name}', '-F', '#P:#{pane_start_command}'], capture_output=True, text=True, check=True)
+        list_panes_cmd = ['tmux', 'list-panes', '-t', f'{session}:{name}', '-F', '#P:#{pane_start_command}']
+        if tmux_debug:
+            print_cmd(list_panes_cmd)
+        pane_out = subprocess.run(list_panes_cmd, capture_output=True, text=True, check=True)
+        if tmux_debug:
+            print((pane_out.stdout or '').strip())
+            if pane_out.stderr:
+                print((pane_out.stderr or '').strip())
         cmd_to_idx = {}
         for pline in pane_out.stdout.strip().splitlines():
             if ':' in pline:
@@ -193,8 +236,13 @@ def main(session):
         return
     existing = get_existing_tmux_structure(session)
     existing_map = {w['name']: w for w in existing}
+
     mark_create_candidates(filtered_windows, existing_map)
     mark_delete_candidates(existing, filtered_windows)
+
+    if tmux_debug:
+        pprint.pprint(filtered_windows)
+        pprint.pprint(existing_map)
 
     if not existing:
         first = filtered_windows[0]
