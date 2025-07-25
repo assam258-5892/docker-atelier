@@ -4,173 +4,237 @@ windows:
     layout: tiled
     panes:
       - service: rocky9-init
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /root rocky9-init /bin/bash --login
+        command: docker compose exec -ti -w /root rocky9-init /bin/bash --login
       - service: rocky8-init
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /root rocky8-init /bin/bash --login
+        command: docker compose exec -ti -w /root rocky8-init /bin/bash --login
       - service: ubuntu24-init
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /root ubuntu24-init /bin/bash --login
+        command: docker compose exec -ti -w /root ubuntu24-init /bin/bash --login
       - service: ubuntu22-init
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /root ubuntu22-init /bin/bash --login
+        command: docker compose exec -ti -w /root ubuntu22-init /bin/bash --login
   - name: active
     layout: tiled
     panes:
       - service: rocky9-pg17-active
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky9-pg17-active /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky9-pg17-active /bin/bash --login
       - service: rocky9-pg16-active
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky9-pg16-active /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky9-pg16-active /bin/bash --login
       - service: rocky9-pg15-active
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky9-pg15-active /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky9-pg15-active /bin/bash --login
       - service: rocky9-pg14-active
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky9-pg14-active /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky9-pg14-active /bin/bash --login
       - service: rocky8-pg17-active
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky8-pg17-active /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky8-pg17-active /bin/bash --login
       - service: rocky8-pg16-active
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky8-pg16-active /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky8-pg16-active /bin/bash --login
       - service: rocky8-pg15-active
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky8-pg15-active /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky8-pg15-active /bin/bash --login
       - service: rocky8-pg14-active
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky8-pg14-active /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky8-pg14-active /bin/bash --login
       - service: ubuntu24-pg17-active
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu24-pg17-active /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu24-pg17-active /bin/bash --login
       - service: ubuntu24-pg16-active
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu24-pg16-active /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu24-pg16-active /bin/bash --login
       - service: ubuntu24-pg15-active
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu24-pg15-active /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu24-pg15-active /bin/bash --login
       - service: ubuntu24-pg14-active
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu24-pg14-active /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu24-pg14-active /bin/bash --login
       - service: ubuntu22-pg17-active
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu22-pg17-active /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu22-pg17-active /bin/bash --login
       - service: ubuntu22-pg16-active
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu22-pg16-active /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu22-pg16-active /bin/bash --login
       - service: ubuntu22-pg15-active
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu22-pg15-active /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu22-pg15-active /bin/bash --login
       - service: ubuntu22-pg14-active
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu22-pg14-active /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu22-pg14-active /bin/bash --login
   - name: standby
     layout: tiled
     panes:
       - service: rocky9-pg17-standby
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky9-pg17-standby /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky9-pg17-standby /bin/bash --login
       - service: rocky9-pg16-standby
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky9-pg16-standby /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky9-pg16-standby /bin/bash --login
       - service: rocky9-pg15-standby
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky9-pg15-standby /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky9-pg15-standby /bin/bash --login
       - service: rocky9-pg14-standby
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky9-pg14-standby /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky9-pg14-standby /bin/bash --login
       - service: rocky8-pg17-standby
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky8-pg17-standby /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky8-pg17-standby /bin/bash --login
       - service: rocky8-pg16-standby
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky8-pg16-standby /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky8-pg16-standby /bin/bash --login
       - service: rocky8-pg15-standby
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky8-pg15-standby /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky8-pg15-standby /bin/bash --login
       - service: rocky8-pg14-standby
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky8-pg14-standby /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky8-pg14-standby /bin/bash --login
       - service: ubuntu24-pg17-standby
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu24-pg17-standby /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu24-pg17-standby /bin/bash --login
       - service: ubuntu24-pg16-standby
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu24-pg16-standby /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu24-pg16-standby /bin/bash --login
       - service: ubuntu24-pg15-standby
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu24-pg15-standby /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu24-pg15-standby /bin/bash --login
       - service: ubuntu24-pg14-standby
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu24-pg14-standby /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu24-pg14-standby /bin/bash --login
       - service: ubuntu22-pg17-standby
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu22-pg17-standby /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu22-pg17-standby /bin/bash --login
       - service: ubuntu22-pg16-standby
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu22-pg16-standby /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu22-pg16-standby /bin/bash --login
       - service: ubuntu22-pg15-standby
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu22-pg15-standby /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu22-pg15-standby /bin/bash --login
       - service: ubuntu22-pg14-standby
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu22-pg14-standby /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu22-pg14-standby /bin/bash --login
   - name: standalone
     layout: tiled
     panes:
       - service: rocky9-pg17-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky9-pg17-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky9-pg17-standalone /bin/bash --login
       - service: rocky9-pg16-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky9-pg16-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky9-pg16-standalone /bin/bash --login
       - service: rocky9-pg15-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky9-pg15-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky9-pg15-standalone /bin/bash --login
       - service: rocky9-pg14-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky9-pg14-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky9-pg14-standalone /bin/bash --login
       - service: rocky8-pg17-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky8-pg17-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky8-pg17-standalone /bin/bash --login
       - service: rocky8-pg16-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky8-pg16-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky8-pg16-standalone /bin/bash --login
       - service: rocky8-pg15-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky8-pg15-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky8-pg15-standalone /bin/bash --login
       - service: rocky8-pg14-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky8-pg14-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky8-pg14-standalone /bin/bash --login
       - service: ubuntu24-pg17-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu24-pg17-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu24-pg17-standalone /bin/bash --login
       - service: ubuntu24-pg16-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu24-pg16-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu24-pg16-standalone /bin/bash --login
       - service: ubuntu24-pg15-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu24-pg15-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu24-pg15-standalone /bin/bash --login
       - service: ubuntu24-pg14-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu24-pg14-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu24-pg14-standalone /bin/bash --login
       - service: ubuntu22-pg17-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu22-pg17-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu22-pg17-standalone /bin/bash --login
       - service: ubuntu22-pg16-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu22-pg16-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu22-pg16-standalone /bin/bash --login
       - service: ubuntu22-pg15-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu22-pg15-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu22-pg15-standalone /bin/bash --login
       - service: ubuntu22-pg14-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu22-pg14-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu22-pg14-standalone /bin/bash --login
   - name: pg17
     layout: tiled
     panes:
+      - service: rocky9-pg17-active
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky9-pg17-active /bin/bash --login
+      - service: rocky9-pg17-standby
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky9-pg17-standby /bin/bash --login
       - service: rocky9-pg17-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky9-pg17-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky9-pg17-standalone /bin/bash --login
+      - service: rocky8-pg17-active
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky8-pg17-active /bin/bash --login
+      - service: rocky8-pg17-standby
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky8-pg17-standby /bin/bash --login
       - service: rocky8-pg17-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky8-pg17-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky8-pg17-standalone /bin/bash --login
+      - service: ubuntu24-pg17-active
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu24-pg17-active /bin/bash --login
+      - service: ubuntu24-pg17-standby
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu24-pg17-standby /bin/bash --login
       - service: ubuntu24-pg17-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu24-pg17-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu24-pg17-standalone /bin/bash --login
+      - service: ubuntu22-pg17-active
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu22-pg17-active /bin/bash --login
+      - service: ubuntu22-pg17-standby
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu22-pg17-standby /bin/bash --login
       - service: ubuntu22-pg17-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu22-pg17-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu22-pg17-standalone /bin/bash --login
   - name: pg16
     layout: tiled
     panes:
+      - service: rocky9-pg16-active
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky9-pg16-active /bin/bash --login
+      - service: rocky9-pg16-standby
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky9-pg16-standby /bin/bash --login
       - service: rocky9-pg16-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky9-pg16-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky9-pg16-standalone /bin/bash --login
+      - service: rocky8-pg16-active
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky8-pg16-active /bin/bash --login
+      - service: rocky8-pg16-standby
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky8-pg16-standby /bin/bash --login
       - service: rocky8-pg16-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky8-pg16-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky8-pg16-standalone /bin/bash --login
+      - service: ubuntu24-pg16-active
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu24-pg16-active /bin/bash --login
+      - service: ubuntu24-pg16-standby
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu24-pg16-standby /bin/bash --login
       - service: ubuntu24-pg16-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu24-pg16-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu24-pg16-standalone /bin/bash --login
+      - service: ubuntu22-pg16-active
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu22-pg16-active /bin/bash --login
+      - service: ubuntu22-pg16-standby
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu22-pg16-standby /bin/bash --login
       - service: ubuntu22-pg16-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu22-pg16-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu22-pg16-standalone /bin/bash --login
   - name: pg15
     layout: tiled
     panes:
+      - service: rocky9-pg15-active
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky9-pg15-active /bin/bash --login
+      - service: rocky9-pg15-standby
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky9-pg15-standby /bin/bash --login
       - service: rocky9-pg15-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky9-pg15-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky9-pg15-standalone /bin/bash --login
+      - service: rocky8-pg15-active
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky8-pg15-active /bin/bash --login
+      - service: rocky8-pg15-standby
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky8-pg15-standby /bin/bash --login
       - service: rocky8-pg15-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky8-pg15-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky8-pg15-standalone /bin/bash --login
+      - service: ubuntu24-pg15-active
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu24-pg15-active /bin/bash --login
+      - service: ubuntu24-pg15-standby
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu24-pg15-standby /bin/bash --login
       - service: ubuntu24-pg15-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu24-pg15-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu24-pg15-standalone /bin/bash --login
+      - service: ubuntu22-pg15-active
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu22-pg15-active /bin/bash --login
+      - service: ubuntu22-pg15-standby
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu22-pg15-standby /bin/bash --login
       - service: ubuntu22-pg15-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu22-pg15-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu22-pg15-standalone /bin/bash --login
   - name: pg14
     layout: tiled
     panes:
+      - service: rocky9-pg14-active
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky9-pg14-active /bin/bash --login
+      - service: rocky9-pg14-standby
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky9-pg14-standby /bin/bash --login
       - service: rocky9-pg14-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky9-pg14-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky9-pg14-standalone /bin/bash --login
+      - service: rocky8-pg14-active
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky8-pg14-active /bin/bash --login
+      - service: rocky8-pg14-standby
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky8-pg14-standby /bin/bash --login
       - service: rocky8-pg14-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/pgsql -u postgres rocky8-pg14-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/pgsql -u postgres rocky8-pg14-standalone /bin/bash --login
+      - service: ubuntu24-pg14-active
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu24-pg14-active /bin/bash --login
+      - service: ubuntu24-pg14-standby
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu24-pg14-standby /bin/bash --login
       - service: ubuntu24-pg14-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu24-pg14-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu24-pg14-standalone /bin/bash --login
+      - service: ubuntu22-pg14-active
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu22-pg14-active /bin/bash --login
+      - service: ubuntu22-pg14-standby
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu22-pg14-standby /bin/bash --login
       - service: ubuntu22-pg14-standalone
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /var/lib/postgresql -u postgres ubuntu22-pg14-standalone /bin/bash --login
+        command: docker compose exec -ti -w /var/lib/postgresql -u postgres ubuntu22-pg14-standalone /bin/bash --login
   - name: rocky
     layout: even-horizontal
     panes:
       - service: rocky9-init
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /root rocky9-init /bin/bash --login
+        command: docker compose exec -ti -w /root rocky9-init /bin/bash --login
       - service: rocky8-init
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /root rocky8-init /bin/bash --login
+        command: docker compose exec -ti -w /root rocky8-init /bin/bash --login
   - name: ubuntu
     layout: even-horizontal
     panes:
       - service: ubuntu24-init
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /root ubuntu24-init /bin/bash --login
+        command: docker compose exec -ti -w /root ubuntu24-init /bin/bash --login
       - service: ubuntu22-init
-        command: docker compose exec -ti -e IGNOREEOF=99 -e LANG=ko_KR.UTF-8 -e LANGUAGE=ko:en -e LC_ALL=ko_KR.UTF-8 -w /root ubuntu22-init /bin/bash --login
+        command: docker compose exec -ti -w /root ubuntu22-init /bin/bash --login
