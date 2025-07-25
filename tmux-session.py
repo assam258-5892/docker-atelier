@@ -1,13 +1,24 @@
 #!/usr/bin/python3
-# -- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 import sys
 import os
 import subprocess
 import yaml
 
+os.environ['IGNOREEOF'] = '99'
+os.environ['LANG'] = 'ko_KR.UTF-8'
+os.environ['LANGUAGE'] = 'ko:en'
+os.environ['LC_ALL'] = 'ko_KR.UTF-8'
+
 _tmux_debug_env = os.environ.get('TMUX_DEBUG')
 tmux_debug = _tmux_debug_env is not None and len(_tmux_debug_env) > 0 and _tmux_debug_env != '0'
+
+def strip_quotes(s):
+    s = s.strip()
+    if (s.startswith('"') and s.endswith('"')) or (s.startswith("'") and s.endswith("'")):
+        return s[1:-1].strip()
+    return s
 
 def load_config(yml_path):
     with open(yml_path, encoding='utf-8') as f:
@@ -52,17 +63,19 @@ def get_existing_tmux_structure(session):
         win_out = subprocess.run(['tmux', 'list-windows', '-t', session, '-F', '#I:#W'], capture_output=True, text=True, check=True)
         for line in win_out.stdout.strip().splitlines():
             idx, name = line.split(':', 1)
-            pane_out = subprocess.run(['tmux', 'list-panes', '-t', f'{session}:{idx}', '-F', '#P:#{pane_start_command}'], capture_output=True, text=True, check=True)
-            def strip_quotes(s):
-                s = s.strip()
-                if (s.startswith('"') and s.endswith('"')) or (s.startswith("'") and s.endswith("'")):
-                    return s[1:-1].strip()
-                return s
+            pane_out = subprocess.run([
+                'tmux', 'list-panes', '-t', f'{session}:{idx}',
+                '-F', '#P::#{pane_start_command}::#{pane_dead}'
+            ], capture_output=True, text=True, check=True)
             panes = []
             for pline in pane_out.stdout.strip().splitlines():
-                if ':' in pline:
-                    idx_str, cmd = pline.split(':', 1)
-                    panes.append({'command': strip_quotes(cmd)})
+                parts = pline.split('::', 2)
+                if len(parts) == 3:
+                    idx_str, cmd, dead = parts
+                    panes.append({'command': strip_quotes(cmd), 'dead': dead != '0'})
+                elif len(parts) == 2:
+                    idx_str, cmd = parts
+                    panes.append({'command': strip_quotes(cmd), 'dead': False})
             result.append({'name': name, 'panes': panes})
     except Exception as e:
         print(e)
@@ -92,7 +105,6 @@ def mark_delete_candidates(existing, filtered_windows):
             win['delete'] = True
         else:
             win['delete'] = False
-        # pane 단위 비교
         filtered_panes = next((w['panes'] for w in filtered_windows if w['name'] == name), [])
         filtered_cmds = set(p['command'] for p in filtered_panes)
         for pane in win['panes']:
@@ -113,16 +125,23 @@ def tmux(*args):
 
 def tmux_new_session(session, window, command):
     tmux('new-session', '-d', '-s', session, '-n', window, command)
+    tmux('set-option', '-g', 'status-right', '"#S:#W.#P" %Y-%m-%d %H:%M:%S#{default}')
+    tmux('set-option', '-g', 'history-limit', '10000')
+    tmux('set-option', '-g', 'remain-on-exit', 'on')
+    tmux('set-option', '-g', 'mouse', 'on')
+    tmux('bind-key', '-n', 'MouseDown1StatusRight', 'setw synchronize-panes')
+    tmux('bind-key', '-n', 'MouseDown1StatusLeft', 'switch-client -n')
+    tmux('bind-key', 'C-s', 'setw synchronize-panes')
+
+def tmux_select_layout(session, window, layout):
+    tmux('select-layout', '-t', f'{session}:{window}', layout)
 
 def tmux_new_window(session, window, command):
     tmux('new-window', '-t', session, '-n', window, command)
 
-def tmux_split_window(session, window, command):
+def tmux_split_window(session, window, command, layout):
     tmux('split-window', '-t', f'{session}:{window}', command)
-    tmux('select-layout', '-t', f'{session}:{window}', 'tiled')
-
-def tmux_select_layout(session, window, layout):
-    tmux('select-layout', '-t', f'{session}:{window}', layout)
+    tmux_select_layout(session, window, layout)
 
 def tmux_select_pane(session, window, idx):
     tmux('select-pane', '-t', f'{session}:{window}.{idx}')
@@ -131,24 +150,22 @@ def tmux_resize_pane(session, window, target, x, y):
     tmux('resize-pane', '-t', f'{session}:{window}.{target}', '-x', str(x), '-y', str(y))
 
 def move_window_to_index(session, name, target_idx):
-    try:
-        win_out = subprocess.run(['tmux', 'list-windows', '-t', session, '-F', '#I:#W'], capture_output=True, text=True, check=True)
-        name_to_idx = {line.split(':',1)[1]: int(line.split(':',1)[0]) for line in win_out.stdout.strip().splitlines()}
-        cur_idx = name_to_idx.get(name)
-        if cur_idx is not None and cur_idx != target_idx:
-            tmux('move-window', '-s', f'{session}:{cur_idx}', '-t', f'{session}:{target_idx}')
-    except Exception as e:
-        print(e)
-        raise
+    win_out = subprocess.run(['tmux', 'list-windows', '-t', session, '-F', '#I:#W'], capture_output=True, text=True, check=False)
+    if win_out.returncode != 0:
+        return
+    name_to_idx = {line.split(':',1)[1]: int(line.split(':',1)[0]) for line in win_out.stdout.strip().splitlines()}
+    cur_idx = name_to_idx.get(name)
+    if cur_idx is not None and cur_idx != target_idx:
+        tmux('move-window', '-s', f'{session}:{cur_idx}', '-t', f'{session}:{target_idx}')
 
-def move_pane_to_index(session, name, panes, idx, pane_cmd):
+def move_pane_to_index(session, name, panes, idx, pane_cmd, layout):
     try:
         pane_out = subprocess.run(['tmux', 'list-panes', '-t', f'{session}:{name}', '-F', '#P:#{pane_start_command}'], capture_output=True, text=True, check=True)
         cmd_to_idx = {}
         for pline in pane_out.stdout.strip().splitlines():
             if ':' in pline:
                 pidx, cmd = pline.split(':', 1)
-                cmd_to_idx[cmd.strip()] = int(pidx)
+                cmd_to_idx[strip_quotes(cmd.strip())] = int(pidx)
         cur_idx = cmd_to_idx.get(pane_cmd)
         if cur_idx is not None and cur_idx != idx:
             if idx == 0:
@@ -158,7 +175,7 @@ def move_pane_to_index(session, name, panes, idx, pane_cmd):
                 prev_idx = cmd_to_idx.get(prev_cmd)
                 if prev_idx is not None:
                     tmux('move-pane', '-s', f'{session}:{name}.{cur_idx}', '-t', f'{session}:{name}.{prev_idx}')
-            tmux_select_layout(session, name, 'tiled')
+            tmux_select_layout(session, name, layout)
     except Exception as e:
         print(e)
         raise
@@ -184,7 +201,7 @@ def main(session):
         panes = first['panes']
         tmux_new_session(session, first['name'], panes[0]['command'])
         for pane in panes[1:]:
-            tmux_split_window(session, first['name'], pane['command'])
+            tmux_split_window(session, first['name'], pane['command'], first.get('layout', 'tiled'))
         tmux_select_layout(session, first['name'], first.get('layout', 'tiled'))
         if 'resize_panes' in first:
             for r in first['resize_panes']:
@@ -193,7 +210,7 @@ def main(session):
             panes = win['panes']
             tmux_new_window(session, win['name'], panes[0]['command'])
             for pane in panes[1:]:
-                tmux_split_window(session, win['name'], pane['command'])
+                tmux_split_window(session, win['name'], pane['command'], win.get('layout', 'tiled'))
             tmux_select_layout(session, win['name'], win.get('layout', 'tiled'))
             if 'resize_panes' in win:
                 for r in win['resize_panes']:
@@ -217,7 +234,7 @@ def main(session):
                 else:
                     tmux('new-window', '-a', '-t', f'{session}:{idx-1}', '-n', name, panes[0]['command'])
                 for pane in panes[1:]:
-                    tmux_split_window(session, name, pane['command'])
+                    tmux_split_window(session, name, pane['command'], win.get('layout', 'tiled'))
                 tmux_select_layout(session, name, win.get('layout', 'tiled'))
                 if 'resize_panes' in win:
                     for r in win['resize_panes']:
@@ -233,9 +250,21 @@ def main(session):
                         tmux('split-window', '-b', '-t', f'{session}:{name}.0', pane['command'])
                     else:
                         tmux('split-window', '-t', f'{session}:{name}.{idx-1}', pane['command'])
-                    tmux_select_layout(session, name, 'tiled')
+                    tmux_select_layout(session, name, win.get('layout', 'tiled'))
                 else:
-                    move_pane_to_index(session, name, panes, idx, pane['command'])
+                    pane_dead = False
+                    for ep in existing_panes:
+                        if ep.get('command') == pane['command']:
+                            pane_dead = ep.get('dead', False)
+                            break
+                    if pane_dead:
+                        tmux('kill-pane', '-t', f'{session}:{name}.{idx}')
+                        if idx == 0:
+                            tmux('split-window', '-b', '-t', f'{session}:{name}.0', pane['command'])
+                        else:
+                            tmux('split-window', '-t', f'{session}:{name}.{idx-1}', pane['command'])
+                        tmux_select_layout(session, name, win.get('layout', 'tiled'))
+                    move_pane_to_index(session, name, panes, idx, pane['command'], win.get('layout', 'tiled'))
             tmux_select_layout(session, name, win.get('layout', 'tiled'))
             if 'resize_panes' in win:
                 for r in win['resize_panes']:
