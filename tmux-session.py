@@ -75,8 +75,6 @@ def get_existing_tmux_structure(session):
         if tmux_debug:
             print_cmd(check_cmd)
         check = subprocess.run(check_cmd, capture_output=True, text=True)
-        if check.stderr:
-            print((check.stderr or '').strip())
         if check.returncode != 0:
             return result
         win_cmd = ['tmux', 'list-windows', '-t', session, '-F', '#I:#W']
