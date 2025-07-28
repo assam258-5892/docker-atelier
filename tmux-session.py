@@ -48,7 +48,7 @@ def get_compose_services(compose_file='docker-full.yml'):
         return services
     except Exception as e:
         print('Error getting compose services:', e)
-        raise
+        return set()
 
 def filter_panes_by_services(windows, docker_services):
     filtered_windows = []
