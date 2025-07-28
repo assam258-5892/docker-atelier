@@ -7,7 +7,7 @@ ARG PG_MAJOR
 RUN dnf install -y postgresql${PG_MAJOR}-server postgresql${PG_MAJOR}-contrib postgresql${PG_MAJOR}-plpython3 postgresql${PG_MAJOR}-plperl postgresql${PG_MAJOR}-devel
 RUN dnf install -y pg_hint_plan_${PG_MAJOR}
 RUN dnf install -y pg_show_plans_${PG_MAJOR}
-RUN git config --global credential.helper store 
+RUN git config --global credential.helper store
 RUN ( git clone --depth 1 --branch 1.9e1 https://github.com/experdb/pg_store_plans.git && cd pg_store_plans && USE_PGXS=1 PATH=/usr/pgsql-${PG_MAJOR}/bin:${PATH} make install && cd .. && rm -rf pg_store_plans )
 RUN ( git clone --depth 1 --branch REL_1_1_0 https://github.com/experdb/pgsentinel.git && cd pgsentinel/src && PATH=/usr/pgsql-${PG_MAJOR}/bin:${PATH} make install && cd ../.. && rm -rf pgsentinel )
 RUN ( git clone --depth 1 --branch 1.0.0 https://github.com/experdb/pg_ensure_queryid.git && cd pg_ensure_queryid && PATH=/usr/pgsql-${PG_MAJOR}/bin:${PATH} make install && cd ../.. && rm -rf pg_ensure_queryid )
@@ -66,7 +66,7 @@ COPY --chown=postgres:postgres --chmod=755 files/cuttail.py files/unique.py /var
 COPY --chown=postgres:postgres --chmod=644 rocky/files/gitconfig /var/lib/pgsql/workspace/.gitconfig
 COPY --chown=postgres:postgres --chmod=644 files/gitignore /var/lib/pgsql/workspace/.gitignore
 COPY --chown=postgres:postgres --chmod=644 files/*.json /var/lib/pgsql/workspace/.vscode
-COPY --chown=postgres:postgres --chmod=644 rocky/files/${PG_MAJOR}/launch.json /var/lib/pgsql/workspace/.vscode/launch.json
+COPY --chown=postgres:postgres --chmod=644 rocky/files/${PG_MAJOR}/*.json /var/lib/pgsql/workspace/.vscode
 RUN curl -o /var/lib/pgsql/.git-completion.bash https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
 RUN ( cd /var/lib/pgsql/workspace/postgres && git init && git remote add origin https://github.com/assam258-5892/postgres.git && git remote add upstream https://github.com/postgres/postgres.git )
 RUN ( cd /var/lib/pgsql/workspace/pg_store_plans && git init && git remote add origin https://github.com/experdb/pg_store_plans.git && git remote add upstream https://github.com/ossc-db/pg_store_plans.git )

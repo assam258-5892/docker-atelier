@@ -3,7 +3,10 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "/usr/pgsql-17/include/server",
+                "/usr/pgsql-17/include/internal",
+                "/usr/include/libxml2"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
