@@ -2,6 +2,8 @@ LANG=ko_KR.UTF-8
 LANGUAGE=ko:en
 LC_ALL=ko_KR.UTF-8
 
+if [[ $- != *i* ]]; then return; fi
+
 USER=`whoami`
 case "${USER}" in
     root)
@@ -69,7 +71,7 @@ export USER PS1 PS2 PS3
 
 export POWERLINE_CONFIG_PATHS="${HOME}/.config/powerline"
 alias powerline="if [ -f `which powerline-daemon` ]; then powerline-daemon -q; POWERLINE_BASH_CONTINUATION=1 POWERLINE_BASH_SELECT=1 . $(pip3 show powerline-status | grep Location | awk '{print $2}')/powerline/bindings/bash/powerline.sh; fi"
-if [ -n "$VSCODE_SHELL_INTEGRATION" ]; then powerline; fi
+if [ "$TERM_PROGRAM" = "Termius" ] || [ "$TERM_PROGRAM" = "vscode" ] || [ "$TERM_PROGRAM" = "tmux" ]; then powerline; fi
 
 ulimit -n 1048576
 
