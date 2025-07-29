@@ -35,7 +35,7 @@ RUN systemctl enable postgresql-${PG_MAJOR}
 RUN echo "postgres	ALL=(ALL)	NOPASSWD: ALL" > /etc/sudoers.d/postgres
 RUN chmod 440 /etc/sudoers.d/postgres
 COPY --chown=postgres:postgres --chmod=644 rocky/files/pgsql_profile /var/lib/pgsql/.bash_profile
-ADD files/ssh.tar.gz /var/lib/pgsql/.ssh
+ADD --chown=postgres:postgres files/ssh.tar.gz /var/lib/pgsql/.ssh
 RUN touch /var/lib/pgsql/.hushlogin && chown -R postgres:postgres /var/lib/pgsql/.hushlogin /var/lib/pgsql/.ssh && chmod 644 /var/lib/pgsql/.hushlogin && chmod 700 /var/lib/pgsql/.ssh
 RUN echo -e "\nPATH=/usr/pgsql-${PG_MAJOR}/bin:"'${PATH}' >> /root/.bashrc
 COPY --chown=postgres:postgres --chmod=755 files/initialize.sh /var/lib/pgsql

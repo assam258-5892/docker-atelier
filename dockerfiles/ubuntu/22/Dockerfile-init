@@ -30,9 +30,10 @@ RUN apt-get install -y libcairo2-dev libkrb5-dev libkrb5-dev libldap-dev liblz4-
 
 # 사용자 환경 설정
 RUN echo "fs.inotify.max_user_instances=4096" >> /etc/sysctl.conf
+RUN mkdir -p /etc/ssh/sshd_config.d && echo "GatewayPorts yes" > /etc/ssh/sshd_config.d/02-gatewayport.conf && echo "AcceptEnv TERM_PROGRAM" > /etc/ssh/sshd_config.d/10-acceptenv.conf
 RUN echo "\nalias rm='rm -i'\nalias cp='cp -i'\nalias mv='mv -i'" >> /root/.bashrc
 RUN echo "\nLANG=ko_KR.UTF-8\nLANGUAGE=ko:en\nLC_ALL=ko_KR.UTF-8\n\nalias remove='rm -f .*~ *~'\n\nulimit -n 1048576" >> /root/.bashrc
-ADD files/ssh.tar.gz /root/.ssh
+ADD --chown=root:root files/ssh.tar.gz /root/.ssh
 RUN touch /root/.hushlogin
 
 # Docker 환경 설정
