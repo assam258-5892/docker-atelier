@@ -92,6 +92,10 @@ function git-pull {
             if [ $? -ne 0 ]; then
                 echo "Failed to fetch from all remotes. Please check the output for errors."
             fi
+            git submodule update --init --recursive
+            if [ $? -ne 0 ]; then
+                echo "Failed to update submodules. Please check the output for errors."
+            fi
             if [ "`git branch|grep \ main$|wc -l`" -eq 0 -a "`git branch -r|grep \ origin/main$|wc -l`" -gt 0 ]; then
                 echo "Creating and checking out main branch from origin/main"
                 git branch main origin/main
@@ -338,21 +342,21 @@ function pg-install {
             fi
             echo "pgsentinel installation completed successfully."
         fi
-        if [ -d ${HOME}/workspace/inzent_tde/izt_tde -o $version -eq 16 ]; then
-            echo "Changing ownership to postgres in inzent_tde"
-            sudo chown -R postgres:postgres ${HOME}/workspace/inzent_tde
-            cd ${HOME}/workspace/inzent_tde
-            echo "Cleaning untracked files in inzent_tde"
-            sudo git clean -xdf
-            echo "Installing inzent_tde..."
-            cd ${HOME}/workspace/inzent_tde/izt_tde
-            sudo sh -c "PATH=${PATH} USE_PGXS=1 make pass2 install"
-            if [ $? -ne 0 ]; then
-                echo "inzent_tde installation failed. Please check the output for errors."
-                return 1
-            fi
-            echo "inzent_tde installation completed successfully."
-        fi
+        # if [ -d ${HOME}/workspace/pg_inzent_tde/inzent_tde -o $version -eq 16 ]; then
+        #     echo "Changing ownership to postgres in inzent_tde"
+        #     sudo chown -R postgres:postgres ${HOME}/workspace/pg_inzent_tde/inzent_tde
+        #     cd ${HOME}/workspace/pg_inzent_tde/inzent_tde
+        #     echo "Cleaning untracked files in inzent_tde"
+        #     sudo git clean -xdf
+        #     echo "Installing inzent_tde..."
+        #     cd ${HOME}/workspace/pg_inzent_tde/inzent_tde/izt_tde
+        #     sudo sh -c "PATH=${PATH} USE_PGXS=1 make pass2 install"
+        #     if [ $? -ne 0 ]; then
+        #         echo "inzent_tde installation failed. Please check the output for errors."
+        #         return 1
+        #     fi
+        #     echo "inzent_tde installation completed successfully."
+        # fi
         if [ -d ${HOME}/workspace/pg_inzent_tde -o $version -eq 16 ]; then
             echo "Changing ownership to postgres in pg_inzent_tde"
             sudo chown -R postgres:postgres ${HOME}/workspace/pg_inzent_tde

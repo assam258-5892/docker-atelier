@@ -4,7 +4,7 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/usr/include/postgresql/16/server",
+                "/usr/include/postgresql/server",
                 "/usr/include/postgresql/internal",
                 "/usr/include/libxml2"
             ],
