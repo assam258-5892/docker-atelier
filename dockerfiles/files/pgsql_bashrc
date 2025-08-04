@@ -582,3 +582,20 @@ function pg-user {
         echo "Database: $PGDATABASE"
     fi
 }
+
+export -f git-pull
+export -f git-clean
+export -f rsync-workspace
+export -f pg-configure
+export -f pg-make
+export -f pg-clean
+export -f pg-check
+export -f pg-install
+export -f pg-start
+export -f pg-restart
+export -f pg-stop
+export -f pg-status
+export -f pg-kill
+export -f pg-valgrind
+export -f pg-trim-valgrind
+export -f pg-user
