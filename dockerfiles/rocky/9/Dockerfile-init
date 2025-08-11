@@ -22,7 +22,7 @@ RUN sed -i -e 's|^baseurl=https://|baseurl=http://|g' /etc/yum.repos.d/pgdg-redh
 RUN curl -fsSL https://rpm.nodesource.com/setup_22.x -o /tmp/nodesource.sh && bash /tmp/nodesource.sh && rm /tmp/nodesource.sh
 RUN dnf makecache -y
 RUN dnf install -y cronie openssh-server openssh-clients rsync sudo ncurses procps-ng findutils iproute iputils net-tools htop ncdu mlocate vim-enhanced
-RUN dnf install -y gcc gcc-c++ gdb git make cmake valgrind redhat-rpm-config valgrind-devel
+RUN dnf install -y gcc gcc-c++ gdb git make cmake valgrind lcov redhat-rpm-config valgrind-devel
 RUN ( curl -fsSL http://www.jedsoft.org/releases/slang/slang-2.3.3.tar.bz2 | tar xj && cd slang-2.3.3 && ./configure && make && make install && cd .. && rm -rf slang-2.3.3 )
 RUN ( curl -fsSL http://www.jedsoft.org/releases/jed/jed-0.99-19.tar.gz | tar xz && cd jed-0.99-19 && if [ "`/bin/arch`" = "aarch64" ]; then ./configure --build=aarch64-unknown-linux-gnu; else ./configure; fi && make && make install && cd .. && rm -rf jed-0.99-19 )
 RUN update-alternatives --install /usr/bin/editor editor /usr/local/bin/jed 100

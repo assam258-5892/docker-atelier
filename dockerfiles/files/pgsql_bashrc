@@ -181,8 +181,10 @@ function pg-configure {
                 MODE="debug" ;;
             valgrind|v)
                 MODE="valgrind" ;;
+            coverage|c)
+                MODE="coverage" ;;
             *)
-                echo "Usage: pg-configure [release|debug|valgrind]"
+                echo "Usage: pg-configure [release|debug|valgrind|coverage]"
                 return 1 ;;
         esac
         echo "Configuring PostgreSQL with custom settings... (mode: $MODE)"
@@ -199,7 +201,7 @@ function pg-configure {
             done
             echo "./configure \\" >/tmp/configure.after; for arg in "${new_args[@]}"; do printf "     '%s' \\\\\n" "$arg"; done >>/tmp/configure.after
             ./configure "${new_args[@]}"
-        elif [ "$MODE" = "debug" ] || [ "$MODE" = "valgrind" ]; then
+        elif [ "$MODE" = "debug" ] || [ "$MODE" = "valgrind" ] || [ "$MODE" = "coverage" ]; then
             eval set -- $(pg_config --configure)
             echo "./configure \\" >/tmp/configure.before; for arg in "$@"; do printf "     '%s' \\\\\n" "$arg"; done >>/tmp/configure.before
             if [ ! -f /tmp/configure.origin ]; then cp /tmp/configure.before /tmp/configure.origin; fi
@@ -210,6 +212,10 @@ function pg-configure {
                     CFLAGS=*|CXXFLAGS=*|CPPFLAGS=*)
                         arg="$(echo "$arg" | sed -E 's/-O([0-9szSZ]+)/-O0/g')"
                         arg="$(echo "$arg" | sed -E 's/-Wp,-D_FORTIFY_SOURCE=[0-9]+|-D_FORTIFY_SOURCE=[0-9]+//g')"
+                        if [ "$MODE" = "coverage" ]; then
+                            arg="$(echo "$arg" | sed -E 's/-flto=auto//g')"
+                            arg="$(echo "$arg" | sed -E 's/-ffat-lto-objects//g')"
+                        fi
                         if [ "$MODE" = "valgrind" ] && [[ "$arg" != *-DUSE_VALGRIND* ]]; then
                             if [[ "$arg" =~ ^([^=]+)=(.*)$ ]]; then
                                 key="${BASH_REMATCH[1]}"
@@ -225,6 +231,18 @@ function pg-configure {
                     *) new_args+=("$arg") ;;
                 esac
             done
+            if [ "$MODE" = "coverage" ]; then
+                coverage_found=0
+                for a in "${new_args[@]}"; do
+                    if [[ "$a" == --enable-coverage* ]]; then
+                        coverage_found=1
+                        break
+                    fi
+                done
+                if [ $coverage_found -eq 0 ]; then
+                    new_args+=("--enable-coverage")
+                fi
+            fi
             echo "./configure \\" >/tmp/configure.after; for arg in "${new_args[@]}"; do printf "     '%s' \\\\\n" "$arg"; done >>/tmp/configure.after
             ./configure "${new_args[@]}"
         fi
