@@ -116,17 +116,11 @@ def get_existing_tmux_structure(session):
 def mark_create_candidates(filtered_windows, existing_map):
     for win in filtered_windows:
         name = win['name']
-        if name not in existing_map:
-            win['create'] = True
-        else:
-            win['create'] = False
         existing_panes = existing_map.get(name, {}).get('panes', [])
         existing_cmds = set(p['command'] for p in existing_panes)
         for pane in win['panes']:
-            if pane['command'] not in existing_cmds:
-                pane['create'] = True
-            else:
-                pane['create'] = False
+            pane['create'] = pane['command'] not in existing_cmds
+        win['create'] = all(p.get('create') for p in win['panes'])
 
 def mark_delete_candidates(existing, filtered_windows):
     filtered_names = [w['name'] for w in filtered_windows]
