@@ -1,6 +1,7 @@
 LANG=ko_KR.UTF-8
 LANGUAGE=ko:en
 LC_ALL=ko_KR.UTF-8
+TZ=Asia/Seoul
 
 if [[ $- != *i* ]]; then return; fi
 

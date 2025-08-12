@@ -36,7 +36,7 @@ RUN dnf install -y gettext-devel krb5-devel libicu-devel libuuid-devel libxslt-d
 # 사용자 환경 설정
 RUN echo "fs.inotify.max_user_instances=4096" >> /etc/sysctl.conf
 RUN mkdir -p /etc/ssh/sshd_config.d && echo "GatewayPorts yes" > /etc/ssh/sshd_config.d/02-gatewayport.conf && echo "AcceptEnv TERM_PROGRAM" > /etc/ssh/sshd_config.d/10-acceptenv.conf
-RUN echo -e "\nLANG=ko_KR.UTF-8\nLANGUAGE=ko:en\nLC_ALL=ko_KR.UTF-8\n\nalias remove='rm -f .*~ *~'\n\nulimit -n 1048576" >> /root/.bashrc
+RUN echo -e "\nLANG=ko_KR.UTF-8\nLANGUAGE=ko:en\nLC_ALL=ko_KR.UTF-8\nTZ=Asia/Seoul\n\nalias remove='rm -f .*~ *~'\n\nulimit -n 1048576" >> /root/.bashrc
 ADD --chown=root:root files/ssh.tar.gz /root/.ssh
 RUN touch /root/.hushlogin
 
