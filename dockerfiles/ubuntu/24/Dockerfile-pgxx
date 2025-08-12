@@ -61,8 +61,7 @@ RUN mkdir /var/lib/postgresql/.vscode-server \
     && mkdir /var/lib/postgresql/workspace/postgres \
     && mkdir /var/lib/postgresql/workspace/pg_store_plans \
     && mkdir /var/lib/postgresql/workspace/pgsentinel \
-    && mkdir /var/lib/postgresql/workspace/pg_ensure_queryid \
-    && mkdir /var/lib/postgresql/workspace/pg_inzent_tde
+    && mkdir /var/lib/postgresql/workspace/pg_ensure_queryid
 COPY --chown=postgres:postgres --chmod=644 files/psqlrc /var/lib/postgresql/.psqlrc
 COPY --chown=postgres:postgres --chmod=644 files/valgrind.supp /var/lib/postgresql/.valgrind.supp
 COPY --chown=postgres:postgres --chmod=644 files/problematic.supp /var/lib/postgresql/.problematic.supp
@@ -77,7 +76,6 @@ RUN ( cd /var/lib/postgresql/workspace/postgres && git init && git remote add or
 RUN ( cd /var/lib/postgresql/workspace/pg_store_plans && git init && git remote add origin https://github.com/experdb/pg_store_plans.git && git remote add upstream https://github.com/ossc-db/pg_store_plans.git )
 RUN ( cd /var/lib/postgresql/workspace/pgsentinel && git init && git remote add origin https://github.com/experdb/pgsentinel.git && git remote add upstream https://github.com/pgsentinel/pgsentinel.git )
 RUN ( cd /var/lib/postgresql/workspace/pg_ensure_queryid && git init && git remote add origin https://github.com/experdb/pg_ensure_queryid.git )
-RUN ( cd /var/lib/postgresql/workspace/pg_inzent_tde && git init && git remote add origin https://github.com/assam258-5892/pg_inzent_tde.git )
 RUN chown -R postgres:postgres /var/lib/postgresql
 RUN tar cvzf /var/lib/postgresql/.git.tar.gz -C /var/lib/postgresql/workspace .gitconfig .gitignore && chown postgres:postgres /var/lib/postgresql/.git.tar.gz
 RUN tar cvzf /var/lib/postgresql/.vscode.tar.gz -C /var/lib/postgresql/workspace .vscode && chown postgres:postgres /var/lib/postgresql/.vscode.tar.gz
@@ -85,7 +83,6 @@ RUN tar cvzf /var/lib/postgresql/.postgres.tar.gz -C /var/lib/postgresql/workspa
 RUN tar cvzf /var/lib/postgresql/.pg_store_plans.tar.gz -C /var/lib/postgresql/workspace pg_store_plans && chown postgres:postgres /var/lib/postgresql/.pg_store_plans.tar.gz
 RUN tar cvzf /var/lib/postgresql/.pgsentinel.tar.gz -C /var/lib/postgresql/workspace pgsentinel && chown postgres:postgres /var/lib/postgresql/.pgsentinel.tar.gz
 RUN tar cvzf /var/lib/postgresql/.pg_ensure_queryid.tar.gz -C /var/lib/postgresql/workspace pg_ensure_queryid && chown postgres:postgres /var/lib/postgresql/.pg_ensure_queryid.tar.gz
-RUN tar cvzf /var/lib/postgresql/.pg_inzent_tde.tar.gz -C /var/lib/postgresql/workspace pg_inzent_tde && chown postgres:postgres /var/lib/postgresql/.pg_inzent_tde.tar.gz
 
 # Docker 환경 설정
 VOLUME /var/lib/postgresql/workspace
