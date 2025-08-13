@@ -141,6 +141,12 @@ function git-clean {
             else
                 echo "Successfully cleaned untracked files in $dir."
             fi
+            sudo git submodule foreach --recursive 'git clean -xdf'
+            if [ $? -ne 0 ]; then
+                echo "Failed to clean untracked files in submodules of $dir. Please check the output for errors."
+            else
+                echo "Successfully cleaned untracked files in submodules of $dir."
+            fi
         )
     done
 }
