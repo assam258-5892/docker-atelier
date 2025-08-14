@@ -521,6 +521,56 @@ function pg-kill {
     esac
 }
 
+function pg-lcov {
+    (
+        if [ ! -d ${HOME}/workspace/postgres ]; then
+            echo "PostgreSQL source directory not found. Please clone the repository first."
+            return 1
+        fi
+        cd ${HOME}/workspace/postgres
+        case "$1" in
+            clear)
+                echo "Clearing coverage counters..."
+                lcov --zerocounters --directory .
+                if [ $? -ne 0 ]; then
+                    echo "Failed to clear coverage counters."
+                    return 1
+                fi
+                echo "Coverage counters cleared."
+                ;;
+            report)
+                echo "Capturing coverage data..."
+                lcov --capture --directory . --output-file lcov.gcov
+                if [ $? -ne 0 ]; then
+                    echo "Failed to capture coverage data."
+                    return 1
+                fi
+                echo "Generating HTML report..."
+                genhtml_version=$(genhtml --version 2>&1 | awk '{print $4}')
+                if [[ "$genhtml_version" =~ ^([0-9]+)\.([0-9]+) ]]; then
+                    if [ "${BASH_REMATCH[1]}" -ge 2 ]; then
+                        genhtml lcov.gcov --ignore-errors unmapped --output-directory html.gcov
+                    else
+                        genhtml lcov.gcov --output-directory html.gcov
+                    fi
+                else
+                    genhtml lcov.gcov --output-directory html.gcov
+                fi
+                if [ $? -ne 0 ]; then
+                    echo "Failed to generate HTML report."
+                    return 1
+                fi
+                echo "HTML report generated: html.gcov/index.html"
+                ;;
+            *)
+                echo "Usage: pg-lcov [clear|report]"
+                echo "  clear : Clear coverage counters (lcov --zerocounters)"
+                echo "  report : Capture coverage data and generate HTML report"
+                ;;
+        esac
+    )
+}
+
 function pg-valgrind {
     echo "Running PostgreSQL with Valgrind..."
     if [ ! -d "$HOME/workspace/valgrind" ]; then
@@ -624,6 +674,7 @@ export -f pg-restart
 export -f pg-stop
 export -f pg-status
 export -f pg-kill
+export -f pg-lcov
 export -f pg-valgrind
 export -f pg-trim-valgrind
 export -f pg-user
