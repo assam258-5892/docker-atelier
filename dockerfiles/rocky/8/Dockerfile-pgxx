@@ -18,7 +18,7 @@ RUN --mount=type=secret,id=git_credentials cp /run/secrets/git_credentials /root
         ( \
             git clone --depth 1 --branch REL_${PG_MAJOR}_0 https://github.com/assam258-5892/pg_inzent_tde.git && \
             cd pg_inzent_tde && \
-            git submodule update --init --recursive && \
+            git submodule update --init --recursive --remote && \
             ( cd inzent_tde/izt_tde && USE_PGXS=1 PATH=/usr/pgsql-${PG_MAJOR}/bin:${PATH} make pass2 install ) && \
             USE_PGXS=1 PATH=/usr/pgsql-${PG_MAJOR}/bin:${PATH} make install && \
             cd .. && \
