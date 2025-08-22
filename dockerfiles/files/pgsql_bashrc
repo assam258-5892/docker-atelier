@@ -75,6 +75,7 @@ alias powerline="if [ -f `which powerline-daemon` ]; then powerline-daemon -q; P
 if [ "$TERM_PROGRAM" = "Termius" ] || [ "$TERM_PROGRAM" = "vscode" ] || [ "$TERM_PROGRAM" = "tmux" ]; then powerline; fi
 
 ulimit -n 1048576
+ulimit -c unlimited
 
 [ -f "${HOME}/.git-completion.bash" ] && source "${HOME}/.git-completion.bash"
 
