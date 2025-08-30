@@ -620,6 +620,30 @@ function pg-trim-valgrind {
     )
 }
 
+function pg-core {
+    if [ -z "$1" ]; then
+        echo "Usage: pg-core <core-file>"
+        return 1
+    fi
+    gdb -q "$HOME/workspace/postgres/src/backend/postgres" "$1" \
+        -ex "set pagination off" \
+        -ex "set print pretty on" \
+        -ex "set print array on" \
+        -ex "set print elements 0" \
+        -ex "set print frame-arguments all" \
+        -ex "set print thread-events on" \
+        -ex "info threads" \
+        -ex "thread apply all bt full" \
+        -ex "info registers" \
+        -ex "info locals" \
+        -ex "info sharedlibrary" \
+        -ex "info files" \
+        -ex "info proc mappings" \
+        -ex "info stack" \
+        -ex "quit" \
+        2> /dev/null
+}
+
 function pg-user {
     if [ "$#" -gt 1 ]; then
         echo "Usage: pg-user experdba|postgres"
@@ -678,4 +702,5 @@ export -f pg-kill
 export -f pg-lcov
 export -f pg-valgrind
 export -f pg-trim-valgrind
+export -f pg-core
 export -f pg-user
