@@ -70,6 +70,8 @@ PS2='> '
 PS3='+ '
 export USER PS1 PS2 PS3
 
+export PAGER=cat
+
 export POWERLINE_CONFIG_PATHS="${HOME}/.config/powerline"
 alias powerline="if [ -f `which powerline-daemon` ]; then powerline-daemon -q; POWERLINE_BASH_CONTINUATION=1 POWERLINE_BASH_SELECT=1 . $(pip3 show powerline-status | grep Location | awk '{print $2}')/powerline/bindings/bash/powerline.sh; fi"
 if [ "$TERM_PROGRAM" = "Termius" ] || [ "$TERM_PROGRAM" = "vscode" ] || [ "$TERM_PROGRAM" = "tmux" ]; then powerline; fi
