@@ -234,7 +234,7 @@ function pg-configure {
                 case "$arg" in
                     --runstatedir=*) ;;
                     CFLAGS=*|CXXFLAGS=*|CPPFLAGS=*)
-                        arg="$(echo "$arg" | sed -E 's/-O([0-9szSZ]+)/-O0/g')"
+                        arg="$(echo "$arg" | sed -E 's/-O([0-9szSZ]+)/-Og/g')"
                         arg="$(echo "$arg" | sed -E 's/-Wp,-D_FORTIFY_SOURCE=[0-9]+|-D_FORTIFY_SOURCE=[0-9]+//g')"
                         arg="$(echo "$arg" | sed -E 's/-g\b/-ggdb/g')"
                         if [ "$MODE" = "coverage" ]; then
