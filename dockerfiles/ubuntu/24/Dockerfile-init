@@ -22,7 +22,7 @@ RUN ( curl -fsSL http://www.jedsoft.org/releases/slang/slang-2.3.3.tar.bz2 | tar
 RUN ( curl -fsSL http://www.jedsoft.org/releases/jed/jed-0.99-19.tar.gz | tar xz && cd jed-0.99-19 && if [ "`/bin/arch`" = "aarch64" ]; then ./configure --build=aarch64-unknown-linux-gnu; else ./configure; fi && make && make install && cd .. && rm -rf jed-0.99-19 )
 RUN update-alternatives --install /usr/bin/editor editor /usr/local/bin/jed 100
 RUN apt install -y python3 python3-dev python3-pip python3-psutil && apt install -y bpytop && pip3 install powerline-status --break-system-packages
-RUN apt install -y nodejs && npm install -g npm
+RUN apt install -y nodejs && npm install -g npm && npm install -g @anthropic-ai/claude-code
 
 # PostgreSQL 개발 환경 설정
 RUN apt-get install -y pkg-config flex bison clang clang-format ccache fop gettext libxml2-utils xsltproc docbook-xml docbook-xsl libipc-run-perl libtext-trim-perl
