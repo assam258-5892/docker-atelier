@@ -85,6 +85,14 @@ alias remove='rm -f .*~ *~'
 
 export GIT_CONFIG_GLOBAL="${HOME}/workspace/.gitconfig"
 
+function git-log {
+    local lines=$(( ${LINES:-$(tput lines)} - 1 ))
+    git log --oneline --decorate --color | head -n "$lines"
+    if [ "$?" -ne 0 ]; then
+        echo "Failed to display git log. Please check the output for errors."
+    fi
+}
+
 function git-pull {
     for dir in `ls -d ${HOME}/workspace/*/.git`; do
         (
@@ -688,6 +696,7 @@ function pg-user {
     fi
 }
 
+export -f git-log
 export -f git-pull
 export -f git-update
 export -f git-clean
