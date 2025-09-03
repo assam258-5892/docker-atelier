@@ -87,7 +87,7 @@ export GIT_CONFIG_GLOBAL="${HOME}/workspace/.gitconfig"
 
 function git-log {
     local lines=$(( ${LINES:-$(tput lines)} - 1 ))
-    git log --oneline --decorate --color | head -n "$lines"
+    git log --oneline --decorate --color "$@" | head -n "$lines"
     if [ "$?" -ne 0 ]; then
         echo "Failed to display git log. Please check the output for errors."
     fi
@@ -104,10 +104,6 @@ function git-pull {
             if [ $? -ne 0 ]; then
                 echo "Failed to fetch from all remotes. Please check the output for errors."
             fi
-            git submodule update --init --recursive --remote
-            if [ $? -ne 0 ]; then
-                echo "Failed to update submodules. Please check the output for errors."
-            fi
             if [ "`git branch|grep \ main$|wc -l`" -eq 0 -a "`git branch -r|grep \ origin/main$|wc -l`" -gt 0 ]; then
                 echo "Creating and checking out main branch from origin/main"
                 git branch main origin/main
@@ -117,6 +113,10 @@ function git-pull {
                 echo "Creating and checking out master branch from origin/master"
                 git branch master origin/master
                 git checkout master
+            fi
+            git submodule update --init --recursive
+            if [ $? -ne 0 ]; then
+                echo "Failed to update submodules. Please check the output for errors."
             fi
             echo "Pulling latest changes"
             git pull
@@ -130,7 +130,7 @@ function git-update {
             dir="`dirname $dir`"
             echo "Updating submodules in $dir"
             cd "$dir"
-            git submodule update --init --recursive --remote
+            git submodule update --init --recursive "$@"
             if [ $? -ne 0 ]; then
                 echo "Failed to update submodules in $dir. Please check the output for errors."
             fi
@@ -340,30 +340,49 @@ function pg-check {
     )
 }
 
+function pg-library {
+    (
+        if [ -d ${HOME}/workspace/postgres/contrib/pg_inzent_tde/inzent_tde ]; then
+            echo "Changing ownership to postgres in inzent_tde"
+            sudo chown -R postgres:postgres ${HOME}/workspace/postgres/contrib/pg_inzent_tde/inzent_tde
+            if [ $? -ne 0 ]; then
+                echo "Failed to set ownership. Please check the output for errors."
+                return 1
+            fi
+            cd ${HOME}/workspace/postgres/contrib/pg_inzent_tde/inzent_tde
+            echo "Cleaning untracked files in inzent_tde"
+            sudo git clean -xdf
+            echo "Installing inzent_tde..."
+            cd ${HOME}/workspace/postgres/contrib/pg_inzent_tde/inzent_tde/izt_tde
+            sudo sh -c "PATH=${PATH} USE_PGXS=1 make pass2 install"
+            if [ $? -ne 0 ]; then
+                echo "inzent_tde installation failed. Please check the output for errors."
+                return 1
+            fi
+            echo "Changing ownership to postgres in inzent_tde"
+            sudo chown -R postgres:postgres ${HOME}/workspace/postgres/contrib/pg_inzent_tde/inzent_tde
+            if [ $? -ne 0 ]; then
+                echo "Failed to set ownership. Please check the output for errors."
+                return 1
+            fi
+            echo "inzent_tde installation completed successfully."
+        fi
+    )
+}
+
 function pg-install {
     (
         version=`psql --version | cut -d " " -f 3 | cut -d . -f 1`
-        # if [ -d ${HOME}/workspace/postgres/contrib/pg_inzent_tde/inzent_tde -o $version -eq 16 ]; then
-        #     echo "Changing ownership to postgres in inzent_tde"
-        #     sudo chown -R postgres:postgres ${HOME}/workspace/postgres/contrib/pg_inzent_tde/inzent_tde
-        #     cd ${HOME}/workspace/postgres/contrib/pg_inzent_tde/inzent_tde
-        #     echo "Cleaning untracked files in inzent_tde"
-        #     sudo git clean -xdf
-        #     echo "Installing inzent_tde..."
-        #     cd ${HOME}/workspace/postgres/contrib/pg_inzent_tde/inzent_tde/izt_tde
-        #     sudo sh -c "PATH=${PATH} USE_PGXS=1 make pass2 install"
-        #     if [ $? -ne 0 ]; then
-        #         echo "inzent_tde installation failed. Please check the output for errors."
-        #         return 1
-        #     fi
-        #     echo "inzent_tde installation completed successfully."
-        # fi
         if [ ! -d ${HOME}/workspace/postgres ]; then
             echo "PostgreSQL source directory not found. Please clone the repository first."
             return 1
         fi
         echo "Changing ownership to postgres in postgres"
         sudo chown -R postgres:postgres ${HOME}/workspace/postgres
+        if [ $? -ne 0 ]; then
+            echo "Failed to set ownership. Please check the output for errors."
+            return 1
+        fi
         cd ${HOME}/workspace/postgres
         echo "Installing PostgreSQL..."
         sudo make install-world
