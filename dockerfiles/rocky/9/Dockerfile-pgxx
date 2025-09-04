@@ -35,8 +35,9 @@ COPY --chown=root:root --chmod=644 files/role.sql files/extension.sql files/pg_i
 RUN su -l postgres -c "/usr/pgsql-${PG_MAJOR}/bin/postgres --single -D /var/lib/pgsql/${PG_MAJOR}/data" < /role.sql && rm -f /role.sql
 RUN su -l postgres -c "/usr/pgsql-${PG_MAJOR}/bin/postgres --single -D /var/lib/pgsql/${PG_MAJOR}/data experdb" < /extension.sql && rm -f /extension.sql
 RUN if [ "${PG_MAJOR}" = "16" ] || [ "${PG_MAJOR}" = "17" ]; then \
-        su -l postgres -c "/usr/pgsql-${PG_MAJOR}/bin/postgres --single -D /var/lib/pgsql/${PG_MAJOR}/data experdb" < /pg_inzent_tde.sql && rm -f /pg_inzent_tde.sql ; \
+        su -l postgres -c "/usr/pgsql-${PG_MAJOR}/bin/postgres --single -D /var/lib/pgsql/${PG_MAJOR}/data experdb" < /pg_inzent_tde.sql; \
     fi
+RUN rm -f /pg_inzent_tde.sql
 RUN systemctl enable postgresql-${PG_MAJOR}
 
 # 사용자 환경 설정
