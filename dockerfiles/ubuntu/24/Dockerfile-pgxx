@@ -32,9 +32,12 @@ RUN --mount=type=secret,id=git_credentials cp /run/secrets/git_credentials /root
 # PostgreSQL 데이터베이스 초기화
 RUN echo '# Docker connections:\nhost    all             all             172.0.0.0/8             scram-sha-256\nhost    replication     all             172.0.0.0/8             scram-sha-256' >> /etc/postgresql/${PG_MAJOR}/main/pg_hba.conf
 COPY --chown=postgres:postgres --chmod=600 files/postgresql.auto.conf /var/lib/postgresql/${PG_MAJOR}/main/postgresql.auto.conf
-COPY --chown=root:root --chmod=644 files/role.sql files/extension.sql /
+COPY --chown=root:root --chmod=644 files/role.sql files/extension.sql files/pg_inzent_tde.sql /
 RUN su -l postgres -c "/usr/lib/postgresql/${PG_MAJOR}/bin/postgres --single -D /var/lib/postgresql/${PG_MAJOR}/main -c config_file=/etc/postgresql/${PG_MAJOR}/main/postgresql.conf" < /role.sql && rm -f /role.sql
 RUN su -l postgres -c "/usr/lib/postgresql/${PG_MAJOR}/bin/postgres --single -D /var/lib/postgresql/${PG_MAJOR}/main -c config_file=/etc/postgresql/${PG_MAJOR}/main/postgresql.conf experdb" < /extension.sql && rm -f /extension.sql
+RUN if [ "${PG_MAJOR}" = "16" ] || [ "${PG_MAJOR}" = "17" ]; then \
+        su -l postgres -c "/usr/lib/postgresql/${PG_MAJOR}/bin/postgres --single -D /var/lib/postgresql/${PG_MAJOR}/main -c config_file=/etc/postgresql/${PG_MAJOR}/main/postgresql.conf experdb" < /pg_inzent_tde.sql && rm -f /pg_inzent_tde.sql ; \
+    fi
 RUN systemctl enable postgresql
 
 # 사용자 환경 설정
