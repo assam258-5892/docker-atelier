@@ -44,6 +44,24 @@ if [ -z "$1" ]; then
   done
   [ -z "$found" ] && found="$sel"
   set -- "$found"
+else
+  files=$(ls docker-*.yml 2>/dev/null | grep "$1")
+  count=$(echo "$files" | wc -w)
+  if [ "$count" -eq 1 ]; then
+    base=${files#docker-}
+    base=${base%.yml}
+    set -- "$base"
+  elif [ "$count" -gt 1 ]; then
+    echo "입력 인자 '$1'를 포함하는 후보 파일:"
+    for f in $files; do
+      echo "  $f"
+    done
+    echo "여러 파일이 일치합니다. 정확한 이름을 입력하세요."
+    exit 1
+  else
+    echo "입력 인자 '$1'를 포함하는 docker-*.yml 파일이 없습니다."
+    exit 1
+  fi
 fi
 
 docker compose -f docker-$1.yml up -d --remove-orphans
