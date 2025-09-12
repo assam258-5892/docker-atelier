@@ -35,7 +35,7 @@ RUN dnf install -y gettext-devel krb5-devel libicu-devel libuuid-devel libxslt-d
 
 # CloudBerry 개발 환경 설정
 RUN dnf install -y golang apr-devel libevent-devel libcurl-devel bzip2-devel protobuf-devel protobuf-compiler libuv-devel libyaml-devel
-RUN ( git clone --depth 1 --branch v3.3.0 https://github.com/apache/xerces-c.git && cd xerces-c && cmake -B build && cmake --build build && cmake --install build && cd .. && rm -rf xerces-c && echo "/usr/local/lib64" > /etc/ld.so.conf.d/local-xerces.conf && ldconfig )
+RUN ( git clone --depth 1 --branch v3.3.0 https://github.com/apache/xerces-c.git && cd xerces-c && cmake -B build -DCMAKE_INSTALL_PREFIX=/usr/local/cbdb && cmake --build build && cmake --install build && cd .. && rm -rf xerces-c && echo "/usr/local/cbdb/lib64" > /etc/ld.so.conf.d/local-xerces.conf && ldconfig )
 
 # 사용자 환경 설정
 RUN mkdir -p /etc/sysctl.d && echo 'fs.inotify.max_user_instances=4096' > /etc/sysctl.d/99-inotify.conf
