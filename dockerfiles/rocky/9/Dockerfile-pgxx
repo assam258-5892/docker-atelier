@@ -66,7 +66,8 @@ RUN mkdir /var/lib/pgsql/.vscode-server \
     && mkdir /var/lib/pgsql/workspace/pg_store_plans \
     && mkdir /var/lib/pgsql/workspace/pgsentinel \
     && mkdir /var/lib/pgsql/workspace/pg_ensure_queryid \
-    && mkdir /var/lib/pgsql/workspace/cloudberry
+    && mkdir /var/lib/pgsql/workspace/cloudberry \
+    && mkdir /var/lib/pgsql/workspace/gpbackup
 COPY --chown=postgres:postgres --chmod=644 files/psqlrc /var/lib/pgsql/.psqlrc
 COPY --chown=postgres:postgres --chmod=644 files/valgrind.supp /var/lib/pgsql/.valgrind.supp
 COPY --chown=postgres:postgres --chmod=644 files/problematic.supp /var/lib/pgsql/.problematic.supp
@@ -82,6 +83,7 @@ RUN ( cd /var/lib/pgsql/workspace/pg_store_plans && git init && git remote add o
 RUN ( cd /var/lib/pgsql/workspace/pgsentinel && git init && git remote add origin https://github.com/experdb/pgsentinel.git && git remote add upstream https://github.com/pgsentinel/pgsentinel.git )
 RUN ( cd /var/lib/pgsql/workspace/pg_ensure_queryid && git init && git remote add origin https://github.com/experdb/pg_ensure_queryid.git )
 RUN ( cd /var/lib/pgsql/workspace/cloudberry && git init && git remote add origin https://github.com/apache/cloudberry.git )
+RUN ( cd /var/lib/pgsql/workspace/gpbackup && git init && git remote add origin https://github.com/cloudberrydb/gpbackup.git )
 RUN chown -R postgres:postgres /var/lib/pgsql
 RUN tar cvzf /var/lib/pgsql/.git.tar.gz -C /var/lib/pgsql/workspace .gitconfig .gitignore && chown postgres:postgres /var/lib/pgsql/.git.tar.gz
 RUN tar cvzf /var/lib/pgsql/.vscode.tar.gz -C /var/lib/pgsql/workspace .vscode && chown postgres:postgres /var/lib/pgsql/.vscode.tar.gz
@@ -90,6 +92,7 @@ RUN tar cvzf /var/lib/pgsql/.pg_store_plans.tar.gz -C /var/lib/pgsql/workspace p
 RUN tar cvzf /var/lib/pgsql/.pgsentinel.tar.gz -C /var/lib/pgsql/workspace pgsentinel && chown postgres:postgres /var/lib/pgsql/.pgsentinel.tar.gz
 RUN tar cvzf /var/lib/pgsql/.pg_ensure_queryid.tar.gz -C /var/lib/pgsql/workspace pg_ensure_queryid && chown postgres:postgres /var/lib/pgsql/.pg_ensure_queryid.tar.gz
 RUN tar cvzf /var/lib/pgsql/.cloudberry.tar.gz -C /var/lib/pgsql/workspace cloudberry && chown postgres:postgres /var/lib/pgsql/.cloudberry.tar.gz
+RUN tar cvzf /var/lib/pgsql/.gpbackup.tar.gz -C /var/lib/pgsql/workspace gpbackup && chown postgres:postgres /var/lib/pgsql/.gpbackup.tar.gz
 
 # Docker 환경 설정
 USER root
