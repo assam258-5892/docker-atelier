@@ -150,7 +150,7 @@ def tmux_new_session(session, window, command):
     tmux('set-environment', '-g', 'LANGUAGE', os.environ.get('LANGUAGE', 'ko:en'))
     tmux('set-environment', '-g', 'LC_ALL', os.environ.get('LC_ALL', 'ko_KR.UTF-8'))
     tmux('set-environment', '-g', 'LANG', os.environ.get('LANG', 'ko_KR.UTF-8'))
-    tmux('set-option', '-g', 'status-right', '"#S:#W.#P" %Y-%m-%d %H:%M:%S#{default}')
+    tmux('set-option', '-g', 'status-right', '"#S:#W.#P(#{pane_width}x#{pane_height})" %Y-%m-%d %H:%M:%S#{default}')
     tmux('set-option', '-g', 'history-limit', '10000')
     tmux('set-option', '-g', 'remain-on-exit', 'on')
     tmux('set-option', '-g', 'mouse', 'on')
