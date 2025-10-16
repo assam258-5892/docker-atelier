@@ -11,5 +11,5 @@ windows:
         command: bash -c 'while sleep 1; do docker compose logs -f haproxy apache2 squid; done'
     resize_panes:
       - target: 0
-        x: 170
-        y: 45
+        x: 200
+        y: 55
