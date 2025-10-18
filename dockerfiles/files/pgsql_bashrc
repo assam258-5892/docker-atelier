@@ -1,7 +1,7 @@
-LANG=ko_KR.UTF-8
-LANGUAGE=ko:en
-LC_ALL=ko_KR.UTF-8
-TZ=Asia/Seoul
+export LANG=ko_KR.UTF-8
+export LANGUAGE=ko:en
+export LC_ALL=ko_KR.UTF-8
+export TZ=Asia/Seoul
 
 if [[ $- != *i* ]]; then return; fi
 
