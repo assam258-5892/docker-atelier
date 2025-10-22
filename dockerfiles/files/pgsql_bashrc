@@ -82,6 +82,7 @@ ulimit -c unlimited
 [ -f "${HOME}/.git-completion.bash" ] && source "${HOME}/.git-completion.bash"
 
 alias remove='rm -f .*~ *~'
+alias claude='claude --dangerously-skip-permissions'
 
 export GIT_CONFIG_GLOBAL="${HOME}/workspace/.gitconfig"
 
