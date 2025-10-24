@@ -474,7 +474,7 @@ function pg-library {
             sudo git clean -xdf
             echo "Installing inzent_tde..."
             cd ${HOME}/workspace/postgres/contrib/pg_inzent_tde/inzent_tde/izt_tde
-            sudo sh -c "PATH=${PATH} USE_PGXS=1 make pass2 install"
+            sudo sh -c "make pass2 install"
             if [ $? -ne 0 ]; then
                 echo "inzent_tde installation failed. Please check the output for errors."
                 return 1
