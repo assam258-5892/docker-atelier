@@ -340,12 +340,28 @@ function pg-configure {
                 return 1 ;;
         esac
         echo "Configuring PostgreSQL with custom settings... (mode: $MODE)"
-        if [ "$MODE" = "release" ]; then
+        
+        # 저장된 설정 파일 경로
+        config_cache="${HOME}/.pg_configure.cache"
+        
+        # 캐시된 설정이 없으면 pg_config에서 읽어서 저장
+        if [ ! -f "$config_cache" ]; then
+            echo "Creating configure cache from pg_config..."
             eval set -- $(pg_config --configure)
-            echo "./configure \\" >/tmp/configure.before; for arg in "$@"; do printf "     '%s' \\\\\n" "$arg"; done >>/tmp/configure.before
+            > "$config_cache"  # 파일 초기화
+            for arg in "$@"; do
+                echo "$arg" >> "$config_cache"
+            done
+        fi
+        
+        # 캐시된 파일에서 읽기
+        mapfile -t cached_args < "$config_cache"
+        
+        if [ "$MODE" = "release" ]; then
+            echo "./configure \\" >/tmp/configure.before; for arg in "${cached_args[@]}"; do printf "     '%s' \\\\\n" "$arg"; done >>/tmp/configure.before
             if [ ! -f /tmp/configure.origin ]; then cp /tmp/configure.before /tmp/configure.origin; fi
             new_args=()
-            for arg in "$@"; do
+            for arg in "${cached_args[@]}"; do
                 case "$arg" in
                     --runstatedir=*) ;;
                     *) new_args+=("$arg") ;;
@@ -354,11 +370,10 @@ function pg-configure {
             echo "./configure \\" >/tmp/configure.after; for arg in "${new_args[@]}"; do printf "     '%s' \\\\\n" "$arg"; done >>/tmp/configure.after
             ./configure "${new_args[@]}"
         elif [ "$MODE" = "debug" ] || [ "$MODE" = "valgrind" ] || [ "$MODE" = "coverage" ]; then
-            eval set -- $(pg_config --configure)
-            echo "./configure \\" >/tmp/configure.before; for arg in "$@"; do printf "     '%s' \\\\\n" "$arg"; done >>/tmp/configure.before
+            echo "./configure \\" >/tmp/configure.before; for arg in "${cached_args[@]}"; do printf "     '%s' \\\\\n" "$arg"; done >>/tmp/configure.before
             if [ ! -f /tmp/configure.origin ]; then cp /tmp/configure.before /tmp/configure.origin; fi
             new_args=()
-            for arg in "$@"; do
+            for arg in "${cached_args[@]}"; do
                 case "$arg" in
                     --runstatedir=*) ;;
                     CFLAGS=*|CXXFLAGS=*|CPPFLAGS=*)
