@@ -10,6 +10,6 @@ windows:
       - title: logs
         command: bash -c 'while sleep 1; do docker compose logs -f haproxy apache2 squid; done'
     resize_panes:
-      - target: 0
-        x: 200
-        y: 55
+      - target: 1
+        x: 100
+        y: 50
