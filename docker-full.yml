@@ -13,6 +13,10 @@ services:
       - active:${ATELIER_SUBNET}.8.15
       - standby:${ATELIER_SUBNET}.8.45
       - standalone:${ATELIER_SUBNET}.8.75
+      - rocky8:${ATELIER_SUBNET}.8.1
+      - rocky9:${ATELIER_SUBNET}.9.1
+      - ubuntu22:${ATELIER_SUBNET}.22.1
+      - ubuntu24:${ATELIER_SUBNET}.24.1
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.1
@@ -30,6 +34,10 @@ services:
       - active:${ATELIER_SUBNET}.8.14
       - standby:${ATELIER_SUBNET}.8.44
       - standalone:${ATELIER_SUBNET}.8.74
+      - rocky8:${ATELIER_SUBNET}.8.14
+      - rocky9:${ATELIER_SUBNET}.9.14
+      - ubuntu22:${ATELIER_SUBNET}.22.14
+      - ubuntu24:${ATELIER_SUBNET}.24.14
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.14
@@ -57,6 +65,10 @@ services:
       - active:${ATELIER_SUBNET}.8.14
       - standby:${ATELIER_SUBNET}.8.44
       - standalone:${ATELIER_SUBNET}.8.74
+      - rocky8:${ATELIER_SUBNET}.8.44
+      - rocky9:${ATELIER_SUBNET}.9.44
+      - ubuntu22:${ATELIER_SUBNET}.22.44
+      - ubuntu24:${ATELIER_SUBNET}.24.44
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.44
@@ -84,6 +96,10 @@ services:
       - active:${ATELIER_SUBNET}.8.14
       - standby:${ATELIER_SUBNET}.8.44
       - standalone:${ATELIER_SUBNET}.8.74
+      - rocky8:${ATELIER_SUBNET}.8.74
+      - rocky9:${ATELIER_SUBNET}.9.74
+      - ubuntu22:${ATELIER_SUBNET}.22.74
+      - ubuntu24:${ATELIER_SUBNET}.24.74
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.74
@@ -111,6 +127,10 @@ services:
       - active:${ATELIER_SUBNET}.8.15
       - standby:${ATELIER_SUBNET}.8.45
       - standalone:${ATELIER_SUBNET}.8.75
+      - rocky8:${ATELIER_SUBNET}.8.15
+      - rocky9:${ATELIER_SUBNET}.9.15
+      - ubuntu22:${ATELIER_SUBNET}.22.15
+      - ubuntu24:${ATELIER_SUBNET}.24.15
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.15
@@ -138,6 +158,10 @@ services:
       - active:${ATELIER_SUBNET}.8.15
       - standby:${ATELIER_SUBNET}.8.45
       - standalone:${ATELIER_SUBNET}.8.75
+      - rocky8:${ATELIER_SUBNET}.8.45
+      - rocky9:${ATELIER_SUBNET}.9.45
+      - ubuntu22:${ATELIER_SUBNET}.22.45
+      - ubuntu24:${ATELIER_SUBNET}.24.45
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.45
@@ -165,6 +189,10 @@ services:
       - active:${ATELIER_SUBNET}.8.15
       - standby:${ATELIER_SUBNET}.8.45
       - standalone:${ATELIER_SUBNET}.8.75
+      - rocky8:${ATELIER_SUBNET}.8.75
+      - rocky9:${ATELIER_SUBNET}.9.75
+      - ubuntu22:${ATELIER_SUBNET}.22.75
+      - ubuntu24:${ATELIER_SUBNET}.24.75
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.75
@@ -192,6 +220,10 @@ services:
       - active:${ATELIER_SUBNET}.8.16
       - standby:${ATELIER_SUBNET}.8.46
       - standalone:${ATELIER_SUBNET}.8.76
+      - rocky8:${ATELIER_SUBNET}.8.16
+      - rocky9:${ATELIER_SUBNET}.9.16
+      - ubuntu22:${ATELIER_SUBNET}.22.16
+      - ubuntu24:${ATELIER_SUBNET}.24.16
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.16
@@ -219,6 +251,10 @@ services:
       - active:${ATELIER_SUBNET}.8.16
       - standby:${ATELIER_SUBNET}.8.46
       - standalone:${ATELIER_SUBNET}.8.76
+      - rocky8:${ATELIER_SUBNET}.8.46
+      - rocky9:${ATELIER_SUBNET}.9.46
+      - ubuntu22:${ATELIER_SUBNET}.22.46
+      - ubuntu24:${ATELIER_SUBNET}.24.46
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.46
@@ -246,6 +282,10 @@ services:
       - active:${ATELIER_SUBNET}.8.16
       - standby:${ATELIER_SUBNET}.8.46
       - standalone:${ATELIER_SUBNET}.8.76
+      - rocky8:${ATELIER_SUBNET}.8.76
+      - rocky9:${ATELIER_SUBNET}.9.76
+      - ubuntu22:${ATELIER_SUBNET}.22.76
+      - ubuntu24:${ATELIER_SUBNET}.24.76
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.76
@@ -273,6 +313,10 @@ services:
       - active:${ATELIER_SUBNET}.8.17
       - standby:${ATELIER_SUBNET}.8.47
       - standalone:${ATELIER_SUBNET}.8.77
+      - rocky8:${ATELIER_SUBNET}.8.17
+      - rocky9:${ATELIER_SUBNET}.9.17
+      - ubuntu22:${ATELIER_SUBNET}.22.17
+      - ubuntu24:${ATELIER_SUBNET}.24.17
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.17
@@ -300,6 +344,10 @@ services:
       - active:${ATELIER_SUBNET}.8.17
       - standby:${ATELIER_SUBNET}.8.47
       - standalone:${ATELIER_SUBNET}.8.77
+      - rocky8:${ATELIER_SUBNET}.8.47
+      - rocky9:${ATELIER_SUBNET}.9.47
+      - ubuntu22:${ATELIER_SUBNET}.22.47
+      - ubuntu24:${ATELIER_SUBNET}.24.47
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.47
@@ -327,6 +375,10 @@ services:
       - active:${ATELIER_SUBNET}.8.17
       - standby:${ATELIER_SUBNET}.8.47
       - standalone:${ATELIER_SUBNET}.8.77
+      - rocky8:${ATELIER_SUBNET}.8.77
+      - rocky9:${ATELIER_SUBNET}.9.77
+      - ubuntu22:${ATELIER_SUBNET}.22.77
+      - ubuntu24:${ATELIER_SUBNET}.24.77
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.77
@@ -354,6 +406,10 @@ services:
       - active:${ATELIER_SUBNET}.9.17
       - standby:${ATELIER_SUBNET}.9.47
       - standalone:${ATELIER_SUBNET}.9.77
+      - rocky8:${ATELIER_SUBNET}.8.1
+      - rocky9:${ATELIER_SUBNET}.9.1
+      - ubuntu22:${ATELIER_SUBNET}.22.1
+      - ubuntu24:${ATELIER_SUBNET}.24.1
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.1
@@ -371,6 +427,10 @@ services:
       - active:${ATELIER_SUBNET}.9.14
       - standby:${ATELIER_SUBNET}.9.44
       - standalone:${ATELIER_SUBNET}.9.74
+      - rocky8:${ATELIER_SUBNET}.8.14
+      - rocky9:${ATELIER_SUBNET}.9.14
+      - ubuntu22:${ATELIER_SUBNET}.22.14
+      - ubuntu24:${ATELIER_SUBNET}.24.14
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.14
@@ -398,6 +458,10 @@ services:
       - active:${ATELIER_SUBNET}.9.14
       - standby:${ATELIER_SUBNET}.9.44
       - standalone:${ATELIER_SUBNET}.9.74
+      - rocky8:${ATELIER_SUBNET}.8.44
+      - rocky9:${ATELIER_SUBNET}.9.44
+      - ubuntu22:${ATELIER_SUBNET}.22.44
+      - ubuntu24:${ATELIER_SUBNET}.24.44
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.44
@@ -425,6 +489,10 @@ services:
       - active:${ATELIER_SUBNET}.9.14
       - standby:${ATELIER_SUBNET}.9.44
       - standalone:${ATELIER_SUBNET}.9.74
+      - rocky8:${ATELIER_SUBNET}.8.74
+      - rocky9:${ATELIER_SUBNET}.9.74
+      - ubuntu22:${ATELIER_SUBNET}.22.74
+      - ubuntu24:${ATELIER_SUBNET}.24.74
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.74
@@ -452,6 +520,10 @@ services:
       - active:${ATELIER_SUBNET}.9.15
       - standby:${ATELIER_SUBNET}.9.45
       - standalone:${ATELIER_SUBNET}.9.75
+      - rocky8:${ATELIER_SUBNET}.8.15
+      - rocky9:${ATELIER_SUBNET}.9.15
+      - ubuntu22:${ATELIER_SUBNET}.22.15
+      - ubuntu24:${ATELIER_SUBNET}.24.15
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.15
@@ -479,6 +551,10 @@ services:
       - active:${ATELIER_SUBNET}.9.15
       - standby:${ATELIER_SUBNET}.9.45
       - standalone:${ATELIER_SUBNET}.9.75
+      - rocky8:${ATELIER_SUBNET}.8.45
+      - rocky9:${ATELIER_SUBNET}.9.45
+      - ubuntu22:${ATELIER_SUBNET}.22.45
+      - ubuntu24:${ATELIER_SUBNET}.24.45
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.45
@@ -506,6 +582,10 @@ services:
       - active:${ATELIER_SUBNET}.9.15
       - standby:${ATELIER_SUBNET}.9.45
       - standalone:${ATELIER_SUBNET}.9.75
+      - rocky8:${ATELIER_SUBNET}.8.75
+      - rocky9:${ATELIER_SUBNET}.9.75
+      - ubuntu22:${ATELIER_SUBNET}.22.75
+      - ubuntu24:${ATELIER_SUBNET}.24.75
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.75
@@ -533,6 +613,10 @@ services:
       - active:${ATELIER_SUBNET}.9.16
       - standby:${ATELIER_SUBNET}.9.46
       - standalone:${ATELIER_SUBNET}.9.76
+      - rocky8:${ATELIER_SUBNET}.8.16
+      - rocky9:${ATELIER_SUBNET}.9.16
+      - ubuntu22:${ATELIER_SUBNET}.22.16
+      - ubuntu24:${ATELIER_SUBNET}.24.16
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.16
@@ -560,6 +644,10 @@ services:
       - active:${ATELIER_SUBNET}.9.16
       - standby:${ATELIER_SUBNET}.9.46
       - standalone:${ATELIER_SUBNET}.9.76
+      - rocky8:${ATELIER_SUBNET}.8.46
+      - rocky9:${ATELIER_SUBNET}.9.46
+      - ubuntu22:${ATELIER_SUBNET}.22.46
+      - ubuntu24:${ATELIER_SUBNET}.24.46
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.46
@@ -587,6 +675,10 @@ services:
       - active:${ATELIER_SUBNET}.9.16
       - standby:${ATELIER_SUBNET}.9.46
       - standalone:${ATELIER_SUBNET}.9.76
+      - rocky8:${ATELIER_SUBNET}.8.76
+      - rocky9:${ATELIER_SUBNET}.9.76
+      - ubuntu22:${ATELIER_SUBNET}.22.76
+      - ubuntu24:${ATELIER_SUBNET}.24.76
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.76
@@ -614,6 +706,10 @@ services:
       - active:${ATELIER_SUBNET}.9.17
       - standby:${ATELIER_SUBNET}.9.47
       - standalone:${ATELIER_SUBNET}.9.77
+      - rocky8:${ATELIER_SUBNET}.8.17
+      - rocky9:${ATELIER_SUBNET}.9.17
+      - ubuntu22:${ATELIER_SUBNET}.22.17
+      - ubuntu24:${ATELIER_SUBNET}.24.17
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.17
@@ -641,6 +737,10 @@ services:
       - active:${ATELIER_SUBNET}.9.17
       - standby:${ATELIER_SUBNET}.9.47
       - standalone:${ATELIER_SUBNET}.9.77
+      - rocky8:${ATELIER_SUBNET}.8.47
+      - rocky9:${ATELIER_SUBNET}.9.47
+      - ubuntu22:${ATELIER_SUBNET}.22.47
+      - ubuntu24:${ATELIER_SUBNET}.24.47
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.47
@@ -668,6 +768,10 @@ services:
       - active:${ATELIER_SUBNET}.9.17
       - standby:${ATELIER_SUBNET}.9.47
       - standalone:${ATELIER_SUBNET}.9.77
+      - rocky8:${ATELIER_SUBNET}.8.77
+      - rocky9:${ATELIER_SUBNET}.9.77
+      - ubuntu22:${ATELIER_SUBNET}.22.77
+      - ubuntu24:${ATELIER_SUBNET}.24.77
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.9.77
@@ -695,6 +799,10 @@ services:
       - active:${ATELIER_SUBNET}.22.14
       - standby:${ATELIER_SUBNET}.22.44
       - standalone:${ATELIER_SUBNET}.22.74
+      - rocky8:${ATELIER_SUBNET}.8.1
+      - rocky9:${ATELIER_SUBNET}.9.1
+      - ubuntu22:${ATELIER_SUBNET}.22.1
+      - ubuntu24:${ATELIER_SUBNET}.24.1
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.1
@@ -712,6 +820,10 @@ services:
       - active:${ATELIER_SUBNET}.22.14
       - standby:${ATELIER_SUBNET}.22.44
       - standalone:${ATELIER_SUBNET}.22.74
+      - rocky8:${ATELIER_SUBNET}.8.14
+      - rocky9:${ATELIER_SUBNET}.9.14
+      - ubuntu22:${ATELIER_SUBNET}.22.14
+      - ubuntu24:${ATELIER_SUBNET}.24.14
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.14
@@ -739,6 +851,10 @@ services:
       - active:${ATELIER_SUBNET}.22.14
       - standby:${ATELIER_SUBNET}.22.44
       - standalone:${ATELIER_SUBNET}.22.74
+      - rocky8:${ATELIER_SUBNET}.8.44
+      - rocky9:${ATELIER_SUBNET}.9.44
+      - ubuntu22:${ATELIER_SUBNET}.22.44
+      - ubuntu24:${ATELIER_SUBNET}.24.44
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.44
@@ -766,6 +882,10 @@ services:
       - active:${ATELIER_SUBNET}.22.14
       - standby:${ATELIER_SUBNET}.22.44
       - standalone:${ATELIER_SUBNET}.22.74
+      - rocky8:${ATELIER_SUBNET}.8.74
+      - rocky9:${ATELIER_SUBNET}.9.74
+      - ubuntu22:${ATELIER_SUBNET}.22.74
+      - ubuntu24:${ATELIER_SUBNET}.24.74
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.74
@@ -793,6 +913,10 @@ services:
       - active:${ATELIER_SUBNET}.22.15
       - standby:${ATELIER_SUBNET}.22.45
       - standalone:${ATELIER_SUBNET}.22.75
+      - rocky8:${ATELIER_SUBNET}.8.15
+      - rocky9:${ATELIER_SUBNET}.9.15
+      - ubuntu22:${ATELIER_SUBNET}.22.15
+      - ubuntu24:${ATELIER_SUBNET}.24.15
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.15
@@ -820,6 +944,10 @@ services:
       - active:${ATELIER_SUBNET}.22.15
       - standby:${ATELIER_SUBNET}.22.45
       - standalone:${ATELIER_SUBNET}.22.75
+      - rocky8:${ATELIER_SUBNET}.8.45
+      - rocky9:${ATELIER_SUBNET}.9.45
+      - ubuntu22:${ATELIER_SUBNET}.22.45
+      - ubuntu24:${ATELIER_SUBNET}.24.45
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.45
@@ -847,6 +975,10 @@ services:
       - active:${ATELIER_SUBNET}.22.15
       - standby:${ATELIER_SUBNET}.22.45
       - standalone:${ATELIER_SUBNET}.22.75
+      - rocky8:${ATELIER_SUBNET}.8.75
+      - rocky9:${ATELIER_SUBNET}.9.75
+      - ubuntu22:${ATELIER_SUBNET}.22.75
+      - ubuntu24:${ATELIER_SUBNET}.24.75
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.75
@@ -874,6 +1006,10 @@ services:
       - active:${ATELIER_SUBNET}.22.16
       - standby:${ATELIER_SUBNET}.22.46
       - standalone:${ATELIER_SUBNET}.22.76
+      - rocky8:${ATELIER_SUBNET}.8.16
+      - rocky9:${ATELIER_SUBNET}.9.16
+      - ubuntu22:${ATELIER_SUBNET}.22.16
+      - ubuntu24:${ATELIER_SUBNET}.24.16
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.16
@@ -901,6 +1037,10 @@ services:
       - active:${ATELIER_SUBNET}.22.16
       - standby:${ATELIER_SUBNET}.22.46
       - standalone:${ATELIER_SUBNET}.22.76
+      - rocky8:${ATELIER_SUBNET}.8.46
+      - rocky9:${ATELIER_SUBNET}.9.46
+      - ubuntu22:${ATELIER_SUBNET}.22.46
+      - ubuntu24:${ATELIER_SUBNET}.24.46
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.46
@@ -928,6 +1068,10 @@ services:
       - active:${ATELIER_SUBNET}.22.16
       - standby:${ATELIER_SUBNET}.22.46
       - standalone:${ATELIER_SUBNET}.22.76
+      - rocky8:${ATELIER_SUBNET}.8.76
+      - rocky9:${ATELIER_SUBNET}.9.76
+      - ubuntu22:${ATELIER_SUBNET}.22.76
+      - ubuntu24:${ATELIER_SUBNET}.24.76
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.76
@@ -955,6 +1099,10 @@ services:
       - active:${ATELIER_SUBNET}.22.17
       - standby:${ATELIER_SUBNET}.22.47
       - standalone:${ATELIER_SUBNET}.22.77
+      - rocky8:${ATELIER_SUBNET}.8.17
+      - rocky9:${ATELIER_SUBNET}.9.17
+      - ubuntu22:${ATELIER_SUBNET}.22.17
+      - ubuntu24:${ATELIER_SUBNET}.24.17
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.17
@@ -982,6 +1130,10 @@ services:
       - active:${ATELIER_SUBNET}.22.17
       - standby:${ATELIER_SUBNET}.22.47
       - standalone:${ATELIER_SUBNET}.22.77
+      - rocky8:${ATELIER_SUBNET}.8.47
+      - rocky9:${ATELIER_SUBNET}.9.47
+      - ubuntu22:${ATELIER_SUBNET}.22.47
+      - ubuntu24:${ATELIER_SUBNET}.24.47
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.47
@@ -1009,6 +1161,10 @@ services:
       - active:${ATELIER_SUBNET}.22.17
       - standby:${ATELIER_SUBNET}.22.47
       - standalone:${ATELIER_SUBNET}.22.77
+      - rocky8:${ATELIER_SUBNET}.8.77
+      - rocky9:${ATELIER_SUBNET}.9.77
+      - ubuntu22:${ATELIER_SUBNET}.22.77
+      - ubuntu24:${ATELIER_SUBNET}.24.77
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.22.77
@@ -1036,6 +1192,10 @@ services:
       - active:${ATELIER_SUBNET}.24.16
       - standby:${ATELIER_SUBNET}.24.46
       - standalone:${ATELIER_SUBNET}.24.76
+      - rocky8:${ATELIER_SUBNET}.8.1
+      - rocky9:${ATELIER_SUBNET}.9.1
+      - ubuntu22:${ATELIER_SUBNET}.22.1
+      - ubuntu24:${ATELIER_SUBNET}.24.1
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.1
@@ -1053,6 +1213,10 @@ services:
       - active:${ATELIER_SUBNET}.24.14
       - standby:${ATELIER_SUBNET}.24.44
       - standalone:${ATELIER_SUBNET}.24.74
+      - rocky8:${ATELIER_SUBNET}.8.14
+      - rocky9:${ATELIER_SUBNET}.9.14
+      - ubuntu22:${ATELIER_SUBNET}.22.14
+      - ubuntu24:${ATELIER_SUBNET}.24.14
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.14
@@ -1080,6 +1244,10 @@ services:
       - active:${ATELIER_SUBNET}.24.14
       - standby:${ATELIER_SUBNET}.24.44
       - standalone:${ATELIER_SUBNET}.24.74
+      - rocky8:${ATELIER_SUBNET}.8.44
+      - rocky9:${ATELIER_SUBNET}.9.44
+      - ubuntu22:${ATELIER_SUBNET}.22.44
+      - ubuntu24:${ATELIER_SUBNET}.24.44
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.44
@@ -1107,6 +1275,10 @@ services:
       - active:${ATELIER_SUBNET}.24.14
       - standby:${ATELIER_SUBNET}.24.44
       - standalone:${ATELIER_SUBNET}.24.74
+      - rocky8:${ATELIER_SUBNET}.8.74
+      - rocky9:${ATELIER_SUBNET}.9.74
+      - ubuntu22:${ATELIER_SUBNET}.22.74
+      - ubuntu24:${ATELIER_SUBNET}.24.74
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.74
@@ -1134,6 +1306,10 @@ services:
       - active:${ATELIER_SUBNET}.24.15
       - standby:${ATELIER_SUBNET}.24.45
       - standalone:${ATELIER_SUBNET}.24.75
+      - rocky8:${ATELIER_SUBNET}.8.15
+      - rocky9:${ATELIER_SUBNET}.9.15
+      - ubuntu22:${ATELIER_SUBNET}.22.15
+      - ubuntu24:${ATELIER_SUBNET}.24.15
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.15
@@ -1161,6 +1337,10 @@ services:
       - active:${ATELIER_SUBNET}.24.15
       - standby:${ATELIER_SUBNET}.24.45
       - standalone:${ATELIER_SUBNET}.24.75
+      - rocky8:${ATELIER_SUBNET}.8.45
+      - rocky9:${ATELIER_SUBNET}.9.45
+      - ubuntu22:${ATELIER_SUBNET}.22.45
+      - ubuntu24:${ATELIER_SUBNET}.24.45
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.45
@@ -1188,6 +1368,10 @@ services:
       - active:${ATELIER_SUBNET}.24.15
       - standby:${ATELIER_SUBNET}.24.45
       - standalone:${ATELIER_SUBNET}.24.75
+      - rocky8:${ATELIER_SUBNET}.8.75
+      - rocky9:${ATELIER_SUBNET}.9.75
+      - ubuntu22:${ATELIER_SUBNET}.22.75
+      - ubuntu24:${ATELIER_SUBNET}.24.75
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.75
@@ -1215,6 +1399,10 @@ services:
       - active:${ATELIER_SUBNET}.24.16
       - standby:${ATELIER_SUBNET}.24.46
       - standalone:${ATELIER_SUBNET}.24.76
+      - rocky8:${ATELIER_SUBNET}.8.16
+      - rocky9:${ATELIER_SUBNET}.9.16
+      - ubuntu22:${ATELIER_SUBNET}.22.16
+      - ubuntu24:${ATELIER_SUBNET}.24.16
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.16
@@ -1242,6 +1430,10 @@ services:
       - active:${ATELIER_SUBNET}.24.16
       - standby:${ATELIER_SUBNET}.24.46
       - standalone:${ATELIER_SUBNET}.24.76
+      - rocky8:${ATELIER_SUBNET}.8.46
+      - rocky9:${ATELIER_SUBNET}.9.46
+      - ubuntu22:${ATELIER_SUBNET}.22.46
+      - ubuntu24:${ATELIER_SUBNET}.24.46
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.46
@@ -1269,6 +1461,10 @@ services:
       - active:${ATELIER_SUBNET}.24.16
       - standby:${ATELIER_SUBNET}.24.46
       - standalone:${ATELIER_SUBNET}.24.76
+      - rocky8:${ATELIER_SUBNET}.8.76
+      - rocky9:${ATELIER_SUBNET}.9.76
+      - ubuntu22:${ATELIER_SUBNET}.22.76
+      - ubuntu24:${ATELIER_SUBNET}.24.76
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.76
@@ -1296,6 +1492,10 @@ services:
       - active:${ATELIER_SUBNET}.24.17
       - standby:${ATELIER_SUBNET}.24.47
       - standalone:${ATELIER_SUBNET}.24.77
+      - rocky8:${ATELIER_SUBNET}.8.17
+      - rocky9:${ATELIER_SUBNET}.9.17
+      - ubuntu22:${ATELIER_SUBNET}.22.17
+      - ubuntu24:${ATELIER_SUBNET}.24.17
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.17
@@ -1323,6 +1523,10 @@ services:
       - active:${ATELIER_SUBNET}.24.17
       - standby:${ATELIER_SUBNET}.24.47
       - standalone:${ATELIER_SUBNET}.24.77
+      - rocky8:${ATELIER_SUBNET}.8.47
+      - rocky9:${ATELIER_SUBNET}.9.47
+      - ubuntu22:${ATELIER_SUBNET}.22.47
+      - ubuntu24:${ATELIER_SUBNET}.24.47
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.47
@@ -1350,6 +1554,10 @@ services:
       - active:${ATELIER_SUBNET}.24.17
       - standby:${ATELIER_SUBNET}.24.47
       - standalone:${ATELIER_SUBNET}.24.77
+      - rocky8:${ATELIER_SUBNET}.8.77
+      - rocky9:${ATELIER_SUBNET}.9.77
+      - ubuntu22:${ATELIER_SUBNET}.22.77
+      - ubuntu24:${ATELIER_SUBNET}.24.77
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.24.77
