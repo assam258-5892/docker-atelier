@@ -87,6 +87,13 @@ services:
     volumes:
       - ubuntu24-pg14-active-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg14-active-workspace:/var/lib/postgresql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   ubuntu24-pg14-standby:
     image: ubuntu24-pg14
     container_name: ubuntu24-pg14-standby
@@ -107,6 +114,13 @@ services:
     volumes:
       - ubuntu24-pg14-standby-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg14-standby-workspace:/var/lib/postgresql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   ubuntu24-pg14-standalone:
     image: ubuntu24-pg14
     container_name: ubuntu24-pg14-standalone
@@ -127,6 +141,13 @@ services:
     volumes:
       - ubuntu24-pg14-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg14-standalone-workspace:/var/lib/postgresql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   ubuntu24-pg15-active:
     image: ubuntu24-pg15
     container_name: ubuntu24-pg15-active
@@ -147,6 +168,13 @@ services:
     volumes:
       - ubuntu24-pg15-active-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg15-active-workspace:/var/lib/postgresql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   ubuntu24-pg15-standby:
     image: ubuntu24-pg15
     container_name: ubuntu24-pg15-standby
@@ -167,6 +195,13 @@ services:
     volumes:
       - ubuntu24-pg15-standby-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg15-standby-workspace:/var/lib/postgresql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   ubuntu24-pg15-standalone:
     image: ubuntu24-pg15
     container_name: ubuntu24-pg15-standalone
@@ -187,6 +222,13 @@ services:
     volumes:
       - ubuntu24-pg15-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg15-standalone-workspace:/var/lib/postgresql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   ubuntu24-pg16-active:
     image: ubuntu24-pg16
     container_name: ubuntu24-pg16-active
@@ -207,6 +249,13 @@ services:
     volumes:
       - ubuntu24-pg16-active-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg16-active-workspace:/var/lib/postgresql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   ubuntu24-pg16-standby:
     image: ubuntu24-pg16
     container_name: ubuntu24-pg16-standby
@@ -227,6 +276,13 @@ services:
     volumes:
       - ubuntu24-pg16-standby-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg16-standby-workspace:/var/lib/postgresql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   ubuntu24-pg16-standalone:
     image: ubuntu24-pg16
     container_name: ubuntu24-pg16-standalone
@@ -247,6 +303,13 @@ services:
     volumes:
       - ubuntu24-pg16-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg16-standalone-workspace:/var/lib/postgresql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   ubuntu24-pg17-active:
     image: ubuntu24-pg17
     container_name: ubuntu24-pg17-active
@@ -267,6 +330,13 @@ services:
     volumes:
       - ubuntu24-pg17-active-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg17-active-workspace:/var/lib/postgresql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   ubuntu24-pg17-standby:
     image: ubuntu24-pg17
     container_name: ubuntu24-pg17-standby
@@ -287,6 +357,13 @@ services:
     volumes:
       - ubuntu24-pg17-standby-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg17-standby-workspace:/var/lib/postgresql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   ubuntu24-pg17-standalone:
     image: ubuntu24-pg17
     container_name: ubuntu24-pg17-standalone
@@ -307,6 +384,13 @@ services:
     volumes:
       - ubuntu24-pg17-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg17-standalone-workspace:/var/lib/postgresql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   haproxy:
     image: haproxy
     container_name: haproxy

@@ -53,6 +53,13 @@ services:
     volumes:
       - rocky9-pg14-active-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg14-active-workspace:/var/lib/pgsql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   rocky9-pg14-standby:
     image: rocky9-pg14
     container_name: rocky9-pg14-standby
@@ -73,6 +80,13 @@ services:
     volumes:
       - rocky9-pg14-standby-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg14-standby-workspace:/var/lib/pgsql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   rocky9-pg14-standalone:
     image: rocky9-pg14
     container_name: rocky9-pg14-standalone
@@ -93,6 +107,13 @@ services:
     volumes:
       - rocky9-pg14-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg14-standalone-workspace:/var/lib/pgsql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   rocky9-pg15-active:
     image: rocky9-pg15
     container_name: rocky9-pg15-active
@@ -113,6 +134,13 @@ services:
     volumes:
       - rocky9-pg15-active-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg15-active-workspace:/var/lib/pgsql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   rocky9-pg15-standby:
     image: rocky9-pg15
     container_name: rocky9-pg15-standby
@@ -133,6 +161,13 @@ services:
     volumes:
       - rocky9-pg15-standby-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg15-standby-workspace:/var/lib/pgsql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   rocky9-pg15-standalone:
     image: rocky9-pg15
     container_name: rocky9-pg15-standalone
@@ -153,6 +188,13 @@ services:
     volumes:
       - rocky9-pg15-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg15-standalone-workspace:/var/lib/pgsql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   rocky9-pg16-active:
     image: rocky9-pg16
     container_name: rocky9-pg16-active
@@ -173,6 +215,13 @@ services:
     volumes:
       - rocky9-pg16-active-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg16-active-workspace:/var/lib/pgsql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   rocky9-pg16-standby:
     image: rocky9-pg16
     container_name: rocky9-pg16-standby
@@ -193,6 +242,13 @@ services:
     volumes:
       - rocky9-pg16-standby-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg16-standby-workspace:/var/lib/pgsql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   rocky9-pg16-standalone:
     image: rocky9-pg16
     container_name: rocky9-pg16-standalone
@@ -213,6 +269,13 @@ services:
     volumes:
       - rocky9-pg16-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg16-standalone-workspace:/var/lib/pgsql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   rocky9-pg17-active:
     image: rocky9-pg17
     container_name: rocky9-pg17-active
@@ -233,6 +296,13 @@ services:
     volumes:
       - rocky9-pg17-active-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg17-active-workspace:/var/lib/pgsql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   rocky9-pg17-standby:
     image: rocky9-pg17
     container_name: rocky9-pg17-standby
@@ -253,6 +323,13 @@ services:
     volumes:
       - rocky9-pg17-standby-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg17-standby-workspace:/var/lib/pgsql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   rocky9-pg17-standalone:
     image: rocky9-pg17
     container_name: rocky9-pg17-standalone
@@ -273,6 +350,13 @@ services:
     volumes:
       - rocky9-pg17-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg17-standalone-workspace:/var/lib/pgsql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   ubuntu22-init:
     image: ubuntu22-init
     container_name: ubuntu22-init
