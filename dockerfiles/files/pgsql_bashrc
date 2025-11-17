@@ -687,6 +687,21 @@ function pg-kill {
     esac
 }
 
+function pg-gcov {
+    (
+        if [ ! -d ${HOME}/workspace/postgres ]; then
+            echo "PostgreSQL source directory not found. Please clone the repository first."
+            return 1
+        fi
+        cd ${HOME}/workspace/postgres
+        ${HOME}/gcov/gencov.py "$@"
+        if [ $? -ne 0 ]; then
+            echo "gencov failed. Please check the output for errors."
+            return 1
+        fi
+    )
+}
+
 function pg-lcov {
     (
         if [ ! -d ${HOME}/workspace/postgres ]; then
@@ -868,6 +883,7 @@ export -f pg-restart
 export -f pg-stop
 export -f pg-status
 export -f pg-kill
+export -f pg-gcov
 export -f pg-lcov
 export -f pg-valgrind
 export -f pg-trim-valgrind

@@ -61,6 +61,7 @@ ADD  --chown=postgres:postgres files/postgres.tar.gz /var/lib/postgresql
 COPY --chown=postgres:postgres --chmod=644 files/pgsql_bashrc /var/lib/postgresql/.bashrc
 RUN mkdir /var/lib/postgresql/.vscode-server \
     && mkdir /var/lib/postgresql/valgrind \
+    && mkdir /var/lib/postgresql/gcov \
     && mkdir /var/lib/postgresql/workspace \
     && mkdir /var/lib/postgresql/workspace/.vscode \
     && mkdir /var/lib/postgresql/workspace/postgres \
@@ -73,6 +74,7 @@ COPY --chown=postgres:postgres --chmod=644 files/psqlrc /var/lib/postgresql/.psq
 COPY --chown=postgres:postgres --chmod=644 files/valgrind.supp /var/lib/postgresql/.valgrind.supp
 COPY --chown=postgres:postgres --chmod=644 files/problematic.supp /var/lib/postgresql/.problematic.supp
 COPY --chown=postgres:postgres --chmod=755 files/cuttail.py files/unique.py /var/lib/postgresql/valgrind/
+COPY --chown=postgres:postgres --chmod=755 files/gencov.py /var/lib/postgresql/gcov/
 COPY --chown=postgres:postgres --chmod=644 ubuntu/files/gitconfig /var/lib/postgresql/workspace/.gitconfig
 COPY --chown=postgres:postgres --chmod=644 files/gitignore /var/lib/postgresql/workspace/.gitignore
 COPY --chown=postgres:postgres --chmod=644 files/*.json /var/lib/postgresql/workspace/.vscode
