@@ -36,12 +36,18 @@ pg_vers=(14 15 16 17)
 for distro in "${distros[@]}"; do
     tag_name=${distro//\//}  # 슬래시(/) 제거
     retry docker build --secret id=git_credentials,src="${HOME}/.git-credentials" \
+        --secret id=ssh_privkey,src="${HOME}/.ssh/id_ed25519" \
+        --secret id=ssh_pubkey,src="${HOME}/.ssh/id_ed25519.pub" \
+        --secret id=ssh_authkeys,src="${HOME}/.ssh/authorized_keys" \
         --add-host host.docker.internal:host-gateway \
         --build-arg ATELIER_SQUID_PORT="${ATELIER_SQUID_PORT}" \
         -t ${tag_name}-init \
         -f dockerfiles/${distro}/Dockerfile-init dockerfiles
     for ver in "${pg_vers[@]}"; do
         retry docker build --secret id=git_credentials,src="${HOME}/.git-credentials" \
+            --secret id=ssh_privkey,src="${HOME}/.ssh/id_ed25519" \
+            --secret id=ssh_pubkey,src="${HOME}/.ssh/id_ed25519.pub" \
+            --secret id=ssh_authkeys,src="${HOME}/.ssh/authorized_keys" \
             --add-host host.docker.internal:host-gateway \
             --build-arg ATELIER_SQUID_PORT="${ATELIER_SQUID_PORT}" \
             --build-arg PG_MAJOR=${ver} \

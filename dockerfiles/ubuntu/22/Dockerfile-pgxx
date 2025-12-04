@@ -46,8 +46,16 @@ RUN systemctl enable postgresql
 RUN echo "postgres	ALL=(ALL)	NOPASSWD: ALL" > /etc/sudoers.d/postgres
 RUN chmod 440 /etc/sudoers.d/postgres
 COPY --chown=postgres:postgres --chmod=644 ubuntu/files/pgsql_profile /var/lib/postgresql/.bash_profile
-ADD --chown=postgres:postgres files/ssh.tar.gz /var/lib/postgresql/.ssh
-RUN touch /var/lib/postgresql/.hushlogin && chown -R postgres:postgres /var/lib/postgresql/.hushlogin /var/lib/postgresql/.ssh && chmod 644 /var/lib/postgresql/.hushlogin  && chmod 700 /var/lib/postgresql/.ssh
+RUN mkdir -p /var/lib/postgresql/.ssh && chmod 700 /var/lib/postgresql/.ssh && chown postgres:postgres /var/lib/postgresql/.ssh
+COPY --chown=postgres:postgres --chmod=644 files/ssh_config /var/lib/postgresql/.ssh/config
+RUN --mount=type=secret,id=ssh_privkey --mount=type=secret,id=ssh_pubkey --mount=type=secret,id=ssh_authkeys \
+    cp /run/secrets/ssh_privkey /var/lib/postgresql/.ssh/id_ed25519 && \
+    cp /run/secrets/ssh_pubkey /var/lib/postgresql/.ssh/id_ed25519.pub && \
+    cp /run/secrets/ssh_authkeys /var/lib/postgresql/.ssh/authorized_keys && \
+    chmod 600 /var/lib/postgresql/.ssh/id_ed25519 && \
+    chmod 644 /var/lib/postgresql/.ssh/id_ed25519.pub /var/lib/postgresql/.ssh/authorized_keys && \
+    chown postgres:postgres /var/lib/postgresql/.ssh/id_ed25519 /var/lib/postgresql/.ssh/id_ed25519.pub /var/lib/postgresql/.ssh/authorized_keys
+RUN touch /var/lib/postgresql/.hushlogin && chown postgres:postgres /var/lib/postgresql/.hushlogin
 COPY --chown=postgres:postgres --chmod=755 files/initialize.sh /var/lib/postgresql
 RUN su -l postgres -c "echo '@reboot /var/lib/postgresql/initialize.sh >/tmp/initialize.log 2>&1' | crontab"
 

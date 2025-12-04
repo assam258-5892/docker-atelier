@@ -20,7 +20,6 @@ services:
     networks:
       default:
         ipv4_address: ${ATELIER_SUBNET}.8.1
-
   rocky9-init:
     image: rocky9-init
     container_name: rocky9-init

@@ -42,7 +42,14 @@ RUN mkdir -p /etc/sysctl.d && echo 'fs.inotify.max_user_instances=4096' > /etc/s
 RUN mkdir -p /etc/sysctl.d && echo 'kernel.core_pattern=/tmp/core-%e-%t-%p' > /etc/sysctl.d/99-core-pattern.conf
 RUN mkdir -p /etc/ssh/sshd_config.d && echo "GatewayPorts yes" > /etc/ssh/sshd_config.d/02-gatewayport.conf && echo "AcceptEnv TERM_PROGRAM" > /etc/ssh/sshd_config.d/10-acceptenv.conf
 RUN echo -e "\nLANG=ko_KR.UTF-8\nLANGUAGE=ko:en\nLC_ALL=ko_KR.UTF-8\nTZ=Asia/Seoul\n\nalias remove='rm -f .*~ *~'\n\nulimit -n 1048576\nulimit -c unlimited" >> /root/.bashrc
-ADD --chown=root:root files/ssh.tar.gz /root/.ssh
+RUN mkdir -p /root/.ssh && chmod 700 /root/.ssh
+COPY --chown=root:root --chmod=644 files/ssh_config /root/.ssh/config
+RUN --mount=type=secret,id=ssh_privkey --mount=type=secret,id=ssh_pubkey --mount=type=secret,id=ssh_authkeys \
+    cp /run/secrets/ssh_privkey /root/.ssh/id_ed25519 && \
+    cp /run/secrets/ssh_pubkey /root/.ssh/id_ed25519.pub && \
+    cp /run/secrets/ssh_authkeys /root/.ssh/authorized_keys && \
+    chmod 600 /root/.ssh/id_ed25519 && \
+    chmod 644 /root/.ssh/id_ed25519.pub /root/.ssh/authorized_keys
 RUN touch /root/.hushlogin
 
 # Docker 환경 설정
