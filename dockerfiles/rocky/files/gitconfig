@@ -22,5 +22,3 @@
 [user]
 	email = anonymous@domain.com
 	name = Anonymous
-[url "https://github.com/assam258-5892/"]
-        insteadOf = https://gitlab-techdev.inzent.com/techdev/pg/
