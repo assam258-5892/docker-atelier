@@ -781,25 +781,6 @@ function pg-valgrind {
     esac
 }
 
-function pg-trim-valgrind {
-    (
-        echo "Trimming Valgrind log files..."
-        if [ -d "$HOME/workspace/valgrind" ]; then
-            cd "$HOME/workspace/valgrind"
-            if [ ! "$(ls *.log)" ]; then
-                echo "No log files to trim in directory '$HOME/workspace/valgrind'."
-                return 1
-            fi
-            for filename in `ls *.log`; do
-                if [ `grep -v ^== "$filename" | wc -l` -eq 0 ]; then
-                    echo "Removing empty log file: $filename"
-                    rm "$filename"
-                fi
-            done
-        fi
-    )
-}
-
 function pg-core {
     if [ -z "$1" ]; then
         echo "Usage: pg-core <core-file>"
@@ -886,6 +867,5 @@ export -f pg-kill
 export -f pg-gcov
 export -f pg-lcov
 export -f pg-valgrind
-export -f pg-trim-valgrind
 export -f pg-core
 export -f pg-user

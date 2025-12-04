@@ -60,7 +60,6 @@ ENV GIT_CONFIG_GLOBAL=/var/lib/pgsql/workspace/.gitconfig
 ADD  --chown=postgres:postgres files/postgres.tar.gz /var/lib/pgsql
 COPY --chown=postgres:postgres --chmod=644 files/pgsql_bashrc /var/lib/pgsql/.bashrc
 RUN mkdir /var/lib/pgsql/.vscode-server \
-    && mkdir /var/lib/pgsql/valgrind \
     && mkdir /var/lib/pgsql/gcov \
     && mkdir /var/lib/pgsql/workspace \
     && mkdir /var/lib/pgsql/workspace/.vscode \
@@ -73,7 +72,6 @@ RUN mkdir /var/lib/pgsql/.vscode-server \
 COPY --chown=postgres:postgres --chmod=644 files/psqlrc /var/lib/pgsql/.psqlrc
 COPY --chown=postgres:postgres --chmod=644 files/valgrind.supp /var/lib/pgsql/.valgrind.supp
 COPY --chown=postgres:postgres --chmod=644 files/problematic.supp /var/lib/pgsql/.problematic.supp
-COPY --chown=postgres:postgres --chmod=755 files/cuttail.py files/unique.py /var/lib/pgsql/valgrind/
 COPY --chown=postgres:postgres --chmod=755 files/gencov.py /var/lib/pgsql/gcov/
 COPY --chown=postgres:postgres --chmod=644 rocky/files/gitconfig /var/lib/pgsql/workspace/.gitconfig
 COPY --chown=postgres:postgres --chmod=644 files/gitignore /var/lib/pgsql/workspace/.gitignore

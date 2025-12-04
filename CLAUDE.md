@@ -212,7 +212,6 @@ rsync-workspace [source_role]
 
 ```bash
 pg-valgrind           # Run PostgreSQL under Valgrind
-pg-trim-valgrind      # Remove empty Valgrind log files
 pg-core <core-file>   # Analyze core dump with GDB
 pg-lcov clear         # Clear coverage counters
 pg-lcov report        # Generate HTML coverage report

@@ -871,14 +871,6 @@ pg-valgrind
 # - 로그 파일 자동 생성 (~/workspace/valgrind/*.log)
 ```
 
-**`pg-trim-valgrind`**: Valgrind 로그 파일을 정리합니다.
-
-```bash
-pg-trim-valgrind
-# 빈 로그 파일 자동 제거
-# 유효한 오류 정보만 보존
-```
-
 #### 4.7 사용자 환경 관리 함수
 
 **`pg-user`**: PostgreSQL 연결 사용자를 설정합니다.
