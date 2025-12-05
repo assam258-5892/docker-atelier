@@ -95,12 +95,7 @@ RUN mkdir /var/lib/postgresql/.vscode-server \
     && mkdir /var/lib/postgresql/gcov \
     && mkdir /var/lib/postgresql/workspace \
     && mkdir /var/lib/postgresql/workspace/.vscode \
-    && mkdir /var/lib/postgresql/workspace/postgres \
-    && mkdir /var/lib/postgresql/workspace/pg_store_plans \
-    && mkdir /var/lib/postgresql/workspace/pgsentinel \
-    && mkdir /var/lib/postgresql/workspace/pg_ensure_queryid \
-    && mkdir /var/lib/postgresql/workspace/cloudberry \
-    && mkdir /var/lib/postgresql/workspace/gpbackup
+    && mkdir /var/lib/postgresql/workspace/postgres
 COPY --chown=postgres:postgres --chmod=644 files/psqlrc /var/lib/postgresql/.psqlrc
 COPY --chown=postgres:postgres --chmod=644 files/valgrind.supp /var/lib/postgresql/.valgrind.supp
 COPY --chown=postgres:postgres --chmod=644 files/problematic.supp /var/lib/postgresql/.problematic.supp
@@ -111,21 +106,11 @@ COPY --chown=postgres:postgres --chmod=644 files/*.json /var/lib/postgresql/work
 COPY --chown=postgres:postgres --chmod=644 ubuntu/files/${PG_MAJOR}/*.json /var/lib/postgresql/workspace/.vscode
 RUN ( cd /var/lib/postgresql/workspace/.vscode && git init && git add -A && git commit -m "Initial commit" )
 RUN curl -o /var/lib/postgresql/.git-completion.bash https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
-RUN ( cd /var/lib/postgresql/workspace/postgres && git init && git remote add origin https://github.com/assam258-5892/postgres.git && git remote add upstream https://github.com/postgres/postgres.git )
-RUN ( cd /var/lib/postgresql/workspace/pg_store_plans && git init && git remote add origin https://github.com/experdb/pg_store_plans.git && git remote add upstream https://github.com/ossc-db/pg_store_plans.git )
-RUN ( cd /var/lib/postgresql/workspace/pgsentinel && git init && git remote add origin https://github.com/experdb/pgsentinel.git && git remote add upstream https://github.com/pgsentinel/pgsentinel.git )
-RUN ( cd /var/lib/postgresql/workspace/pg_ensure_queryid && git init && git remote add origin https://github.com/experdb/pg_ensure_queryid.git )
-RUN ( cd /var/lib/postgresql/workspace/cloudberry && git init && git remote add origin https://github.com/apache/cloudberry.git )
-RUN ( cd /var/lib/postgresql/workspace/gpbackup && git init && git remote add origin https://github.com/cloudberrydb/gpbackup.git )
+RUN ( cd /var/lib/postgresql/workspace/postgres && git init && git remote add origin https://github.com/assam258-5892/postgres.git && git remote add postgres https://github.com/postgres/postgres.git )
 RUN chown -R postgres:postgres /var/lib/postgresql
 RUN tar cvzf /var/lib/postgresql/.git.tar.gz -C /var/lib/postgresql/workspace .gitconfig .gitignore && chown postgres:postgres /var/lib/postgresql/.git.tar.gz
 RUN tar cvzf /var/lib/postgresql/.vscode.tar.gz -C /var/lib/postgresql/workspace .vscode && chown postgres:postgres /var/lib/postgresql/.vscode.tar.gz
 RUN tar cvzf /var/lib/postgresql/.postgres.tar.gz -C /var/lib/postgresql/workspace postgres && chown postgres:postgres /var/lib/postgresql/.postgres.tar.gz
-RUN tar cvzf /var/lib/postgresql/.pg_store_plans.tar.gz -C /var/lib/postgresql/workspace pg_store_plans && chown postgres:postgres /var/lib/postgresql/.pg_store_plans.tar.gz
-RUN tar cvzf /var/lib/postgresql/.pgsentinel.tar.gz -C /var/lib/postgresql/workspace pgsentinel && chown postgres:postgres /var/lib/postgresql/.pgsentinel.tar.gz
-RUN tar cvzf /var/lib/postgresql/.pg_ensure_queryid.tar.gz -C /var/lib/postgresql/workspace pg_ensure_queryid && chown postgres:postgres /var/lib/postgresql/.pg_ensure_queryid.tar.gz
-RUN tar cvzf /var/lib/postgresql/.cloudberry.tar.gz -C /var/lib/postgresql/workspace cloudberry && chown postgres:postgres /var/lib/postgresql/.cloudberry.tar.gz
-RUN tar cvzf /var/lib/postgresql/.gpbackup.tar.gz -C /var/lib/postgresql/workspace gpbackup && chown postgres:postgres /var/lib/postgresql/.gpbackup.tar.gz
 
 # Docker 환경 설정
 VOLUME /var/lib/postgresql/workspace
