@@ -26,7 +26,7 @@ RUN apt install -y nodejs && npm install -g npm && npm install -g @anthropic-ai/
 
 # PostgreSQL 개발 환경 설정
 RUN apt-get install -y pkg-config flex bison clang clang-format ccache fop gettext libxml2-utils xsltproc docbook-xml docbook-xsl libipc-run-perl libtext-trim-perl
-RUN apt-get install -y libcairo2-dev libkrb5-dev libkrb5-dev libldap-dev liblz4-dev libpam-dev libperl-dev libreadline-dev libssl-dev libsystemd-dev liburing-dev libxml2-dev libxslt1-dev libzstd-dev python3-dev systemtap-sdt-dev tcl-dev zlib1g-dev
+RUN apt-get install -y libcairo2-dev libkrb5-dev libkrb5-dev libldap-dev liblz4-dev libnuma-dev libpam-dev libperl-dev libreadline-dev libssl-dev libsystemd-dev liburing-dev libxml2-dev libxslt1-dev libzstd-dev python3-dev systemtap-sdt-dev tcl-dev zlib1g-dev
 
 # CloudBerry 개발 환경 설정
 RUN apt-get install -y golang libapr1-dev libevent-dev libcurl4-openssl-dev libbz2-dev libprotobuf-dev protobuf-compiler libuv1-dev libyaml-dev
