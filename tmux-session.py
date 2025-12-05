@@ -156,6 +156,7 @@ def tmux_new_session(session, window, command):
     tmux('set-option', '-g', 'history-limit', '10000')
     tmux('set-option', '-g', 'remain-on-exit', 'on')
     tmux('set-option', '-g', 'mouse', 'on')
+    tmux('set-option', '-g', 'alternate-screen', 'off')
     tmux('bind-key', '-n', 'MouseDown1StatusRight', 'setw synchronize-panes')
     tmux('bind-key', '-n', 'MouseDown1StatusLeft', 'switch-client -n')
     tmux('bind-key', 'C-s', 'setw synchronize-panes')

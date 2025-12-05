@@ -1,10 +1,12 @@
 #!/bin/bash
 
 # 인터랙티브 메뉴 함수 (화살표 키 지원)
+# 사용법: select_menu <initial_index> <options...>
 select_menu() {
+  local selected=$1
+  shift
   local options=("$@")
   local count=${#options[@]}
-  local selected=0
   local key
 
   # 커서 숨기기
@@ -13,11 +15,10 @@ select_menu() {
   # 메뉴 출력 함수
   print_menu() {
     for i in "${!options[@]}"; do
-      tput cuf 2  # 2칸 들여쓰기
       if [ $i -eq $selected ]; then
-        echo -e "\e[7m${options[$i]}\e[0m"  # 반전 (선택됨)
+        printf "  \e[7m%s\e[0m\n" "${options[$i]}"
       else
-        echo "${options[$i]}"
+        printf "  %s\n" "${options[$i]}"
       fi
     done
   }
@@ -30,13 +31,13 @@ select_menu() {
     read -rsn1 key
     case "$key" in
       $'\x1b')  # ESC 시퀀스 시작
-        read -rsn1 -t 0.1 seq1
+        read -rsn1 -t 1 seq1
         if [ -z "$seq1" ]; then
           # 순수 ESC 키 (취소)
           tput cnorm
           return 255
         fi
-        read -rsn1 -t 0.1 seq2
+        read -rsn1 -t 1 seq2
         case "$seq1$seq2" in
           '[A')  # 위쪽 화살표
             ((selected--))
@@ -56,8 +57,8 @@ select_menu() {
         return 255
         ;;
     esac
-    # 메뉴 다시 그리기
-    tput cuu $count
+    # 메뉴 다시 그리기 (커서를 메뉴 시작으로 이동)
+    printf "\e[%dA" $count
     print_menu
   done
 
@@ -68,15 +69,30 @@ select_menu() {
 }
 
 if [ -z "$1" ]; then
+  # 현재 실행 중인 compose 프로젝트 감지 (컨테이너 라벨에서 직접 확인)
+  current_project=$(docker ps --format '{{.Label "com.docker.compose.project.config_files"}}' 2>/dev/null | head -1)
+  if [ -n "$current_project" ]; then
+    # /path/to/docker-pg15.yml -> pg15
+    current_project=$(basename "$current_project")
+    current_project=${current_project#docker-}
+    current_project=${current_project%.yml}
+  fi
+
   echo "사용 가능한 docker-*.yml 목록 (↑↓ 선택, Enter 확인, ESC/q 취소):"
 
   # 파일 목록 수집
   menu_items=()
   base_names=()
+  initial_idx=0
+  idx=0
   for f in docker-*.yml; do
     base=${f#docker-}
     base=${base%.yml}
     base_names+=("$base")
+    # 현재 실행 중인 프로젝트면 초기 선택으로 설정
+    if [ "$base" = "$current_project" ]; then
+      initial_idx=$idx
+    fi
     # 키 생성
     num=$(echo "$base" | grep -o '[0-9]\+$')
     if [ -n "$num" ]; then
@@ -85,16 +101,13 @@ if [ -z "$1" ]; then
       key="${base:0:1}"
     fi
     menu_items+=("$key) $base")
+    ((idx++))
   done
 
   # 메뉴 선택
   menu_count=${#menu_items[@]}
-  select_menu "${menu_items[@]}"
+  select_menu $initial_idx "${menu_items[@]}"
   sel_idx=$?
-
-  # 메뉴 지우기 (타이틀 포함)
-  tput cuu $((menu_count + 1))
-  tput ed
 
   if [ $sel_idx -eq 255 ]; then
     echo "취소됨"
