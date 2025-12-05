@@ -10,7 +10,7 @@
 	editor = editor
 	excludesFile = /var/lib/postgresql/workspace/.gitignore
 [credential]
-	helper = store --file /var/lib/postgresql/workspace/.git-credentials
+	helper = store --file /var/lib/postgresql/.git-credentials
 [init]
 	defaultBranch = master
 [merge]

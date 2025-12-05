@@ -72,7 +72,10 @@ RUN chmod 440 /etc/sudoers.d/postgres
 COPY --chown=postgres:postgres --chmod=644 ubuntu/files/pgsql_profile /var/lib/postgresql/.bash_profile
 RUN mkdir -p /var/lib/postgresql/.ssh && chmod 700 /var/lib/postgresql/.ssh && chown postgres:postgres /var/lib/postgresql/.ssh
 COPY --chown=postgres:postgres --chmod=644 files/ssh_config /var/lib/postgresql/.ssh/config
-RUN --mount=type=secret,id=ssh_privkey --mount=type=secret,id=ssh_pubkey --mount=type=secret,id=ssh_authkeys \
+RUN --mount=type=secret,id=git_credentials --mount=type=secret,id=ssh_privkey --mount=type=secret,id=ssh_pubkey --mount=type=secret,id=ssh_authkeys \
+    cp /run/secrets/git_credentials /var/lib/postgresql/.git-credentials && \
+    chmod 600 /var/lib/postgresql/.git-credentials && \
+    chown postgres:postgres /var/lib/postgresql/.git-credentials && \
     cp /run/secrets/ssh_privkey /var/lib/postgresql/.ssh/id_ed25519 && \
     cp /run/secrets/ssh_pubkey /var/lib/postgresql/.ssh/id_ed25519.pub && \
     cp /run/secrets/ssh_authkeys /var/lib/postgresql/.ssh/authorized_keys && \
@@ -98,14 +101,13 @@ RUN mkdir /var/lib/postgresql/.vscode-server \
     && mkdir /var/lib/postgresql/workspace/postgres
 COPY --chown=postgres:postgres --chmod=644 files/psqlrc /var/lib/postgresql/.psqlrc
 COPY --chown=postgres:postgres --chmod=644 files/valgrind.supp /var/lib/postgresql/.valgrind.supp
-COPY --chown=postgres:postgres --chmod=644 files/problematic.supp /var/lib/postgresql/.problematic.supp
 COPY --chown=postgres:postgres --chmod=755 files/gencov.py /var/lib/postgresql/gcov/
 COPY --chown=postgres:postgres --chmod=644 ubuntu/files/gitconfig /var/lib/postgresql/workspace/.gitconfig
 COPY --chown=postgres:postgres --chmod=644 files/gitignore /var/lib/postgresql/workspace/.gitignore
 COPY --chown=postgres:postgres --chmod=644 files/*.json /var/lib/postgresql/workspace/.vscode
 COPY --chown=postgres:postgres --chmod=644 ubuntu/files/${PG_MAJOR}/*.json /var/lib/postgresql/workspace/.vscode
-RUN ( cd /var/lib/postgresql/workspace/.vscode && git init && git add -A && git commit -m "Initial commit" )
 RUN curl -o /var/lib/postgresql/.git-completion.bash https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
+RUN ( cd /var/lib/postgresql/workspace/.vscode && git init && git add -A && git commit -m "Initial commit" )
 RUN ( cd /var/lib/postgresql/workspace/postgres && git init && git remote add origin https://github.com/assam258-5892/postgres.git && git remote add postgres https://github.com/postgres/postgres.git )
 RUN chown -R postgres:postgres /var/lib/postgresql
 RUN tar cvzf /var/lib/postgresql/.git.tar.gz -C /var/lib/postgresql/workspace .gitconfig .gitignore && chown postgres:postgres /var/lib/postgresql/.git.tar.gz

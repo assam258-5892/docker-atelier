@@ -10,7 +10,7 @@
 	editor = editor
 	excludesFile = /var/lib/pgsql/workspace/.gitignore
 [credential]
-	helper = store --file /var/lib/pgsql/workspace/.git-credentials
+	helper = store --file /var/lib/pgsql/.git-credentials
 [init]
 	defaultBranch = master
 [merge]
