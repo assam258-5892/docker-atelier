@@ -392,6 +392,99 @@ services:
       core:
         soft: -1
         hard: -1
+  rocky8-pg18-active:
+    image: rocky8-pg18
+    container_name: rocky8-pg18-active
+    hostname: rocky8-pg18-active
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - host:host-gateway
+      - init:${ATELIER_SUBNET}.8.1
+      - active:${ATELIER_SUBNET}.8.18
+      - standby:${ATELIER_SUBNET}.8.48
+      - standalone:${ATELIER_SUBNET}.8.78
+      - rocky8:${ATELIER_SUBNET}.8.18
+      - rocky9:${ATELIER_SUBNET}.9.18
+      - ubuntu22:${ATELIER_SUBNET}.22.18
+      - ubuntu24:${ATELIER_SUBNET}.24.18
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.8.18
+    volumes:
+      - rocky8-pg18-active-vscode-server:/var/lib/pgsql/.vscode-server
+      - rocky8-pg18-active-workspace:/var/lib/pgsql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
+  rocky8-pg18-standby:
+    image: rocky8-pg18
+    container_name: rocky8-pg18-standby
+    hostname: rocky8-pg18-standby
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - host:host-gateway
+      - init:${ATELIER_SUBNET}.8.1
+      - active:${ATELIER_SUBNET}.8.18
+      - standby:${ATELIER_SUBNET}.8.48
+      - standalone:${ATELIER_SUBNET}.8.78
+      - rocky8:${ATELIER_SUBNET}.8.48
+      - rocky9:${ATELIER_SUBNET}.9.48
+      - ubuntu22:${ATELIER_SUBNET}.22.48
+      - ubuntu24:${ATELIER_SUBNET}.24.48
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.8.48
+    volumes:
+      - rocky8-pg18-standby-vscode-server:/var/lib/pgsql/.vscode-server
+      - rocky8-pg18-standby-workspace:/var/lib/pgsql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
+  rocky8-pg18-standalone:
+    image: rocky8-pg18
+    container_name: rocky8-pg18-standalone
+    hostname: rocky8-pg18-standalone
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - host:host-gateway
+      - init:${ATELIER_SUBNET}.8.1
+      - active:${ATELIER_SUBNET}.8.18
+      - standby:${ATELIER_SUBNET}.8.48
+      - standalone:${ATELIER_SUBNET}.8.78
+      - rocky8:${ATELIER_SUBNET}.8.78
+      - rocky9:${ATELIER_SUBNET}.9.78
+      - ubuntu22:${ATELIER_SUBNET}.22.78
+      - ubuntu24:${ATELIER_SUBNET}.24.78
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.8.78
+    volumes:
+      - rocky8-pg18-standalone-vscode-server:/var/lib/pgsql/.vscode-server
+      - rocky8-pg18-standalone-workspace:/var/lib/pgsql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   rocky9-init:
     image: rocky9-init
     container_name: rocky9-init
@@ -778,6 +871,99 @@ services:
     volumes:
       - rocky9-pg17-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg17-standalone-workspace:/var/lib/pgsql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
+  rocky9-pg18-active:
+    image: rocky9-pg18
+    container_name: rocky9-pg18-active
+    hostname: rocky9-pg18-active
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - host:host-gateway
+      - init:${ATELIER_SUBNET}.9.1
+      - active:${ATELIER_SUBNET}.9.18
+      - standby:${ATELIER_SUBNET}.9.48
+      - standalone:${ATELIER_SUBNET}.9.78
+      - rocky8:${ATELIER_SUBNET}.8.18
+      - rocky9:${ATELIER_SUBNET}.9.18
+      - ubuntu22:${ATELIER_SUBNET}.22.18
+      - ubuntu24:${ATELIER_SUBNET}.24.18
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.9.18
+    volumes:
+      - rocky9-pg18-active-vscode-server:/var/lib/pgsql/.vscode-server
+      - rocky9-pg18-active-workspace:/var/lib/pgsql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
+  rocky9-pg18-standby:
+    image: rocky9-pg18
+    container_name: rocky9-pg18-standby
+    hostname: rocky9-pg18-standby
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - host:host-gateway
+      - init:${ATELIER_SUBNET}.9.1
+      - active:${ATELIER_SUBNET}.9.18
+      - standby:${ATELIER_SUBNET}.9.48
+      - standalone:${ATELIER_SUBNET}.9.78
+      - rocky8:${ATELIER_SUBNET}.8.48
+      - rocky9:${ATELIER_SUBNET}.9.48
+      - ubuntu22:${ATELIER_SUBNET}.22.48
+      - ubuntu24:${ATELIER_SUBNET}.24.48
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.9.48
+    volumes:
+      - rocky9-pg18-standby-vscode-server:/var/lib/pgsql/.vscode-server
+      - rocky9-pg18-standby-workspace:/var/lib/pgsql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
+  rocky9-pg18-standalone:
+    image: rocky9-pg18
+    container_name: rocky9-pg18-standalone
+    hostname: rocky9-pg18-standalone
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - host:host-gateway
+      - init:${ATELIER_SUBNET}.9.1
+      - active:${ATELIER_SUBNET}.9.18
+      - standby:${ATELIER_SUBNET}.9.48
+      - standalone:${ATELIER_SUBNET}.9.78
+      - rocky8:${ATELIER_SUBNET}.8.78
+      - rocky9:${ATELIER_SUBNET}.9.78
+      - ubuntu22:${ATELIER_SUBNET}.22.78
+      - ubuntu24:${ATELIER_SUBNET}.24.78
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.9.78
+    volumes:
+      - rocky9-pg18-standalone-vscode-server:/var/lib/pgsql/.vscode-server
+      - rocky9-pg18-standalone-workspace:/var/lib/pgsql/workspace
     ulimits:
       nofile:
         soft: 65536
@@ -1178,6 +1364,99 @@ services:
       core:
         soft: -1
         hard: -1
+  ubuntu22-pg18-active:
+    image: ubuntu22-pg18
+    container_name: ubuntu22-pg18-active
+    hostname: ubuntu22-pg18-active
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - host:host-gateway
+      - init:${ATELIER_SUBNET}.22.1
+      - active:${ATELIER_SUBNET}.22.18
+      - standby:${ATELIER_SUBNET}.22.48
+      - standalone:${ATELIER_SUBNET}.22.78
+      - rocky8:${ATELIER_SUBNET}.8.18
+      - rocky9:${ATELIER_SUBNET}.9.18
+      - ubuntu22:${ATELIER_SUBNET}.22.18
+      - ubuntu24:${ATELIER_SUBNET}.24.18
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.22.18
+    volumes:
+      - ubuntu22-pg18-active-vscode-server:/var/lib/postgresql/.vscode-server
+      - ubuntu22-pg18-active-workspace:/var/lib/postgresql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
+  ubuntu22-pg18-standby:
+    image: ubuntu22-pg18
+    container_name: ubuntu22-pg18-standby
+    hostname: ubuntu22-pg18-standby
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - host:host-gateway
+      - init:${ATELIER_SUBNET}.22.1
+      - active:${ATELIER_SUBNET}.22.18
+      - standby:${ATELIER_SUBNET}.22.48
+      - standalone:${ATELIER_SUBNET}.22.78
+      - rocky8:${ATELIER_SUBNET}.8.48
+      - rocky9:${ATELIER_SUBNET}.9.48
+      - ubuntu22:${ATELIER_SUBNET}.22.48
+      - ubuntu24:${ATELIER_SUBNET}.24.48
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.22.48
+    volumes:
+      - ubuntu22-pg18-standby-vscode-server:/var/lib/postgresql/.vscode-server
+      - ubuntu22-pg18-standby-workspace:/var/lib/postgresql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
+  ubuntu22-pg18-standalone:
+    image: ubuntu22-pg18
+    container_name: ubuntu22-pg18-standalone
+    hostname: ubuntu22-pg18-standalone
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - host:host-gateway
+      - init:${ATELIER_SUBNET}.22.1
+      - active:${ATELIER_SUBNET}.22.18
+      - standby:${ATELIER_SUBNET}.22.48
+      - standalone:${ATELIER_SUBNET}.22.78
+      - rocky8:${ATELIER_SUBNET}.8.78
+      - rocky9:${ATELIER_SUBNET}.9.78
+      - ubuntu22:${ATELIER_SUBNET}.22.78
+      - ubuntu24:${ATELIER_SUBNET}.24.78
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.22.78
+    volumes:
+      - ubuntu22-pg18-standalone-vscode-server:/var/lib/postgresql/.vscode-server
+      - ubuntu22-pg18-standalone-workspace:/var/lib/postgresql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   ubuntu24-init:
     image: ubuntu24-init
     container_name: ubuntu24-init
@@ -1571,6 +1850,99 @@ services:
       core:
         soft: -1
         hard: -1
+  ubuntu24-pg18-active:
+    image: ubuntu24-pg18
+    container_name: ubuntu24-pg18-active
+    hostname: ubuntu24-pg18-active
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - host:host-gateway
+      - init:${ATELIER_SUBNET}.24.1
+      - active:${ATELIER_SUBNET}.24.18
+      - standby:${ATELIER_SUBNET}.24.48
+      - standalone:${ATELIER_SUBNET}.24.78
+      - rocky8:${ATELIER_SUBNET}.8.18
+      - rocky9:${ATELIER_SUBNET}.9.18
+      - ubuntu22:${ATELIER_SUBNET}.22.18
+      - ubuntu24:${ATELIER_SUBNET}.24.18
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.24.18
+    volumes:
+      - ubuntu24-pg18-active-vscode-server:/var/lib/postgresql/.vscode-server
+      - ubuntu24-pg18-active-workspace:/var/lib/postgresql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
+  ubuntu24-pg18-standby:
+    image: ubuntu24-pg18
+    container_name: ubuntu24-pg18-standby
+    hostname: ubuntu24-pg18-standby
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - host:host-gateway
+      - init:${ATELIER_SUBNET}.24.1
+      - active:${ATELIER_SUBNET}.24.18
+      - standby:${ATELIER_SUBNET}.24.48
+      - standalone:${ATELIER_SUBNET}.24.78
+      - rocky8:${ATELIER_SUBNET}.8.48
+      - rocky9:${ATELIER_SUBNET}.9.48
+      - ubuntu22:${ATELIER_SUBNET}.22.48
+      - ubuntu24:${ATELIER_SUBNET}.24.48
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.24.48
+    volumes:
+      - ubuntu24-pg18-standby-vscode-server:/var/lib/postgresql/.vscode-server
+      - ubuntu24-pg18-standby-workspace:/var/lib/postgresql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
+  ubuntu24-pg18-standalone:
+    image: ubuntu24-pg18
+    container_name: ubuntu24-pg18-standalone
+    hostname: ubuntu24-pg18-standalone
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - host:host-gateway
+      - init:${ATELIER_SUBNET}.24.1
+      - active:${ATELIER_SUBNET}.24.18
+      - standby:${ATELIER_SUBNET}.24.48
+      - standalone:${ATELIER_SUBNET}.24.78
+      - rocky8:${ATELIER_SUBNET}.8.78
+      - rocky9:${ATELIER_SUBNET}.9.78
+      - ubuntu22:${ATELIER_SUBNET}.22.78
+      - ubuntu24:${ATELIER_SUBNET}.24.78
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.24.78
+    volumes:
+      - ubuntu24-pg18-standalone-vscode-server:/var/lib/postgresql/.vscode-server
+      - ubuntu24-pg18-standalone-workspace:/var/lib/postgresql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   haproxy:
     image: haproxy
     container_name: haproxy
@@ -1647,6 +2019,9 @@ volumes:
   rocky8-pg17-active-workspace:
   rocky8-pg17-standby-workspace:
   rocky8-pg17-standalone-workspace:
+  rocky8-pg18-active-workspace:
+  rocky8-pg18-standby-workspace:
+  rocky8-pg18-standalone-workspace:
   rocky9-pg14-active-workspace:
   rocky9-pg14-standby-workspace:
   rocky9-pg14-standalone-workspace:
@@ -1659,6 +2034,9 @@ volumes:
   rocky9-pg17-active-workspace:
   rocky9-pg17-standby-workspace:
   rocky9-pg17-standalone-workspace:
+  rocky9-pg18-active-workspace:
+  rocky9-pg18-standby-workspace:
+  rocky9-pg18-standalone-workspace:
   ubuntu22-pg14-active-workspace:
   ubuntu22-pg14-standby-workspace:
   ubuntu22-pg14-standalone-workspace:
@@ -1671,6 +2049,9 @@ volumes:
   ubuntu22-pg17-active-workspace:
   ubuntu22-pg17-standby-workspace:
   ubuntu22-pg17-standalone-workspace:
+  ubuntu22-pg18-active-workspace:
+  ubuntu22-pg18-standby-workspace:
+  ubuntu22-pg18-standalone-workspace:
   ubuntu24-pg14-active-workspace:
   ubuntu24-pg14-standby-workspace:
   ubuntu24-pg14-standalone-workspace:
@@ -1683,6 +2064,9 @@ volumes:
   ubuntu24-pg17-active-workspace:
   ubuntu24-pg17-standby-workspace:
   ubuntu24-pg17-standalone-workspace:
+  ubuntu24-pg18-active-workspace:
+  ubuntu24-pg18-standby-workspace:
+  ubuntu24-pg18-standalone-workspace:
   rocky8-pg14-active-vscode-server:
   rocky8-pg14-standby-vscode-server:
   rocky8-pg14-standalone-vscode-server:
@@ -1695,6 +2079,9 @@ volumes:
   rocky8-pg17-active-vscode-server:
   rocky8-pg17-standby-vscode-server:
   rocky8-pg17-standalone-vscode-server:
+  rocky8-pg18-active-vscode-server:
+  rocky8-pg18-standby-vscode-server:
+  rocky8-pg18-standalone-vscode-server:
   rocky9-pg14-active-vscode-server:
   rocky9-pg14-standby-vscode-server:
   rocky9-pg14-standalone-vscode-server:
@@ -1707,6 +2094,9 @@ volumes:
   rocky9-pg17-active-vscode-server:
   rocky9-pg17-standby-vscode-server:
   rocky9-pg17-standalone-vscode-server:
+  rocky9-pg18-active-vscode-server:
+  rocky9-pg18-standby-vscode-server:
+  rocky9-pg18-standalone-vscode-server:
   ubuntu22-pg14-active-vscode-server:
   ubuntu22-pg14-standby-vscode-server:
   ubuntu22-pg14-standalone-vscode-server:
@@ -1719,6 +2109,9 @@ volumes:
   ubuntu22-pg17-active-vscode-server:
   ubuntu22-pg17-standby-vscode-server:
   ubuntu22-pg17-standalone-vscode-server:
+  ubuntu22-pg18-active-vscode-server:
+  ubuntu22-pg18-standby-vscode-server:
+  ubuntu22-pg18-standalone-vscode-server:
   ubuntu24-pg14-active-vscode-server:
   ubuntu24-pg14-standby-vscode-server:
   ubuntu24-pg14-standalone-vscode-server:
@@ -1731,3 +2124,6 @@ volumes:
   ubuntu24-pg17-active-vscode-server:
   ubuntu24-pg17-standby-vscode-server:
   ubuntu24-pg17-standalone-vscode-server:
+  ubuntu24-pg18-active-vscode-server:
+  ubuntu24-pg18-standby-vscode-server:
+  ubuntu24-pg18-standalone-vscode-server:

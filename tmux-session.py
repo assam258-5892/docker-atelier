@@ -34,9 +34,10 @@ def load_config(yml_path):
     with open(yml_path, encoding='utf-8') as f:
         return yaml.safe_load(f)
 
-def get_compose_services(compose_file='docker-full.yml'):
+def get_compose_services():
     try:
-        cmd = ['docker', 'compose', '-f', compose_file, 'ps', '--services']
+        # 현재 실행 중인 컨테이너의 compose 서비스 가져오기
+        cmd = ['docker', 'compose', 'ps', '--services']
         if tmux_debug:
             print_cmd(cmd)
         result = subprocess.run(cmd, capture_output=True, text=True, check=True)
@@ -120,7 +121,8 @@ def mark_create_candidates(filtered_windows, existing_map):
         existing_cmds = set(p['command'] for p in existing_panes)
         for pane in win['panes']:
             pane['create'] = pane['command'] not in existing_cmds
-        win['create'] = all(p.get('create') for p in win['panes'])
+        # 윈도우가 기존에 없거나 모든 pane이 새로 생성되어야 하면 create
+        win['create'] = name not in existing_map or all(p.get('create') for p in win['panes'])
 
 def mark_delete_candidates(existing, filtered_windows):
     filtered_names = [w['name'] for w in filtered_windows]
@@ -142,7 +144,7 @@ def tmux(*args):
     cmd = ['tmux'] + list(args)
     if tmux_debug:
         print_cmd(cmd)
-    return subprocess.run(cmd, check=False)
+    return subprocess.run(cmd, check=False, capture_output=not tmux_debug)
 
 def tmux_new_session(session, window, command):
     tmux('new-session', '-d', '-s', session, '-n', window, command)
@@ -195,7 +197,9 @@ def move_pane_to_index(session, name, panes, idx, pane_cmd, layout):
         list_panes_cmd = ['tmux', 'list-panes', '-t', f'{session}:{name}', '-F', '#P:#{pane_start_command}']
         if tmux_debug:
             print_cmd(list_panes_cmd)
-        pane_out = subprocess.run(list_panes_cmd, capture_output=True, text=True, check=True)
+        pane_out = subprocess.run(list_panes_cmd, capture_output=True, text=True, check=False)
+        if pane_out.returncode != 0:
+            return
         if tmux_debug:
             print((pane_out.stdout or '').strip())
             if pane_out.stderr:
@@ -265,13 +269,23 @@ def main(session):
             name = win['name']
             if win.get('delete'):
                 tmux('kill-window', '-t', f'{session}:{name}')
+                if name in existing_map:
+                    del existing_map[name]
                 continue
+            deleted_count = 0
             for idx, pane in reversed(list(enumerate(win['panes']))):
                 if pane.get('delete'):
                     tmux('kill-pane', '-t', f'{session}:{name}.{idx}')
+                    deleted_count += 1
+            # 모든 pane이 삭제되면 윈도우도 사라짐
+            if deleted_count == len(win['panes']) and name in existing_map:
+                del existing_map[name]
         for win in filtered_windows:
             name = win['name']
             panes = win['panes']
+            # 윈도우가 삭제되었으면 새로 생성해야 함
+            if name not in existing_map:
+                win['create'] = True
             if win.get('create'):
                 idx = filtered_windows.index(win)
                 if idx == 0:
@@ -288,6 +302,8 @@ def main(session):
             else:
                 idx = filtered_windows.index(win)
                 move_window_to_index(session, name, idx)
+            if name not in existing_map:
+                continue
             existing_panes = existing_map[name]['panes']
             for idx, pane in enumerate(panes):
                 if pane.get('create'):

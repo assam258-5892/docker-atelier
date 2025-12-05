@@ -173,23 +173,23 @@ Docker Atelier는 기존의 개발 환경 도구들과 차별화된 접근 방�
 
 #### 1.2 PostgreSQL Images
 
-각 OS별로 PostgreSQL 버전(14, 15, 16, 17)에 대한 이미지가 구성됩니다:
+각 OS별로 PostgreSQL 버전(14, 15, 16, 17, 18)에 대한 이미지가 구성됩니다:
 
 **Rocky Linux 8 계열:**
 
-- `rocky8-pg14`, `rocky8-pg15`, `rocky8-pg16`, `rocky8-pg17`
+- `rocky8-pg14`, `rocky8-pg15`, `rocky8-pg16`, `rocky8-pg17`, `rocky8-pg18`
 
 **Rocky Linux 9 계열:**
 
-- `rocky9-pg14`, `rocky9-pg15`, `rocky9-pg16`, `rocky9-pg17`
+- `rocky9-pg14`, `rocky9-pg15`, `rocky9-pg16`, `rocky9-pg17`, `rocky9-pg18`
 
 **Ubuntu 22 계열:**
 
-- `ubuntu22-pg14`, `ubuntu22-pg15`, `ubuntu22-pg16`, `ubuntu22-pg17`
+- `ubuntu22-pg14`, `ubuntu22-pg15`, `ubuntu22-pg16`, `ubuntu22-pg17`, `ubuntu22-pg18`
 
 **Ubuntu 24 계열:**
 
-- `ubuntu24-pg14`, `ubuntu24-pg15`, `ubuntu24-pg16`, `ubuntu24-pg17`
+- `ubuntu24-pg14`, `ubuntu24-pg15`, `ubuntu24-pg16`, `ubuntu24-pg17`, `ubuntu24-pg18`
 
 #### 1.3 서비스 역할
 
@@ -332,6 +332,7 @@ services:
 - **docker-compose-pg15.yml**: PostgreSQL 15 전용 환경
 - **docker-compose-pg16.yml**: PostgreSQL 16 전용 환경
 - **docker-compose-pg17.yml**: PostgreSQL 17 전용 환경
+- **docker-compose-pg18.yml**: PostgreSQL 18 전용 환경
 - **docker-compose-full.yml**: 모든 버전 통합 환경
 
 ### 3. 환경 변수 (.env)
@@ -939,7 +940,7 @@ tmux select-layout -t "atelier:init" tiled
 - **active**: 각 OS의 active PostgreSQL 서버
 - **standby**: 각 OS의 standby PostgreSQL 서버
 - **standalone**: 각 OS의 standalone PostgreSQL 서버
-- **pg14~pg17**: 각 PostgreSQL 버전별 전용 윈도우
+- **pg14~pg18**: 각 PostgreSQL 버전별 전용 윈도우
 
 #### 1.3 tmux 기능
 
@@ -1113,12 +1114,13 @@ bind r source-file ~/.tmux.conf \; display-message "Config reloaded!"
 - **tmux-docker-pg15**: PostgreSQL 15 전용
 - **tmux-docker-pg16**: PostgreSQL 16 전용
 - **tmux-docker-pg17**: PostgreSQL 17 전용
+- **tmux-docker-pg18**: PostgreSQL 18 전용
 - **tmux-docker-full**: 모든 버전 통합
 
 ### 3. 리로드 스크립트
 
 - **tmux-reload**: 기본 환경 재시작
-- **tmux-reload-pg14~pg17**: 각 버전별 재시작
+- **tmux-reload-pg14~pg18**: 각 버전별 재시작
 - **tmux-reload-full**: 전체 환경 재시작
 
 ## 사용법
@@ -1149,6 +1151,10 @@ docker compose up -d
 
 # 특정 버전만 시작
 docker compose -f docker-compose-pg14.yml up -d
+docker compose -f docker-compose-pg15.yml up -d
+docker compose -f docker-compose-pg16.yml up -d
+docker compose -f docker-compose-pg17.yml up -d
+docker compose -f docker-compose-pg18.yml up -d
 ```
 
 #### 2.2 tmux 세션 시작
@@ -1162,6 +1168,7 @@ docker compose -f docker-compose-pg14.yml up -d
 ./tmux-docker-pg15
 ./tmux-docker-pg16
 ./tmux-docker-pg17
+./tmux-docker-pg18
 
 # 전체 환경
 ./tmux-docker-full

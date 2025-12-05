@@ -31,7 +31,7 @@ retry () {
 docker compose up -d squid && sleep 3
 
 distros=("rocky/8" "rocky/9" "ubuntu/22" "ubuntu/24")
-pg_vers=(14 15 16 17)
+pg_vers=(14 15 16 17 18)
 
 for distro in "${distros[@]}"; do
     tag_name=${distro//\//}  # 슬래시(/) 제거

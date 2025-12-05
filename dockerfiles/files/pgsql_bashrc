@@ -47,6 +47,9 @@ case "`hostname`" in
     *-pg17-*)
         PS1="${PS1}p17-"
         ;;
+    *-pg18-*)
+        PS1="${PS1}p18-"
+        ;;
     *)
         PS1="${PS1}`hostname|cut -d - -f 2`-"
         ;;
@@ -191,125 +194,6 @@ function rsync-workspace {
             return 1
         fi
         echo "Workspace synchronized successfully."
-    )
-}
-
-function cb-configure {
-    (
-        if [ ! -d ${HOME}/workspace/cloudberry ]; then
-            echo "Cloudberry source directory not found. Please clone the repository first."
-            return 1
-        fi
-        distro=`cat /etc/os-release | grep ^ID= | cut -d = -f 2 | tr -d \"`
-        echo "Changing ownership to postgres in cloudberry"
-        sudo chown -R postgres:postgres ${HOME}/workspace/cloudberry
-        cd ${HOME}/workspace/cloudberry
-        echo "Cleaning untracked files in cloudberry"
-        git clean -xdf
-        echo "Configuring Cloudberry..."
-        sed -i 's/-ldld/-ldl/g' configure
-        case "${distro}" in
-            ubuntu)
-                ./configure CFLAGS="-Og -ggdb -ftree-vectorize -Wno-suggest-attribute=format -Wno-missing-prototypes -Wno-error=cast-function-type" CXXFLAGS="-Og -ggdb -ftree-vectorize -Wno-suggest-attribute=format -Wno-error" LDFLAGS="-static-libgcc" --enable-pxf --enable-debug-extensions --enable-ic-proxy --enable-openssl-redirect --enable-orca --enable-pax --with-gssapi --with-icu --with-ldap --with-libxml --with-lz4 --with-openssl --with-pam --with-perl --with-python --with-pythonsrc-ext --with-ssl=openssl --with-includes=/usr/local/cbdb/include --with-libraries=/usr/local/cbdb/lib
-                ;;
-            rhel|rocky)
-                ./configure CFLAGS="-Og -ggdb -ftree-vectorize -Wno-suggest-attribute=format -Wno-missing-prototypes -Wno-error=cast-function-type" CXXFLAGS="-Og -ggdb -ftree-vectorize -Wno-suggest-attribute=format -Wno-error" LDFLAGS="-static-libgcc" --enable-pxf --enable-debug-extensions --enable-ic-proxy --enable-openssl-redirect --enable-orca --enable-pax --with-gssapi --with-icu --with-ldap --with-libxml --with-lz4 --with-openssl --with-pam --with-perl --with-python --with-pythonsrc-ext --with-ssl=openssl --with-includes=/usr/local/cbdb/include --with-libraries=/usr/local/cbdb/lib64
-                ;;
-            *)
-                echo "Unrecognized distro ${distro}, cannot configure cloudberry."
-                return 1
-                ;;
-        esac
-        if [ $? -ne 0 ]; then
-            echo "Configuration failed. Please check the output for errors."
-            return 1
-        fi
-        echo "Configuration completed successfully."
-    )
-}
-
-function cb-make {
-    (
-        if [ ! -d ${HOME}/workspace/cloudberry ]; then
-            echo "Cloudberry source directory not found. Please clone the repository first."
-            return 1
-        fi
-        echo "Changing ownership to postgres in cloudberry"
-        sudo chown -R postgres:postgres ${HOME}/workspace/cloudberry
-        cd ${HOME}/workspace/cloudberry/contrib/pax_storage
-        echo "Cleaning untracked files in pax_storage"
-        rm -rf build
-        cd ${HOME}/workspace/cloudberry
-        echo "Building Cloudberry..."
-        make
-        if [ $? -ne 0 ]; then
-            echo "Make failed. Please check the output for errors."
-            return 1
-        fi
-        sudo make install
-        if [ $? -ne 0 ]; then
-            echo "Install failed. Please check the output for errors."
-            return 1
-        fi
-        echo "Changing ownership to postgres in cloudberry"
-        sudo chown -R postgres:postgres ${HOME}/workspace/cloudberry
-        cd ${HOME}/workspace/cloudberry/contrib
-        echo "Building contrib modules..."
-        make
-        if [ $? -ne 0 ]; then
-            echo "Make failed. Please check the output for errors."
-            return 1
-        fi
-        sudo make install
-        if [ $? -ne 0 ]; then
-            echo "Install failed. Please check the output for errors."
-            return 1
-        fi
-        echo "Changing ownership to postgres in cloudberry"
-        sudo chown -R postgres:postgres ${HOME}/workspace/cloudberry
-        cd ${HOME}/workspace/cloudberry/gpcontrib
-        echo "Building gpcontrib modules..."
-        make
-        if [ $? -ne 0 ]; then
-            echo "Make failed. Please check the output for errors."
-            return 1
-        fi
-        sudo make install
-        if [ $? -ne 0 ]; then
-            echo "Install failed. Please check the output for errors."
-            return 1
-        fi
-        echo "Changing ownership to postgres in cloudberry"
-        sudo chown -R postgres:postgres ${HOME}/workspace/cloudberry
-        cd ${HOME}/workspace/cloudberry
-        echo "Building gpMgmt..."
-        sudo make -C gpMgmt clean all install
-        if [ $? -ne 0 ]; then
-            echo "Make failed. Please check the output for errors."
-            return 1
-        fi
-        echo "Changing ownership to postgres in cloudberry"
-        sudo chown -R postgres:postgres ${HOME}/workspace/cloudberry
-        echo "Make completed successfully."
-    )
-}
-
-function cb-clean {
-    (
-        if [ ! -d ${HOME}/workspace/cloudberry ]; then
-            echo "Cloudberry source directory not found. Please clone the repository first."
-            return 1
-        fi
-        cd ${HOME}/workspace/cloudberry
-        echo "Changing ownership to postgres in cloudberry"
-        sudo chown -R postgres:postgres ${HOME}/workspace/cloudberry
-        echo "Cleaning Cloudberry build files..."
-        make clean
-        if [ $? -ne 0 ]; then
-            echo "Clean failed. Please check the output for errors."
-            return 1
-        fi
-        echo "Clean completed successfully."
     )
 }
 
@@ -526,42 +410,6 @@ function pg-install {
             return 1
         fi
         echo "PostgreSQL installation completed successfully."
-        if [ -d ${HOME}/workspace/pg_ensure_queryid ]; then
-            echo "Changing ownership to postgres in pg_ensure_queryid"
-            sudo chown -R postgres:postgres ${HOME}/workspace/pg_ensure_queryid
-            cd ${HOME}/workspace/pg_ensure_queryid
-            echo "Installing pg_ensure_queryid..."
-            sudo git clean -xdf && sudo sh -c "PATH=${PATH} USE_PGXS=1 make install"
-            if [ $? -ne 0 ]; then
-                echo "pg_ensure_queryid installation failed. Please check the output for errors."
-                return 1
-            fi
-            echo "pg_ensure_queryid installation completed successfully."
-        fi
-        if [ -d ${HOME}/workspace/pg_store_plans ]; then
-            echo "Changing ownership to postgres in pg_store_plans"
-            sudo chown -R postgres:postgres ${HOME}/workspace/pg_store_plans
-            cd ${HOME}/workspace/pg_store_plans
-            echo "Installing pg_store_plans..."
-            sudo git clean -xdf && sudo sh -c "PATH=${PATH} USE_PGXS=1 make install"
-            if [ $? -ne 0 ]; then
-                echo "pg_store_plans installation failed. Please check the output for errors."
-                return 1
-            fi
-            echo "pg_store_plans installation completed successfully."
-        fi
-        if [ -d ${HOME}/workspace/pgsentinel ]; then
-            echo "Changing ownership to postgres in pgsentinel"
-            sudo chown -R postgres:postgres ${HOME}/workspace/pgsentinel
-            cd ${HOME}/workspace/pgsentinel/src
-            echo "Installing pgsentinel..."
-            sudo git clean -xdf && sudo sh -c "PATH=${PATH} USE_PGXS=1 make install"
-            if [ $? -ne 0 ]; then
-                echo "pgsentinel installation failed. Please check the output for errors."
-                return 1
-            fi
-            echo "pgsentinel installation completed successfully."
-        fi
         echo "Setting ownership of PostgreSQL files to postgres user..."
         sudo chown -R postgres:postgres ${HOME}/workspace
         if [ $? -ne 0 ]; then
@@ -851,9 +699,6 @@ export -f git-pull
 export -f git-update
 export -f git-clean
 export -f rsync-workspace
-export -f cb-configure
-export -f cb-make
-export -f cb-clean
 export -f pg-configure
 export -f pg-make
 export -f pg-clean

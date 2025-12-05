@@ -44,7 +44,7 @@ docker-atelier/
 
 # Images are built in order:
 # 1. Init images: rocky8-init, rocky9-init, ubuntu22-init, ubuntu24-init
-# 2. PostgreSQL images: {os}-pg{14,15,16,17} for each OS
+# 2. PostgreSQL images: {os}-pg{14,15,16,17,18} for each OS
 ```
 
 **Build process:**
@@ -64,6 +64,7 @@ docker compose -f docker-pg14.yml up -d
 docker compose -f docker-pg15.yml up -d
 docker compose -f docker-pg16.yml up -d
 docker compose -f docker-pg17.yml up -d
+docker compose -f docker-pg18.yml up -d
 
 # Start all versions
 docker compose -f docker-full.yml up -d
@@ -272,7 +273,7 @@ Each PostgreSQL container has:
 
 1. Update `docker-build` script: Add version to `pg_vers` array
 2. Dockerfiles use `PG_MAJOR` build arg - no file changes needed
-3. Create new compose file: `cp docker-pg17.yml docker-pg18.yml`
+3. Create new compose file: `cp docker-pg18.yml docker-pg19.yml`
 4. Update service names and IP addresses in compose file
 
 ### New OS Distribution

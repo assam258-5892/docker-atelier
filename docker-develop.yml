@@ -144,6 +144,37 @@ services:
       core:
         soft: -1
         hard: -1
+  rocky8-pg18-standalone:
+    image: rocky8-pg18
+    container_name: rocky8-pg18-standalone
+    hostname: rocky8-pg18-standalone
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - host:host-gateway
+      - init:${ATELIER_SUBNET}.8.1
+      - active:${ATELIER_SUBNET}.8.18
+      - standby:${ATELIER_SUBNET}.8.48
+      - standalone:${ATELIER_SUBNET}.8.78
+      - rocky8:${ATELIER_SUBNET}.8.78
+      - rocky9:${ATELIER_SUBNET}.9.78
+      - ubuntu22:${ATELIER_SUBNET}.22.78
+      - ubuntu24:${ATELIER_SUBNET}.24.78
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.8.78
+    volumes:
+      - rocky8-pg18-standalone-vscode-server:/var/lib/pgsql/.vscode-server
+      - rocky8-pg18-standalone-workspace:/var/lib/pgsql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   rocky9-init:
     image: rocky9-init
     container_name: rocky9-init
@@ -282,6 +313,37 @@ services:
     volumes:
       - rocky9-pg17-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg17-standalone-workspace:/var/lib/pgsql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
+  rocky9-pg18-standalone:
+    image: rocky9-pg18
+    container_name: rocky9-pg18-standalone
+    hostname: rocky9-pg18-standalone
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - host:host-gateway
+      - init:${ATELIER_SUBNET}.9.1
+      - active:${ATELIER_SUBNET}.9.18
+      - standby:${ATELIER_SUBNET}.9.48
+      - standalone:${ATELIER_SUBNET}.9.78
+      - rocky8:${ATELIER_SUBNET}.8.78
+      - rocky9:${ATELIER_SUBNET}.9.78
+      - ubuntu22:${ATELIER_SUBNET}.22.78
+      - ubuntu24:${ATELIER_SUBNET}.24.78
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.9.78
+    volumes:
+      - rocky9-pg18-standalone-vscode-server:/var/lib/pgsql/.vscode-server
+      - rocky9-pg18-standalone-workspace:/var/lib/pgsql/workspace
     ulimits:
       nofile:
         soft: 65536
@@ -434,6 +496,37 @@ services:
       core:
         soft: -1
         hard: -1
+  ubuntu22-pg18-standalone:
+    image: ubuntu22-pg18
+    container_name: ubuntu22-pg18-standalone
+    hostname: ubuntu22-pg18-standalone
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - host:host-gateway
+      - init:${ATELIER_SUBNET}.22.1
+      - active:${ATELIER_SUBNET}.22.18
+      - standby:${ATELIER_SUBNET}.22.48
+      - standalone:${ATELIER_SUBNET}.22.78
+      - rocky8:${ATELIER_SUBNET}.8.78
+      - rocky9:${ATELIER_SUBNET}.9.78
+      - ubuntu22:${ATELIER_SUBNET}.22.78
+      - ubuntu24:${ATELIER_SUBNET}.24.78
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.22.78
+    volumes:
+      - ubuntu22-pg18-standalone-vscode-server:/var/lib/postgresql/.vscode-server
+      - ubuntu22-pg18-standalone-workspace:/var/lib/postgresql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   ubuntu24-init:
     image: ubuntu24-init
     container_name: ubuntu24-init
@@ -579,6 +672,37 @@ services:
       core:
         soft: -1
         hard: -1
+  ubuntu24-pg18-standalone:
+    image: ubuntu24-pg18
+    container_name: ubuntu24-pg18-standalone
+    hostname: ubuntu24-pg18-standalone
+    domainname: atelier
+    privileged: true
+    tty: false
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - host:host-gateway
+      - init:${ATELIER_SUBNET}.24.1
+      - active:${ATELIER_SUBNET}.24.18
+      - standby:${ATELIER_SUBNET}.24.48
+      - standalone:${ATELIER_SUBNET}.24.78
+      - rocky8:${ATELIER_SUBNET}.8.78
+      - rocky9:${ATELIER_SUBNET}.9.78
+      - ubuntu22:${ATELIER_SUBNET}.22.78
+      - ubuntu24:${ATELIER_SUBNET}.24.78
+    networks:
+      default:
+        ipv4_address: ${ATELIER_SUBNET}.24.78
+    volumes:
+      - ubuntu24-pg18-standalone-vscode-server:/var/lib/postgresql/.vscode-server
+      - ubuntu24-pg18-standalone-workspace:/var/lib/postgresql/workspace
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 1048576
+      core:
+        soft: -1
+        hard: -1
   haproxy:
     image: haproxy
     container_name: haproxy
@@ -647,31 +771,39 @@ volumes:
   rocky8-pg15-standalone-workspace:
   rocky8-pg16-standalone-workspace:
   rocky8-pg17-standalone-workspace:
+  rocky8-pg18-standalone-workspace:
   rocky9-pg14-standalone-workspace:
   rocky9-pg15-standalone-workspace:
   rocky9-pg16-standalone-workspace:
   rocky9-pg17-standalone-workspace:
+  rocky9-pg18-standalone-workspace:
   ubuntu22-pg14-standalone-workspace:
   ubuntu22-pg15-standalone-workspace:
   ubuntu22-pg16-standalone-workspace:
   ubuntu22-pg17-standalone-workspace:
+  ubuntu22-pg18-standalone-workspace:
   ubuntu24-pg14-standalone-workspace:
   ubuntu24-pg15-standalone-workspace:
   ubuntu24-pg16-standalone-workspace:
   ubuntu24-pg17-standalone-workspace:
+  ubuntu24-pg18-standalone-workspace:
   rocky8-pg14-standalone-vscode-server:
   rocky8-pg15-standalone-vscode-server:
   rocky8-pg16-standalone-vscode-server:
   rocky8-pg17-standalone-vscode-server:
+  rocky8-pg18-standalone-vscode-server:
   rocky9-pg14-standalone-vscode-server:
   rocky9-pg15-standalone-vscode-server:
   rocky9-pg16-standalone-vscode-server:
   rocky9-pg17-standalone-vscode-server:
+  rocky9-pg18-standalone-vscode-server:
   ubuntu22-pg14-standalone-vscode-server:
   ubuntu22-pg15-standalone-vscode-server:
   ubuntu22-pg16-standalone-vscode-server:
   ubuntu22-pg17-standalone-vscode-server:
+  ubuntu22-pg18-standalone-vscode-server:
   ubuntu24-pg14-standalone-vscode-server:
   ubuntu24-pg15-standalone-vscode-server:
   ubuntu24-pg16-standalone-vscode-server:
   ubuntu24-pg17-standalone-vscode-server:
+  ubuntu24-pg18-standalone-vscode-server:

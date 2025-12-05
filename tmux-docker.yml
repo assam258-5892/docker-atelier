@@ -14,6 +14,8 @@ windows:
   - name: active
     layout: tiled
     panes:
+      - service: rocky9-pg18-active
+        command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky9-pg18-active /bin/bash --login
       - service: rocky9-pg17-active
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky9-pg17-active /bin/bash --login
       - service: rocky9-pg16-active
@@ -22,6 +24,8 @@ windows:
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky9-pg15-active /bin/bash --login
       - service: rocky9-pg14-active
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky9-pg14-active /bin/bash --login
+      - service: rocky8-pg18-active
+        command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky8-pg18-active /bin/bash --login
       - service: rocky8-pg17-active
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky8-pg17-active /bin/bash --login
       - service: rocky8-pg16-active
@@ -30,6 +34,8 @@ windows:
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky8-pg15-active /bin/bash --login
       - service: rocky8-pg14-active
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky8-pg14-active /bin/bash --login
+      - service: ubuntu24-pg18-active
+        command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu24-pg18-active /bin/bash --login
       - service: ubuntu24-pg17-active
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu24-pg17-active /bin/bash --login
       - service: ubuntu24-pg16-active
@@ -38,6 +44,8 @@ windows:
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu24-pg15-active /bin/bash --login
       - service: ubuntu24-pg14-active
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu24-pg14-active /bin/bash --login
+      - service: ubuntu22-pg18-active
+        command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu22-pg18-active /bin/bash --login
       - service: ubuntu22-pg17-active
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu22-pg17-active /bin/bash --login
       - service: ubuntu22-pg16-active
@@ -49,6 +57,8 @@ windows:
   - name: standby
     layout: tiled
     panes:
+      - service: rocky9-pg18-standby
+        command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky9-pg18-standby /bin/bash --login
       - service: rocky9-pg17-standby
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky9-pg17-standby /bin/bash --login
       - service: rocky9-pg16-standby
@@ -57,6 +67,8 @@ windows:
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky9-pg15-standby /bin/bash --login
       - service: rocky9-pg14-standby
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky9-pg14-standby /bin/bash --login
+      - service: rocky8-pg18-standby
+        command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky8-pg18-standby /bin/bash --login
       - service: rocky8-pg17-standby
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky8-pg17-standby /bin/bash --login
       - service: rocky8-pg16-standby
@@ -65,6 +77,8 @@ windows:
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky8-pg15-standby /bin/bash --login
       - service: rocky8-pg14-standby
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky8-pg14-standby /bin/bash --login
+      - service: ubuntu24-pg18-standby
+        command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu24-pg18-standby /bin/bash --login
       - service: ubuntu24-pg17-standby
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu24-pg17-standby /bin/bash --login
       - service: ubuntu24-pg16-standby
@@ -73,6 +87,8 @@ windows:
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu24-pg15-standby /bin/bash --login
       - service: ubuntu24-pg14-standby
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu24-pg14-standby /bin/bash --login
+      - service: ubuntu22-pg18-standby
+        command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu22-pg18-standby /bin/bash --login
       - service: ubuntu22-pg17-standby
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu22-pg17-standby /bin/bash --login
       - service: ubuntu22-pg16-standby
@@ -84,6 +100,8 @@ windows:
   - name: standalone
     layout: tiled
     panes:
+      - service: rocky9-pg18-standalone
+        command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky9-pg18-standalone /bin/bash --login
       - service: rocky9-pg17-standalone
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky9-pg17-standalone /bin/bash --login
       - service: rocky9-pg16-standalone
@@ -92,6 +110,8 @@ windows:
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky9-pg15-standalone /bin/bash --login
       - service: rocky9-pg14-standalone
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky9-pg14-standalone /bin/bash --login
+      - service: rocky8-pg18-standalone
+        command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky8-pg18-standalone /bin/bash --login
       - service: rocky8-pg17-standalone
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky8-pg17-standalone /bin/bash --login
       - service: rocky8-pg16-standalone
@@ -100,6 +120,8 @@ windows:
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky8-pg15-standalone /bin/bash --login
       - service: rocky8-pg14-standalone
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky8-pg14-standalone /bin/bash --login
+      - service: ubuntu24-pg18-standalone
+        command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu24-pg18-standalone /bin/bash --login
       - service: ubuntu24-pg17-standalone
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu24-pg17-standalone /bin/bash --login
       - service: ubuntu24-pg16-standalone
@@ -108,6 +130,8 @@ windows:
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu24-pg15-standalone /bin/bash --login
       - service: ubuntu24-pg14-standalone
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu24-pg14-standalone /bin/bash --login
+      - service: ubuntu22-pg18-standalone
+        command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu22-pg18-standalone /bin/bash --login
       - service: ubuntu22-pg17-standalone
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu22-pg17-standalone /bin/bash --login
       - service: ubuntu22-pg16-standalone
@@ -116,6 +140,33 @@ windows:
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu22-pg15-standalone /bin/bash --login
       - service: ubuntu22-pg14-standalone
         command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu22-pg14-standalone /bin/bash --login
+  - name: pg18
+    layout: tiled
+    panes:
+      - service: rocky9-pg18-active
+        command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky9-pg18-active /bin/bash --login
+      - service: rocky9-pg18-standby
+        command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky9-pg18-standby /bin/bash --login
+      - service: rocky9-pg18-standalone
+        command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky9-pg18-standalone /bin/bash --login
+      - service: rocky8-pg18-active
+        command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky8-pg18-active /bin/bash --login
+      - service: rocky8-pg18-standby
+        command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky8-pg18-standby /bin/bash --login
+      - service: rocky8-pg18-standalone
+        command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/pgsql -u postgres rocky8-pg18-standalone /bin/bash --login
+      - service: ubuntu24-pg18-active
+        command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu24-pg18-active /bin/bash --login
+      - service: ubuntu24-pg18-standby
+        command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu24-pg18-standby /bin/bash --login
+      - service: ubuntu24-pg18-standalone
+        command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu24-pg18-standalone /bin/bash --login
+      - service: ubuntu22-pg18-active
+        command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu22-pg18-active /bin/bash --login
+      - service: ubuntu22-pg18-standby
+        command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu22-pg18-standby /bin/bash --login
+      - service: ubuntu22-pg18-standalone
+        command: docker compose exec -ti -e IGNOREEOF=99 -w /var/lib/postgresql -u postgres ubuntu22-pg18-standalone /bin/bash --login
   - name: pg17
     layout: tiled
     panes:

@@ -13,9 +13,29 @@ RUN apt install -y postgresql-${PG_MAJOR}-pg-hint-plan
 RUN apt install -y postgresql-${PG_MAJOR}-show-plans
 RUN git config --global credential.helper store
 RUN git config --global url."https://github.com/assam258-5892/".insteadOf https://gitlab-techdev.inzent.com/techdev/pg/
-RUN ( git clone --depth 1 --branch 1.9e1 https://github.com/experdb/pg_store_plans.git && cd pg_store_plans && USE_PGXS=1 PATH=/usr/lib/postgresql/${PG_MAJOR}/bin:${PATH} make install && cd .. && rm -rf pg_store_plans )
+RUN if [ "${PG_MAJOR}" -lt "18" ]; then \
+        ( \
+            git clone --depth 1 --branch 1.9e1 https://github.com/experdb/pg_store_plans.git && \
+            cd pg_store_plans && \
+            USE_PGXS=1 PATH=/usr/lib/postgresql/${PG_MAJOR}/bin:${PATH} make install && \
+            cd .. && \
+            rm -rf pg_store_plans \
+        ); \
+    else \
+        echo "Skipping pg_store_plans build for PostgreSQL ${PG_MAJOR}"; \
+    fi
 RUN ( git clone --depth 1 --branch REL_1_1_0 https://github.com/experdb/pgsentinel.git && cd pgsentinel/src && PATH=/usr/lib/postgresql/${PG_MAJOR}/bin:${PATH} make install && cd ../.. && rm -rf pgsentinel )
-RUN ( git clone --depth 1 --branch 1.0.0 https://github.com/experdb/pg_ensure_queryid.git && cd pg_ensure_queryid && PATH=/usr/lib/postgresql-${PG_MAJOR}/bin:${PATH} make install && cd ../.. && rm -rf pg_ensure_queryid )
+RUN if [ "${PG_MAJOR}" -lt "18" ]; then \
+        ( \
+            git clone --depth 1 --branch 1.0.0 https://github.com/experdb/pg_ensure_queryid.git && \
+            cd pg_ensure_queryid && \
+            PATH=/usr/lib/postgresql/${PG_MAJOR}/bin:${PATH} make install && \
+            cd ../.. && \
+            rm -rf pg_ensure_queryid \
+        ); \
+    else \
+        echo "Skipping pg_ensure_queryid build for PostgreSQL ${PG_MAJOR}"; \
+    fi
 RUN --mount=type=secret,id=git_credentials cp /run/secrets/git_credentials /root/.git-credentials && \
     if [ "${PG_MAJOR}" = "16" ] || [ "${PG_MAJOR}" = "17" ]; then \
         ( \
@@ -34,6 +54,10 @@ RUN --mount=type=secret,id=git_credentials cp /run/secrets/git_credentials /root
 RUN echo '# Docker connections:\nhost    all             all             172.0.0.0/8             scram-sha-256\nhost    replication     all             172.0.0.0/8             scram-sha-256' >> /etc/postgresql/${PG_MAJOR}/main/pg_hba.conf
 COPY --chown=postgres:postgres --chmod=600 files/postgresql.auto.conf /var/lib/postgresql/${PG_MAJOR}/main/postgresql.auto.conf
 COPY --chown=root:root --chmod=644 files/role.sql files/extension.sql files/pg_inzent_tde.sql /
+RUN if [ "${PG_MAJOR}" -ge "18" ]; then \
+        sed -i "s/shared_preload_libraries = .*/shared_preload_libraries = 'plpgsql,plpython3,pgsentinel'/" /var/lib/postgresql/${PG_MAJOR}/main/postgresql.auto.conf && \
+        sed -i "/pg_store_plans/d;/pg_ensure_queryid/d" /extension.sql; \
+    fi
 RUN su -l postgres -c "/usr/lib/postgresql/${PG_MAJOR}/bin/postgres --single -D /var/lib/postgresql/${PG_MAJOR}/main -c config_file=/etc/postgresql/${PG_MAJOR}/main/postgresql.conf" < /role.sql && rm -f /role.sql
 RUN su -l postgres -c "/usr/lib/postgresql/${PG_MAJOR}/bin/postgres --single -D /var/lib/postgresql/${PG_MAJOR}/main -c config_file=/etc/postgresql/${PG_MAJOR}/main/postgresql.conf experdb" < /extension.sql && rm -f /extension.sql
 RUN if [ "${PG_MAJOR}" = "16" ] || [ "${PG_MAJOR}" = "17" ]; then \
