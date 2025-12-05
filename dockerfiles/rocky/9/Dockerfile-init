@@ -31,7 +31,7 @@ RUN dnf install -y nodejs && npm install -g npm && npm install -g @anthropic-ai/
 
 # PostgreSQL 개발 환경 설정
 RUN dnf install -y flex bison clang clang-tools-extra docbook-dtds docbook-style-xsl perl-core perl-IPC-Run
-RUN dnf install -y gettext-devel krb5-devel libicu-devel libuuid-devel libxslt-devel libzstd-devel llvm llvm-devel ccache lz4-devel openldap-devel openssl-devel pam-devel python3-devel readline-devel systemd-devel tcl-devel zlib-devel
+RUN dnf install -y gettext-devel krb5-devel libicu-devel liburing-devel libuuid-devel libxslt-devel libzstd-devel llvm llvm-devel ccache lz4-devel openldap-devel openssl-devel pam-devel python3-devel readline-devel systemd-devel tcl-devel zlib-devel
 
 # CloudBerry 개발 환경 설정
 RUN dnf install -y golang apr-devel libevent-devel libcurl-devel bzip2-devel protobuf-devel protobuf-compiler libuv-devel libyaml-devel
