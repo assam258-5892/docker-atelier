@@ -44,6 +44,7 @@ services:
     volumes:
       - rocky8-pg14-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky8-pg14-standalone-workspace:/var/lib/pgsql/workspace
+      - rocky8-pg14-standalone-claude:/var/lib/pgsql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -75,6 +76,7 @@ services:
     volumes:
       - rocky8-pg15-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky8-pg15-standalone-workspace:/var/lib/pgsql/workspace
+      - rocky8-pg15-standalone-claude:/var/lib/pgsql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -106,6 +108,7 @@ services:
     volumes:
       - rocky8-pg16-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky8-pg16-standalone-workspace:/var/lib/pgsql/workspace
+      - rocky8-pg16-standalone-claude:/var/lib/pgsql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -137,6 +140,7 @@ services:
     volumes:
       - rocky8-pg17-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky8-pg17-standalone-workspace:/var/lib/pgsql/workspace
+      - rocky8-pg17-standalone-claude:/var/lib/pgsql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -168,6 +172,7 @@ services:
     volumes:
       - rocky8-pg18-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky8-pg18-standalone-workspace:/var/lib/pgsql/workspace
+      - rocky8-pg18-standalone-claude:/var/lib/pgsql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -220,6 +225,7 @@ services:
     volumes:
       - rocky9-pg14-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg14-standalone-workspace:/var/lib/pgsql/workspace
+      - rocky9-pg14-standalone-claude:/var/lib/pgsql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -251,6 +257,7 @@ services:
     volumes:
       - rocky9-pg15-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg15-standalone-workspace:/var/lib/pgsql/workspace
+      - rocky9-pg15-standalone-claude:/var/lib/pgsql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -282,6 +289,7 @@ services:
     volumes:
       - rocky9-pg16-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg16-standalone-workspace:/var/lib/pgsql/workspace
+      - rocky9-pg16-standalone-claude:/var/lib/pgsql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -313,6 +321,7 @@ services:
     volumes:
       - rocky9-pg17-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg17-standalone-workspace:/var/lib/pgsql/workspace
+      - rocky9-pg17-standalone-claude:/var/lib/pgsql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -344,6 +353,7 @@ services:
     volumes:
       - rocky9-pg18-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg18-standalone-workspace:/var/lib/pgsql/workspace
+      - rocky9-pg18-standalone-claude:/var/lib/pgsql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -396,6 +406,7 @@ services:
     volumes:
       - ubuntu22-pg14-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu22-pg14-standalone-workspace:/var/lib/postgresql/workspace
+      - ubuntu22-pg14-standalone-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -427,6 +438,7 @@ services:
     volumes:
       - ubuntu22-pg15-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu22-pg15-standalone-workspace:/var/lib/postgresql/workspace
+      - ubuntu22-pg15-standalone-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -458,6 +470,7 @@ services:
     volumes:
       - ubuntu22-pg16-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu22-pg16-standalone-workspace:/var/lib/postgresql/workspace
+      - ubuntu22-pg16-standalone-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -489,6 +502,7 @@ services:
     volumes:
       - ubuntu22-pg17-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu22-pg17-standalone-workspace:/var/lib/postgresql/workspace
+      - ubuntu22-pg17-standalone-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -520,6 +534,7 @@ services:
     volumes:
       - ubuntu22-pg18-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu22-pg18-standalone-workspace:/var/lib/postgresql/workspace
+      - ubuntu22-pg18-standalone-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -572,6 +587,7 @@ services:
     volumes:
       - ubuntu24-pg14-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg14-standalone-workspace:/var/lib/postgresql/workspace
+      - ubuntu24-pg14-standalone-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -603,6 +619,7 @@ services:
     volumes:
       - ubuntu24-pg15-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg15-standalone-workspace:/var/lib/postgresql/workspace
+      - ubuntu24-pg15-standalone-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -634,6 +651,7 @@ services:
     volumes:
       - ubuntu24-pg16-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg16-standalone-workspace:/var/lib/postgresql/workspace
+      - ubuntu24-pg16-standalone-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -665,6 +683,7 @@ services:
     volumes:
       - ubuntu24-pg17-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg17-standalone-workspace:/var/lib/postgresql/workspace
+      - ubuntu24-pg17-standalone-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -696,6 +715,7 @@ services:
     volumes:
       - ubuntu24-pg18-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg18-standalone-workspace:/var/lib/postgresql/workspace
+      - ubuntu24-pg18-standalone-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -807,3 +827,23 @@ volumes:
   ubuntu24-pg16-standalone-vscode-server:
   ubuntu24-pg17-standalone-vscode-server:
   ubuntu24-pg18-standalone-vscode-server:
+  rocky8-pg14-standalone-claude:
+  rocky8-pg15-standalone-claude:
+  rocky8-pg16-standalone-claude:
+  rocky8-pg17-standalone-claude:
+  rocky8-pg18-standalone-claude:
+  rocky9-pg14-standalone-claude:
+  rocky9-pg15-standalone-claude:
+  rocky9-pg16-standalone-claude:
+  rocky9-pg17-standalone-claude:
+  rocky9-pg18-standalone-claude:
+  ubuntu22-pg14-standalone-claude:
+  ubuntu22-pg15-standalone-claude:
+  ubuntu22-pg16-standalone-claude:
+  ubuntu22-pg17-standalone-claude:
+  ubuntu22-pg18-standalone-claude:
+  ubuntu24-pg14-standalone-claude:
+  ubuntu24-pg15-standalone-claude:
+  ubuntu24-pg16-standalone-claude:
+  ubuntu24-pg17-standalone-claude:
+  ubuntu24-pg18-standalone-claude:

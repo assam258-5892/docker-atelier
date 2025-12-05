@@ -65,6 +65,10 @@ else
     echo "This is an `echo ${HOSTNAME} | cut -d - -f 3` server, no initialization required."
 fi
 
+# Claude Code 업데이트
+echo "Updating Claude Code..."
+sudo claude update 2>/dev/null || true
+
 echo "Removing initialization script and crontab..."
 rm -f ${HOME}/initialize.sh
 crontab -r

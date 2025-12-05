@@ -44,6 +44,7 @@ services:
     volumes:
       - rocky8-pg16-active-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky8-pg16-active-workspace:/var/lib/pgsql/workspace
+      - rocky8-pg16-active-claude:/var/lib/pgsql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -75,6 +76,7 @@ services:
     volumes:
       - rocky8-pg16-standby-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky8-pg16-standby-workspace:/var/lib/pgsql/workspace
+      - rocky8-pg16-standby-claude:/var/lib/pgsql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -106,6 +108,7 @@ services:
     volumes:
       - rocky8-pg16-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky8-pg16-standalone-workspace:/var/lib/pgsql/workspace
+      - rocky8-pg16-standalone-claude:/var/lib/pgsql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -158,6 +161,7 @@ services:
     volumes:
       - rocky9-pg16-active-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg16-active-workspace:/var/lib/pgsql/workspace
+      - rocky9-pg16-active-claude:/var/lib/pgsql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -189,6 +193,7 @@ services:
     volumes:
       - rocky9-pg16-standby-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg16-standby-workspace:/var/lib/pgsql/workspace
+      - rocky9-pg16-standby-claude:/var/lib/pgsql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -220,6 +225,7 @@ services:
     volumes:
       - rocky9-pg16-standalone-vscode-server:/var/lib/pgsql/.vscode-server
       - rocky9-pg16-standalone-workspace:/var/lib/pgsql/workspace
+      - rocky9-pg16-standalone-claude:/var/lib/pgsql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -272,6 +278,7 @@ services:
     volumes:
       - ubuntu22-pg16-active-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu22-pg16-active-workspace:/var/lib/postgresql/workspace
+      - ubuntu22-pg16-active-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -303,6 +310,7 @@ services:
     volumes:
       - ubuntu22-pg16-standby-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu22-pg16-standby-workspace:/var/lib/postgresql/workspace
+      - ubuntu22-pg16-standby-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -334,6 +342,7 @@ services:
     volumes:
       - ubuntu22-pg16-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu22-pg16-standalone-workspace:/var/lib/postgresql/workspace
+      - ubuntu22-pg16-standalone-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -386,6 +395,7 @@ services:
     volumes:
       - ubuntu24-pg16-active-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg16-active-workspace:/var/lib/postgresql/workspace
+      - ubuntu24-pg16-active-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -417,6 +427,7 @@ services:
     volumes:
       - ubuntu24-pg16-standby-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg16-standby-workspace:/var/lib/postgresql/workspace
+      - ubuntu24-pg16-standby-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -448,6 +459,7 @@ services:
     volumes:
       - ubuntu24-pg16-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg16-standalone-workspace:/var/lib/postgresql/workspace
+      - ubuntu24-pg16-standalone-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -543,3 +555,15 @@ volumes:
   ubuntu24-pg16-active-vscode-server:
   ubuntu24-pg16-standby-vscode-server:
   ubuntu24-pg16-standalone-vscode-server:
+  rocky8-pg16-active-claude:
+  rocky8-pg16-standby-claude:
+  rocky8-pg16-standalone-claude:
+  rocky9-pg16-active-claude:
+  rocky9-pg16-standby-claude:
+  rocky9-pg16-standalone-claude:
+  ubuntu22-pg16-active-claude:
+  ubuntu22-pg16-standby-claude:
+  ubuntu22-pg16-standalone-claude:
+  ubuntu24-pg16-active-claude:
+  ubuntu24-pg16-standby-claude:
+  ubuntu24-pg16-standalone-claude:

@@ -95,6 +95,7 @@ ENV GIT_CONFIG_GLOBAL=/var/lib/postgresql/workspace/.gitconfig
 ADD  --chown=postgres:postgres files/postgres.tar.gz /var/lib/postgresql
 COPY --chown=postgres:postgres --chmod=644 files/pgsql_bashrc /var/lib/postgresql/.bashrc
 RUN mkdir /var/lib/postgresql/.vscode-server \
+    && mkdir /var/lib/postgresql/.claude \
     && mkdir /var/lib/postgresql/gcov \
     && mkdir /var/lib/postgresql/workspace \
     && mkdir /var/lib/postgresql/workspace/.vscode \

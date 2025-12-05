@@ -107,6 +107,7 @@ services:
     volumes:
       - ubuntu24-pg15-active-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg15-active-workspace:/var/lib/postgresql/workspace
+      - ubuntu24-pg15-active-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -138,6 +139,7 @@ services:
     volumes:
       - ubuntu24-pg15-standby-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg15-standby-workspace:/var/lib/postgresql/workspace
+      - ubuntu24-pg15-standby-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -169,6 +171,7 @@ services:
     volumes:
       - ubuntu24-pg15-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg15-standalone-workspace:/var/lib/postgresql/workspace
+      - ubuntu24-pg15-standalone-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -200,6 +203,7 @@ services:
     volumes:
       - ubuntu24-pg16-active-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg16-active-workspace:/var/lib/postgresql/workspace
+      - ubuntu24-pg16-active-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -231,6 +235,7 @@ services:
     volumes:
       - ubuntu24-pg16-standby-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg16-standby-workspace:/var/lib/postgresql/workspace
+      - ubuntu24-pg16-standby-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -262,6 +267,7 @@ services:
     volumes:
       - ubuntu24-pg16-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg16-standalone-workspace:/var/lib/postgresql/workspace
+      - ubuntu24-pg16-standalone-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -293,6 +299,7 @@ services:
     volumes:
       - ubuntu24-pg17-active-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg17-active-workspace:/var/lib/postgresql/workspace
+      - ubuntu24-pg17-active-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -324,6 +331,7 @@ services:
     volumes:
       - ubuntu24-pg17-standby-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg17-standby-workspace:/var/lib/postgresql/workspace
+      - ubuntu24-pg17-standby-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -355,6 +363,7 @@ services:
     volumes:
       - ubuntu24-pg17-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg17-standalone-workspace:/var/lib/postgresql/workspace
+      - ubuntu24-pg17-standalone-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -386,6 +395,7 @@ services:
     volumes:
       - ubuntu24-pg18-active-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg18-active-workspace:/var/lib/postgresql/workspace
+      - ubuntu24-pg18-active-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -417,6 +427,7 @@ services:
     volumes:
       - ubuntu24-pg18-standby-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg18-standby-workspace:/var/lib/postgresql/workspace
+      - ubuntu24-pg18-standby-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -448,6 +459,7 @@ services:
     volumes:
       - ubuntu24-pg18-standalone-vscode-server:/var/lib/postgresql/.vscode-server
       - ubuntu24-pg18-standalone-workspace:/var/lib/postgresql/workspace
+      - ubuntu24-pg18-standalone-claude:/var/lib/postgresql/.claude
     ulimits:
       nofile:
         soft: 65536
@@ -543,3 +555,15 @@ volumes:
   ubuntu24-pg18-active-vscode-server:
   ubuntu24-pg18-standby-vscode-server:
   ubuntu24-pg18-standalone-vscode-server:
+  ubuntu24-pg15-active-claude:
+  ubuntu24-pg15-standby-claude:
+  ubuntu24-pg15-standalone-claude:
+  ubuntu24-pg16-active-claude:
+  ubuntu24-pg16-standby-claude:
+  ubuntu24-pg16-standalone-claude:
+  ubuntu24-pg17-active-claude:
+  ubuntu24-pg17-standby-claude:
+  ubuntu24-pg17-standalone-claude:
+  ubuntu24-pg18-active-claude:
+  ubuntu24-pg18-standby-claude:
+  ubuntu24-pg18-standalone-claude:
